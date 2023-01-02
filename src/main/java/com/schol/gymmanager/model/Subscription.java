@@ -32,7 +32,7 @@ public class Subscription {
 
     private boolean cancelAtPeriodEnd;
 
-    private LocalDateTime cancelAt;
+    //private LocalDateTime cancelAt;//nem kell?
 
     private LocalDateTime canceledAt;
 

@@ -4,6 +4,7 @@ import com.schol.gymmanager.EmailExistsException;
 import com.schol.gymmanager.UserNotFoundException;
 import com.schol.gymmanager.model.DTOs.CustomerDTO;
 import com.schol.gymmanager.model.Customer;
+import com.schol.gymmanager.model.SubscriptionPlan;
 import com.schol.gymmanager.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -47,14 +48,12 @@ public class CustomerController {
 
     @GetMapping("/customers/{id}")
     Customer one(@PathVariable Long id) {
-
         return repository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
     @PutMapping("/customers/{id}")
     Customer replaceCustomer (@RequestBody Customer newUser, @PathVariable Long id) {
-
         return repository.findById(id)
                 .map(user -> {
                     user.setUserName(newUser.getUserName());
@@ -74,5 +73,10 @@ public class CustomerController {
 
     public Boolean emailExist(String email){
         return repository.existsUserAccountByEmail(email);
+    }
+
+    @PostMapping("/customers/subscribe")
+    public void subscribe(Long customerId, Long planId) {
+
     }
 }
