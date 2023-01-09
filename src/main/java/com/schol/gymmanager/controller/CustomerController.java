@@ -46,7 +46,7 @@ public class CustomerController {
         customerToSave.setEmail(customerDTO.getEmail());
         customerToSave.setPasswordHash(passwordEncoder.encode(customerDTO.getPassword()));
         customerToSave.setCreateTime(Timestamp.from(instant));
-//        if (trainerRepository.findById(customerDTO.getTrainerId()).isPresent()) {
+////        if (trainerRepository.findById(customerDTO.getTrainerId()).isPresent()) {
 //            customerToSave.setTrainer(trainerRepository.findById(customerDTO.getTrainerId()).get());
 //        }
         return repository.save(customerToSave);
