@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @Table(name="Gym")
 public class Gym {
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
     private long id;

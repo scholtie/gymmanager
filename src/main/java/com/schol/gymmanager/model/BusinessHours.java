@@ -14,7 +14,7 @@ import java.time.LocalTime;
 @Builder
 @Table(name="BusinessHours")
 public class BusinessHours {
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
     private long id;

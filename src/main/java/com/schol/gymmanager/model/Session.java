@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @Table(name="Session")
 public class Session {
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
     private long id;

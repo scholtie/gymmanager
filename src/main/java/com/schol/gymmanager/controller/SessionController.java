@@ -1,21 +1,12 @@
 package com.schol.gymmanager.controller;
 
-import com.schol.gymmanager.model.Customer;
+import com.schol.gymmanager.model.*;
 import com.schol.gymmanager.model.DTOs.CustomerDto;
 import com.schol.gymmanager.model.DTOs.SessionDto;
 import com.schol.gymmanager.model.DTOs.TrainerDto;
-import com.schol.gymmanager.model.Session;
-import com.schol.gymmanager.model.SessionOption;
-import com.schol.gymmanager.model.Trainer;
-import com.schol.gymmanager.repository.CustomerRepository;
-import com.schol.gymmanager.repository.SessionOptionRepository;
-import com.schol.gymmanager.repository.SessionRepository;
-import com.schol.gymmanager.repository.TrainerRepository;
+import com.schol.gymmanager.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -45,8 +36,7 @@ public class SessionController {
         customer.ifPresent(session::setCustomer);
         trainer.ifPresent(session::setTrainer);
         option.ifPresent(session::setOption);
-        session.setStart(sessionDto.getStart());
-        session.setEnd(session.getStart().plusMinutes(session.getOption().getLengthMinutes()));
+        session.setEnd(sessionDto.getStart().plusMinutes(session.getOption().getLengthMinutes()));
         return sessionRepository.save(session);
     }
 }

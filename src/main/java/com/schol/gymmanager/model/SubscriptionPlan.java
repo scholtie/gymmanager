@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Builder
 @Table(name="SubscriptionPlan")
 public class SubscriptionPlan {
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
     private long id;

@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @Table(name="SessionOption")
 public class SessionOption {
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
     private Long id;

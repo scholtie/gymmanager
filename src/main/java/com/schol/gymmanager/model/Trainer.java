@@ -19,7 +19,7 @@ import java.util.Optional;
 @Builder
 @Table(name="Trainer")
 public class Trainer {
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
     private long id;
