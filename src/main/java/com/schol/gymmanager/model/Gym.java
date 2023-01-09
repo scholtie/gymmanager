@@ -16,23 +16,16 @@ public class Gym {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     @Column(name = "id", nullable = false)
-    private Long id;
-
+    private long id;
     private String name;
-
     @OneToOne
     @JoinColumn(name = "address_id")
     private Address address;
-
-    @OneToMany
-    @JoinColumn(name = "businesshours_id")
+    @OneToMany(mappedBy = "gym")
     private List<BusinessHours> businessHours;
-
-    @OneToMany
-    @JoinColumn(name = "subscription_id")
-    private List<Subscription> subscriptions;
-
-    @OneToMany
-    @JoinColumn(name = "trainer_id")
+    @OneToMany(mappedBy = "gym")
     private List<Trainer> trainers;
+    @OneToMany(mappedBy = "gym")
+    private List<SubscriptionPlan> subscriptionPlans;
+    private String status;
 }

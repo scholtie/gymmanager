@@ -2,10 +2,11 @@ package com.schol.gymmanager.controller;
 
 import com.schol.gymmanager.EmailExistsException;
 import com.schol.gymmanager.UserNotFoundException;
-import com.schol.gymmanager.model.DTOs.CustomerDTO;
+import com.schol.gymmanager.model.DTOs.CustomerDto;
 import com.schol.gymmanager.model.Customer;
 import com.schol.gymmanager.model.SubscriptionPlan;
 import com.schol.gymmanager.repository.CustomerRepository;
+import com.schol.gymmanager.repository.TrainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,11 @@ public class CustomerController {
     @Autowired
     private PasswordEncoder passwordEncoder;
     private final CustomerRepository repository;
+    private final TrainerRepository trainerRepository;
 
-    CustomerController(CustomerRepository repository) {
+    CustomerController(CustomerRepository repository, TrainerRepository trainerRepository) {
         this.repository = repository;
+        this.trainerRepository = trainerRepository;
     }
 
     @GetMapping("/customers")
@@ -31,7 +34,7 @@ public class CustomerController {
     }
 
     @PostMapping("/customers")
-    Customer newCustomer (@RequestBody CustomerDTO customerDTO) throws EmailExistsException {
+    Customer newCustomer (@RequestBody CustomerDto customerDTO) throws EmailExistsException {
         if (emailExist(customerDTO.getEmail())) {
             throw new EmailExistsException(customerDTO.getEmail());
         }
@@ -43,6 +46,9 @@ public class CustomerController {
         customerToSave.setEmail(customerDTO.getEmail());
         customerToSave.setPasswordHash(passwordEncoder.encode(customerDTO.getPassword()));
         customerToSave.setCreateTime(Timestamp.from(instant));
+//        if (trainerRepository.findById(customerDTO.getTrainerId()).isPresent()) {
+//            customerToSave.setTrainer(trainerRepository.findById(customerDTO.getTrainerId()).get());
+//        }
         return repository.save(customerToSave);
     }
 

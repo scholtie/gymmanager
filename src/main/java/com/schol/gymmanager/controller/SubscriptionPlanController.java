@@ -21,5 +21,4 @@ public class SubscriptionPlanController {
         return subscriptionPlanService.findAll();
     }
 
-
 }

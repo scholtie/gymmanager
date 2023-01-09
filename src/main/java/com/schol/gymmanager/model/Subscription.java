@@ -16,27 +16,16 @@ public class Subscription {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     @Column(name = "id", nullable = false)
-    private Long id;
-
+    private long id;
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customerId;
-
     private String stripeSubscriptionId;
-
     private int status;
-
     private LocalDateTime currentPeriodStart;
-
     private LocalDateTime currentPeriodEnd;
-
     private boolean cancelAtPeriodEnd;
-
-    //private LocalDateTime cancelAt;//nem kell?
-
     private LocalDateTime canceledAt;
-
     private LocalDateTime endedAt;
-
     private int defaultPaymentMethod;
 }

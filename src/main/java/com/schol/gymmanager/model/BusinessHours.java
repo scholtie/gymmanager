@@ -17,13 +17,12 @@ public class BusinessHours {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     @Column(name = "id", nullable = false)
-    private Long id;
-
+    private long id;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="gym_id")
+    private Gym gym;
     private int day;
-
     private LocalTime openTime;
-
     private LocalTime closeTime;
-
     private LocalDate modifyDate;
 }

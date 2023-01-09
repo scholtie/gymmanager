@@ -2,10 +2,7 @@ package com.schol.gymmanager.model;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -17,9 +14,7 @@ import javax.persistence.Table;
 public class Geo {
     @Id
     @Column(name = "id", nullable = false)
-    private Long id;
-
+    private long id;
     private double lat;
-
     private double lng;
 }
