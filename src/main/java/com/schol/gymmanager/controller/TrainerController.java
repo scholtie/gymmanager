@@ -2,7 +2,6 @@ package com.schol.gymmanager.controller;
 
 import com.schol.gymmanager.EmailExistsException;
 import com.schol.gymmanager.UserNotFoundException;
-import com.schol.gymmanager.model.Customer;
 import com.schol.gymmanager.model.DTOs.TrainerDto;
 import com.schol.gymmanager.model.Trainer;
 import com.schol.gymmanager.repository.TrainerRepository;
@@ -15,22 +14,20 @@ import java.time.Instant;
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "/trainers")
 public class TrainerController {
     @Autowired
     private PasswordEncoder passwordEncoder;
-    private final TrainerRepository repository;
+    @Autowired
+    private TrainerRepository repository;
 
-    TrainerController(TrainerRepository repository) {
-        this.repository = repository;
-    }
-
-    @GetMapping("/trainers")
-    List<Trainer> all() {
+    @GetMapping("/")
+    List<Trainer> findAll() {
         return repository.findAll();
     }
 
-    @PostMapping("/trainers")
-    Trainer newTrainer (@RequestBody TrainerDto trainerDTO) throws EmailExistsException {
+    @PostMapping("/")
+    Trainer create(@RequestBody TrainerDto trainerDTO) throws EmailExistsException {
         if (emailExist(trainerDTO.getEmail())) {
             throw new EmailExistsException(trainerDTO.getEmail());
         }
@@ -45,14 +42,14 @@ public class TrainerController {
         return repository.save(trainerToSave);
     }
 
-    @GetMapping("/trainers/{id}")
-    Trainer one(@PathVariable Long id) {
+    @GetMapping("/{id}")
+    Trainer findById(@PathVariable Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    @PutMapping("/trainers/{id}")
-    Trainer replaceTrainer (@RequestBody Trainer newTrainer, @PathVariable Long id) {
+    @PutMapping("/{id}")
+    Trainer update(@RequestBody Trainer newTrainer, @PathVariable Long id) {
         return repository.findById(id)
                 .map(user -> {
                     user.setUserName(newTrainer.getUserName());
@@ -65,8 +62,8 @@ public class TrainerController {
                 });
     }
 
-    @DeleteMapping("/trainers/{id}")
-    void deleteTrainer(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    void delete(@PathVariable Long id) {
         repository.deleteById(id);
     }
 

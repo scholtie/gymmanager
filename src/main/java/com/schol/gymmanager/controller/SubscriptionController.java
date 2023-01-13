@@ -2,15 +2,13 @@ package com.schol.gymmanager.controller;
 
 import com.schol.gymmanager.model.*;
 import com.schol.gymmanager.model.DTOs.CreateSubscriptionRequest;
+import com.schol.gymmanager.model.DTOs.DeleteSubscriptionRequest;
 import com.schol.gymmanager.model.DTOs.SessionDto;
 import com.schol.gymmanager.model.DTOs.SubscriptionPlanDto;
 import com.schol.gymmanager.repository.GymRepository;
 import com.schol.gymmanager.repository.SubscriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,10 +19,10 @@ import java.util.Optional;
 public class SubscriptionController {
 
     @Autowired
-    SubscriptionRepository subscriptionRepository;
+    private SubscriptionRepository subscriptionRepository;
 
     @Autowired
-    GymRepository gymRepository;
+    private GymRepository gymRepository;
 
 
     @PostMapping("/")
@@ -42,8 +40,9 @@ public class SubscriptionController {
         return subscriptionRepository.save(subscription);
     }
 
-    public void cancel(Customer customer, SubscriptionPlan plan) {
-
+    @PostMapping("/{id}")
+    public void delete(@PathVariable long subscriptionId) {
+        subscriptionRepository.findById(subscriptionId);
     }
 
 

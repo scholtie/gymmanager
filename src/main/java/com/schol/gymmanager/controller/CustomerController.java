@@ -4,9 +4,7 @@ import com.schol.gymmanager.EmailExistsException;
 import com.schol.gymmanager.UserNotFoundException;
 import com.schol.gymmanager.model.DTOs.CustomerDto;
 import com.schol.gymmanager.model.Customer;
-import com.schol.gymmanager.model.SubscriptionPlan;
 import com.schol.gymmanager.repository.CustomerRepository;
-import com.schol.gymmanager.repository.TrainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -20,21 +18,16 @@ public class CustomerController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    private final CustomerRepository repository;
-    private final TrainerRepository trainerRepository;
-
-    CustomerController(CustomerRepository repository, TrainerRepository trainerRepository) {
-        this.repository = repository;
-        this.trainerRepository = trainerRepository;
-    }
+    @Autowired
+    private CustomerRepository repository;
 
     @GetMapping("/customers")
-    List<Customer> all() {
+    List<Customer> findAll() {
         return repository.findAll();
     }
 
     @PostMapping("/customers")
-    Customer newCustomer (@RequestBody CustomerDto customerDTO) throws EmailExistsException {
+    Customer create(@RequestBody CustomerDto customerDTO) throws EmailExistsException {
         if (emailExist(customerDTO.getEmail())) {
             throw new EmailExistsException(customerDTO.getEmail());
         }
@@ -53,13 +46,13 @@ public class CustomerController {
     }
 
     @GetMapping("/customers/{id}")
-    Customer one(@PathVariable Long id) {
+    Customer findById(@PathVariable Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
     @PutMapping("/customers/{id}")
-    Customer replaceCustomer (@RequestBody Customer newUser, @PathVariable Long id) {
+    Customer update(@RequestBody Customer newUser, @PathVariable Long id) {
         return repository.findById(id)
                 .map(user -> {
                     user.setUserName(newUser.getUserName());
@@ -73,7 +66,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/customers/{id}")
-    void deleteCustomer(@PathVariable Long id) {
+    void delete(@PathVariable Long id) {
         repository.deleteById(id);
     }
 

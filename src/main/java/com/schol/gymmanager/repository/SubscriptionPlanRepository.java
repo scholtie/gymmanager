@@ -1,6 +1,5 @@
 package com.schol.gymmanager.repository;
 
-import com.schol.gymmanager.model.SessionOption;
 import com.schol.gymmanager.model.SubscriptionPlan;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -15,16 +15,16 @@ import java.util.Optional;
 @RestController
 public class SessionController {
     @Autowired
-    SessionRepository sessionRepository;
+    private SessionRepository sessionRepository;
 
     @Autowired
-    SessionOptionRepository sessionOptionRepository;
+    private SessionOptionRepository sessionOptionRepository;
 
     @Autowired
-    CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
 
     @Autowired
-    TrainerRepository trainerRepository;
+    private TrainerRepository trainerRepository;
 
     @PostMapping("/")
     public Session create(@RequestBody SessionDto sessionDto){
@@ -38,5 +38,11 @@ public class SessionController {
         option.ifPresent(session::setOption);
         session.setEnd(sessionDto.getStart().plusMinutes(session.getOption().getLengthMinutes()));
         return sessionRepository.save(session);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable long id) {
+        //refund money?
+        sessionRepository.deleteById(id);
     }
 }
