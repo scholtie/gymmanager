@@ -1,7 +1,7 @@
 package com.schol.gymmanager.controller;
 
-import com.schol.gymmanager.EmailExistsException;
-import com.schol.gymmanager.UserNotFoundException;
+import com.schol.gymmanager.exception.EmailExistsException;
+import com.schol.gymmanager.exception.UserNotFoundException;
 import com.schol.gymmanager.model.DTOs.TrainerDto;
 import com.schol.gymmanager.model.Trainer;
 import com.schol.gymmanager.repository.TrainerRepository;
@@ -19,11 +19,11 @@ public class TrainerController {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private TrainerRepository repository;
+    private TrainerRepository trainerRepository;
 
     @GetMapping("/")
     List<Trainer> findAll() {
-        return repository.findAll();
+        return trainerRepository.findAll();
     }
 
     @PostMapping("/")
@@ -39,35 +39,35 @@ public class TrainerController {
         trainerToSave.setEmail(trainerDTO.getEmail());
         trainerToSave.setPasswordHash(passwordEncoder.encode(trainerDTO.getPassword()));
         trainerToSave.setCreateTime(Timestamp.from(instant));
-        return repository.save(trainerToSave);
+        return trainerRepository.save(trainerToSave);
     }
 
     @GetMapping("/{id}")
     Trainer findById(@PathVariable Long id) {
-        return repository.findById(id)
+        return trainerRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
     @PutMapping("/{id}")
     Trainer update(@RequestBody Trainer newTrainer, @PathVariable Long id) {
-        return repository.findById(id)
+        return trainerRepository.findById(id)
                 .map(user -> {
                     user.setUserName(newTrainer.getUserName());
                     user.setEmail(newTrainer.getEmail());
-                    return repository.save(user);
+                    return trainerRepository.save(user);
                 })
                 .orElseGet(() -> {
                     newTrainer.setId(id);
-                    return repository.save(newTrainer);
+                    return trainerRepository.save(newTrainer);
                 });
     }
 
     @DeleteMapping("/{id}")
     void delete(@PathVariable Long id) {
-        repository.deleteById(id);
+        trainerRepository.deleteById(id);
     }
 
     public Boolean emailExist(String email){
-        return repository.existsUserAccountByEmail(email);
+        return trainerRepository.existsUserAccountByEmail(email);
     }
 }

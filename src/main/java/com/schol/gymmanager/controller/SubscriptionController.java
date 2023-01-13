@@ -12,18 +12,26 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @RequestMapping(value = "/subscriptions")
 @RestController
 public class SubscriptionController {
-
     @Autowired
     private SubscriptionRepository subscriptionRepository;
-
     @Autowired
     private GymRepository gymRepository;
 
+    @GetMapping("/{id}")
+    public Subscription findById(@PathVariable long id){
+        return subscriptionRepository.findById(id).get();
+    }
+
+    @GetMapping("/")
+    public List<Subscription> findAll(){
+        return subscriptionRepository.findAll();
+    }
 
     @PostMapping("/")
     public Subscription create(@RequestBody CreateSubscriptionRequest createSubscriptionRequest){

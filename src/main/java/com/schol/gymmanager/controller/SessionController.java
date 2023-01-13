@@ -1,14 +1,12 @@
 package com.schol.gymmanager.controller;
 
 import com.schol.gymmanager.model.*;
-import com.schol.gymmanager.model.DTOs.CustomerDto;
 import com.schol.gymmanager.model.DTOs.SessionDto;
-import com.schol.gymmanager.model.DTOs.TrainerDto;
 import com.schol.gymmanager.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @RequestMapping(value = "/sessions")
@@ -16,15 +14,22 @@ import java.util.Optional;
 public class SessionController {
     @Autowired
     private SessionRepository sessionRepository;
-
     @Autowired
     private SessionOptionRepository sessionOptionRepository;
-
     @Autowired
     private CustomerRepository customerRepository;
-
     @Autowired
     private TrainerRepository trainerRepository;
+
+    @GetMapping("/{id}")
+    public Session findById(@PathVariable long id){
+        return sessionRepository.findById(id).get();
+    }
+
+    @GetMapping("/")
+    public List<Session> findAll(){
+        return sessionRepository.findAll();
+    }
 
     @PostMapping("/")
     public Session create(@RequestBody SessionDto sessionDto){

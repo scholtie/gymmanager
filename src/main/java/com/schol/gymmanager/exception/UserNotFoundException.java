@@ -1,4 +1,4 @@
-package com.schol.gymmanager;
+package com.schol.gymmanager.exception;
 
 public class UserNotFoundException extends RuntimeException{
     public UserNotFoundException(Long id) {

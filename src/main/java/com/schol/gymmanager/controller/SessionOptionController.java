@@ -16,13 +16,10 @@ import java.util.List;
 public class SessionOptionController {
     @Autowired
     private SessionRepository sessionRepository;
-
     @Autowired
     private SessionOptionRepository sessionOptionRepository;
-
     @Autowired
     private CustomerRepository customerRepository;
-
     @Autowired
     private TrainerRepository trainerRepository;
 

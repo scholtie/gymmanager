@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/subscriptionplans")
 public class SubscriptionPlanController {
-
     @Autowired
     private SubscriptionPlanRepository subscriptionPlanRepository;
     @Autowired

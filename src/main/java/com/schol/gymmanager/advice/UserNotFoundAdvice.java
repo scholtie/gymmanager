@@ -1,5 +1,6 @@
-package com.schol.gymmanager;
+package com.schol.gymmanager.advice;
 
+import com.schol.gymmanager.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

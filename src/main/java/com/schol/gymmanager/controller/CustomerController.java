@@ -1,7 +1,7 @@
 package com.schol.gymmanager.controller;
 
-import com.schol.gymmanager.EmailExistsException;
-import com.schol.gymmanager.UserNotFoundException;
+import com.schol.gymmanager.exception.EmailExistsException;
+import com.schol.gymmanager.exception.UserNotFoundException;
 import com.schol.gymmanager.model.DTOs.CustomerDto;
 import com.schol.gymmanager.model.Customer;
 import com.schol.gymmanager.repository.CustomerRepository;
@@ -15,7 +15,6 @@ import java.util.List;
 
 @RestController
 public class CustomerController {
-
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired

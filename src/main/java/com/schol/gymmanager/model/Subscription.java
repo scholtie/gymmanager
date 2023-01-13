@@ -24,6 +24,7 @@ public class Subscription {
     @ManyToOne
     @JoinColumn(name = "gym_id")
     private Gym gym;
+    //ongoing should always be calculated from period start and end
     private boolean ongoing;
     private LocalDateTime currentPeriodStart;
     private LocalDateTime currentPeriodEnd;
