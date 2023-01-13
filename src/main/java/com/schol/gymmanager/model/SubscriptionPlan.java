@@ -3,6 +3,7 @@ package com.schol.gymmanager.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -16,14 +17,11 @@ public class SubscriptionPlan {
     @Id
     @Column(name = "id", nullable = false)
     private long id;
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="gym_id")
     private Gym gym;
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="trainer_id")
-    private Trainer trainer;
     private String name;
     private String description;
-    private String duration;
-    private double price;
+    private Long durationInDays;
+    private BigDecimal price;
 }

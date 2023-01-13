@@ -23,11 +23,8 @@ public class Customer {
     @Id
     @Column(name = "id", nullable = false)
     private long id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trainer_id")
-    private Trainer trainer;
-    @OneToMany(mappedBy = "customer")
-    private List<Session> sessions;
+//    @OneToMany(mappedBy = "customer")
+//    private List<Session> sessions;
     @Column(unique = true, nullable = false)
     @NotEmpty
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",

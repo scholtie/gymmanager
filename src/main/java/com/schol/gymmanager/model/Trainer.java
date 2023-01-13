@@ -23,15 +23,15 @@ public class Trainer {
     @Id
     @Column(name = "id", nullable = false)
     private long id;
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="gym_id")
     private Gym gym;
-    @OneToMany(mappedBy = "trainer")
-    private List<SubscriptionPlan> subscriptionPlans;
-    @OneToMany(mappedBy = "trainer")
-    private List<Customer> customers;
-    @OneToMany(mappedBy = "trainer")
-    private List<Session> sessions;
+//    @OneToMany(mappedBy = "trainer")
+//    private List<SubscriptionPlan> subscriptionPlans;
+//    @OneToMany(mappedBy = "trainer")
+//    private List<Customer> customers;
+//    @OneToMany(mappedBy = "trainer")
+//    private List<Session> sessions;
     @Column(unique=true, nullable = false)
     @NotEmpty
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",

@@ -22,7 +22,7 @@ class LoadDatabase {
             Address address = addressRepository.save(Address.builder().id(1L).city("Budapest").geo(geo).build());
             Gym gym = gymRepository.save(Gym.builder().id(1L).address(address).name("TestGym").build());
             Trainer trainer = trainerRepository.save(Trainer.builder().id(1L).email("test@test.com").userName("test").passwordHash("1234325fgerwg").gym(gym).build());
-            Customer customer = customerRepository.save(Customer.builder().id(1L).email("test@test.com").userName("test").passwordHash("1234325fgerwg").trainer(trainer).build());
+            Customer customer = customerRepository.save(Customer.builder().id(1L).email("test@test.com").userName("test").passwordHash("1234325fgerwg").build());
             SessionOption sessionOption = sessionOptionRepository.save(SessionOption.builder().id(1L).lengthMinutes(30L).price(BigDecimal.valueOf(4000)).build());
             //Session session = sessionRepository.save(Session.builder().id(1L).option(sessionOption).trainer(trainer).customer(customer)..build());
         };
