@@ -14,7 +14,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8081/customers/2",
+							"raw": "http://localhost:8081/customers/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -22,7 +22,7 @@
 							"port": "8081",
 							"path": [
 								"customers",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -175,7 +175,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userName\": \"based\",\r\n    \"email\": \"beased@asd.com\",\r\n    \"password\": \"qwerty\",\r\n    \"firstName\": \"Omega\",\r\n    \"lastName\": \"based\"\r\n}",
+							"raw": "{\r\n    \"name\": \"subplan3\",\r\n    \"gymId\": 1,\r\n    \"description\": \"30 day sub\",\r\n    \"durationInDays\": \"30\",\r\n    \"price\": 3000\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -183,33 +183,16 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/customers/",
+							"raw": "http://localhost:8081/subscriptionplans/",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8081",
 							"path": [
-								"customers",
+								"subscriptionplans",
 								""
 							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
 						}
 					},
 					"response": []
@@ -227,6 +210,18 @@
 									"language": "json"
 								}
 							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/subscriptionplans/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"subscriptionplans",
+								"3"
+							]
 						}
 					},
 					"response": []
@@ -240,7 +235,19 @@
 					"name": "findById",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/trainers/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"trainers",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -312,7 +319,7 @@
 			]
 		},
 		{
-			"name": "Sessions",
+			"name": "Session",
 			"item": [
 				{
 					"name": "findById",
@@ -357,7 +364,7 @@
 			]
 		},
 		{
-			"name": "subscriptions",
+			"name": "Subscription",
 			"item": [
 				{
 					"name": "findById",
@@ -365,14 +372,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8081/sessions/1",
+							"raw": "http://localhost:8081/subscriptions/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8081",
 							"path": [
-								"sessions",
+								"subscriptions",
 								"1"
 							]
 						}
@@ -385,14 +392,59 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8081/sessions/",
+							"raw": "http://localhost:8081/subscriptions/",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8081",
 							"path": [
-								"sessions",
+								"subscriptions",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Gym",
+			"item": [
+				{
+					"name": "findById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/gyms/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"gyms",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/gyms/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"gyms",
 								""
 							]
 						}

@@ -18,7 +18,7 @@ public class SubscriptionPlanController {
     private GymRepository gymRepository;
 
     @PostMapping("/")
-    public SubscriptionPlan create(SubscriptionPlanDto subscriptionPlanDto) {
+    public SubscriptionPlan create(@RequestBody SubscriptionPlanDto subscriptionPlanDto) {
         SubscriptionPlan subscriptionPlan = SubscriptionPlan.builder()
                 .gym(gymRepository.findById(subscriptionPlanDto.getGymId()).get())
                 .description(subscriptionPlanDto.getDescription())
@@ -37,6 +37,11 @@ public class SubscriptionPlanController {
     @GetMapping("/{id}")
     public SubscriptionPlan findById(@PathVariable long id) {
         return subscriptionPlanRepository.findById(id).get();
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable long id) {
+        subscriptionPlanRepository.deleteById(id);
     }
 
 }

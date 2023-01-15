@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping(value = "/sessions")
 @RestController
+@RequestMapping(value = "/sessions")
 public class SessionController {
     @Autowired
     private SessionRepository sessionRepository;

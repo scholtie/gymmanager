@@ -22,12 +22,12 @@ public class TrainerController {
     private TrainerRepository trainerRepository;
 
     @GetMapping("/")
-    List<Trainer> findAll() {
+    public List<Trainer> findAll() {
         return trainerRepository.findAll();
     }
 
     @PostMapping("/")
-    Trainer create(@RequestBody TrainerDto trainerDTO) throws EmailExistsException {
+    public Trainer create(@RequestBody TrainerDto trainerDTO) throws EmailExistsException {
         if (emailExist(trainerDTO.getEmail())) {
             throw new EmailExistsException(trainerDTO.getEmail());
         }
@@ -43,13 +43,13 @@ public class TrainerController {
     }
 
     @GetMapping("/{id}")
-    Trainer findById(@PathVariable Long id) {
+    public Trainer findById(@PathVariable Long id) {
         return trainerRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
     @PutMapping("/{id}")
-    Trainer update(@RequestBody Trainer newTrainer, @PathVariable Long id) {
+    public Trainer update(@RequestBody Trainer newTrainer, @PathVariable Long id) {
         return trainerRepository.findById(id)
                 .map(user -> {
                     user.setUserName(newTrainer.getUserName());
@@ -63,7 +63,7 @@ public class TrainerController {
     }
 
     @DeleteMapping("/{id}")
-    void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         trainerRepository.deleteById(id);
     }
 

@@ -14,18 +14,19 @@ import java.time.Instant;
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "/customers")
 public class CustomerController {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private CustomerRepository repository;
 
-    @GetMapping("/customers")
+    @GetMapping("/")
     List<Customer> findAll() {
         return repository.findAll();
     }
 
-    @PostMapping("/customers")
+    @PostMapping("/")
     Customer create(@RequestBody CustomerDto customerDTO) throws EmailExistsException {
         if (emailExist(customerDTO.getEmail())) {
             throw new EmailExistsException(customerDTO.getEmail());
@@ -44,13 +45,13 @@ public class CustomerController {
         return repository.save(customerToSave);
     }
 
-    @GetMapping("/customers/{id}")
+    @GetMapping("/{id}")
     Customer findById(@PathVariable Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    @PutMapping("/customers/{id}")
+    @PutMapping("/{id}")
     Customer update(@RequestBody Customer newUser, @PathVariable Long id) {
         return repository.findById(id)
                 .map(user -> {
@@ -64,7 +65,7 @@ public class CustomerController {
                 });
     }
 
-    @DeleteMapping("/customers/{id}")
+    @DeleteMapping("/{id}")
     void delete(@PathVariable Long id) {
         repository.deleteById(id);
     }
@@ -73,7 +74,7 @@ public class CustomerController {
         return repository.existsUserAccountByEmail(email);
     }
 
-    @PostMapping("/customers/subscribe")
+    @PostMapping("/subscribe")
     public void subscribe(Long customerId, Long planId) {
 
     }

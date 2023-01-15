@@ -46,6 +46,6 @@ public class Trainer {
     private Timestamp createTime;
     private String firstName;
     private String lastName;
-    private String gender;
+    private Gender gender;
     private String status;
 }

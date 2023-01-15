@@ -24,7 +24,7 @@ class LoadDatabase {
             Geo geo = geoRepository.save(Geo.builder().id(1L).lat(10.1323).lng(22.4421).build());
             Address address = addressRepository.save(Address.builder().id(1L).city("Budapest").street("Moha St.").suite("B").zipcode("1234").geo(geo).build());
             Gym gym = gymRepository.save(Gym.builder().id(1L).address(address).name("TestGym").build());
-            Trainer trainer = trainerRepository.save(Trainer.builder().id(1L).email("trainer1@test.com").userName("test").passwordHash("1234325fgerwg").firstName("Jane").lastName("Doe").createTime(Timestamp.from(Instant.parse("2023-01-13T13:58:33.364+00:00"))).gender("Female").gym(gym).build());
+            Trainer trainer = trainerRepository.save(Trainer.builder().id(1L).email("trainer1@test.com").userName("test").passwordHash("1234325fgerwg").firstName("Jane").lastName("Doe").createTime(Timestamp.from(Instant.parse("2023-01-13T13:58:33.364+00:00"))).gender(Gender.FEMALE).gym(gym).build());
             Customer customer = customerRepository.save(Customer.builder().id(1L).email("customer1@test.com").userName("test").passwordHash("1234325fgerwg").firstName("John").lastName("Doe").createTime(Timestamp.from(Instant.parse("2023-01-13T13:58:33.364+00:00"))).build());
             SessionOption sessionOption = sessionOptionRepository.save(SessionOption.builder().id(1L).maxPeople(1).name("Deadlifting").lengthMinutes(30L).price(BigDecimal.valueOf(4000)).build());
             Session session = sessionRepository.save(Session.builder().id(1L).start(LocalDateTime.parse("2023-01-13T15:12:12.939766")).end(LocalDateTime.parse("2023-01-13T16:42:12.94202")).option(sessionOption).trainer(trainer).customer(customer).build());
