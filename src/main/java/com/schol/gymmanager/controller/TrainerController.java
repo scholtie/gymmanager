@@ -1,10 +1,11 @@
 package com.schol.gymmanager.controller;
 
 import com.schol.gymmanager.exception.EmailExistsException;
-import com.schol.gymmanager.exception.UserNotFoundException;
+import com.schol.gymmanager.exception.EntityNotFoundException;
 import com.schol.gymmanager.model.DTOs.TrainerDto;
 import com.schol.gymmanager.model.Trainer;
 import com.schol.gymmanager.repository.TrainerRepository;
+import com.schol.gymmanager.service.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -17,57 +18,34 @@ import java.util.List;
 @RequestMapping(value = "/trainers")
 public class TrainerController {
     @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private TrainerRepository trainerRepository;
+    private TrainerService trainerService;
 
     @GetMapping("/")
     public List<Trainer> findAll() {
-        return trainerRepository.findAll();
+        return trainerService.findAll();
     }
 
     @PostMapping("/")
     public Trainer create(@RequestBody TrainerDto trainerDTO) throws EmailExistsException {
-        if (emailExist(trainerDTO.getEmail())) {
-            throw new EmailExistsException(trainerDTO.getEmail());
-        }
-        Instant instant = Instant.now();
-        Trainer trainerToSave = new Trainer();
-        trainerToSave.setUserName(trainerDTO.getUserName());
-        trainerToSave.setLastName(trainerDTO.getLastName());
-        trainerToSave.setFirstName(trainerDTO.getFirstName());
-        trainerToSave.setEmail(trainerDTO.getEmail());
-        trainerToSave.setPasswordHash(passwordEncoder.encode(trainerDTO.getPassword()));
-        trainerToSave.setCreateTime(Timestamp.from(instant));
-        return trainerRepository.save(trainerToSave);
+        return trainerService.create(trainerDTO);
     }
 
     @GetMapping("/{id}")
     public Trainer findById(@PathVariable Long id) {
-        return trainerRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
+        return trainerService.findById(id);
     }
 
     @PutMapping("/{id}")
     public Trainer update(@RequestBody Trainer newTrainer, @PathVariable Long id) {
-        return trainerRepository.findById(id)
-                .map(user -> {
-                    user.setUserName(newTrainer.getUserName());
-                    user.setEmail(newTrainer.getEmail());
-                    return trainerRepository.save(user);
-                })
-                .orElseGet(() -> {
-                    newTrainer.setId(id);
-                    return trainerRepository.save(newTrainer);
-                });
+        return trainerService.update(newTrainer, id);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        trainerRepository.deleteById(id);
+        trainerService.delete(id);
     }
 
     public Boolean emailExist(String email){
-        return trainerRepository.existsUserAccountByEmail(email);
+        return trainerService.emailExist(email);
     }
 }

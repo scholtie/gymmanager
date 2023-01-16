@@ -1,17 +1,43 @@
 package com.schol.gymmanager.service;
 
+import com.schol.gymmanager.exception.EntityNotFoundException;
+import com.schol.gymmanager.model.DTOs.SubscriptionPlanDto;
 import com.schol.gymmanager.model.SubscriptionPlan;
+import com.schol.gymmanager.repository.GymRepository;
+import com.schol.gymmanager.repository.SubscriptionPlanRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class SubscriptionPlanService {
-    public List<SubscriptionPlan> findAll() {
-        return null;
+    @Autowired
+    private SubscriptionPlanRepository subscriptionPlanRepository;
+    @Autowired
+    private GymRepository gymRepository;
+
+    public SubscriptionPlan create(SubscriptionPlanDto subscriptionPlanDto) {
+        SubscriptionPlan subscriptionPlan = SubscriptionPlan.builder()
+                .gym(gymRepository.findById(subscriptionPlanDto.getGymId()).get())
+                .description(subscriptionPlanDto.getDescription())
+                .durationInDays(subscriptionPlanDto.getDurationInDays())
+                .price(subscriptionPlanDto.getPrice())
+                .name(subscriptionPlanDto.getName())
+                .build();
+        return subscriptionPlanRepository.save(subscriptionPlan);
     }
 
-    public SubscriptionPlan create(SubscriptionPlan subscriptionPlan) {
-        return null;
+    public List<SubscriptionPlan> findAll() {
+        return subscriptionPlanRepository.findAll();
     }
+
+    public SubscriptionPlan findById(long id) {
+        return subscriptionPlanRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("SubscriptionPlan", id));
+    }
+
+    public void delete(long id) {
+        subscriptionPlanRepository.deleteById(id);
+    }
+
 }

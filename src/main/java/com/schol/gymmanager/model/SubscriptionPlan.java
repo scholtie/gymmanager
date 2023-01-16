@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -20,8 +21,12 @@ public class SubscriptionPlan {
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="gym_id")
     private Gym gym;
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="customer_id")
+    private Customer customer;
     private String name;
     private String description;
     private Long durationInDays;
     private BigDecimal price;
+    private LocalDateTime startDate;
 }

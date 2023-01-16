@@ -5,9 +5,9 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Data
-public class CreateSubscriptionRequest {
-    SubscriptionPlanDto subscriptionPlanDto;
-    Customer customer;
-    LocalDateTime startDate;
-}
+//@Data
+//public class CreateSubscriptionRequest {
+//    SubscriptionPlanDto subscriptionPlanDto;
+//    Customer customer;
+//    LocalDateTime startDate;
+//}

@@ -1,10 +1,12 @@
 package com.schol.gymmanager.controller;
 
 
+import com.schol.gymmanager.exception.EntityNotFoundException;
 import com.schol.gymmanager.model.DTOs.SubscriptionPlanDto;
 import com.schol.gymmanager.model.Gym;
 import com.schol.gymmanager.model.SubscriptionPlan;
 import com.schol.gymmanager.repository.GymRepository;
+import com.schol.gymmanager.service.GymService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,15 +17,15 @@ import java.util.List;
 public class GymController {
 
     @Autowired
-    private GymRepository gymRepository;
+    private GymService gymService;
 
     @GetMapping("/")
     public List<Gym> findAll() {
-        return gymRepository.findAll();
+        return gymService.findAll();
     }
 
     @GetMapping("/{id}")
     public Gym findById(@PathVariable long id) {
-        return gymRepository.findById(id).get();
+        return gymService.findById(id);
     }
 }

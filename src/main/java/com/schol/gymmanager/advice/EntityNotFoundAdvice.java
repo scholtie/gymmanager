@@ -1,6 +1,6 @@
 package com.schol.gymmanager.advice;
 
-import com.schol.gymmanager.exception.UserNotFoundException;
+import com.schol.gymmanager.exception.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class UserNotFoundAdvice {
+public class EntityNotFoundAdvice {
     @ResponseBody
-    @ExceptionHandler(UserNotFoundException.class)
+    @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String employeeNotFoundHandler(UserNotFoundException ex) {
+    String entityNotFoundHandler(EntityNotFoundException ex) {
         return ex.getMessage();
     }
 }
