@@ -1,18 +1,12 @@
 package com.schol.gymmanager.controller;
 
 import com.schol.gymmanager.exception.EmailExistsException;
-import com.schol.gymmanager.exception.EntityNotFoundException;
 import com.schol.gymmanager.model.DTOs.CustomerDto;
 import com.schol.gymmanager.model.Customer;
-import com.schol.gymmanager.model.Subscription;
-import com.schol.gymmanager.repository.CustomerRepository;
 import com.schol.gymmanager.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.List;
 
 @RestController
@@ -44,10 +38,5 @@ public class CustomerController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         customerService.delete(id);
-    }
-
-    @PostMapping("/subscribe/{customerId}/{planId}")
-    public Subscription subscribe(@PathVariable Long customerId, @PathVariable Long planId) {
-        return customerService.subscribe(customerId, planId);
     }
 }

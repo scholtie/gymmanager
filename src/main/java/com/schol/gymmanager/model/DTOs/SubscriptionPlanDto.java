@@ -16,6 +16,6 @@ public class SubscriptionPlanDto {
     private String description;
     private Long durationInDays;
     private BigDecimal price;
-    private Customer customer;
+    private Long customerId;
     private LocalDateTime startDate;
 }

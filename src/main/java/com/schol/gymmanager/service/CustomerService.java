@@ -4,6 +4,7 @@ import com.schol.gymmanager.exception.EmailExistsException;
 import com.schol.gymmanager.exception.EntityNotFoundException;
 import com.schol.gymmanager.model.Customer;
 import com.schol.gymmanager.model.DTOs.CustomerDto;
+import com.schol.gymmanager.model.DTOs.SubscriptionPlanDto;
 import com.schol.gymmanager.model.Subscription;
 import com.schol.gymmanager.model.SubscriptionPlan;
 import com.schol.gymmanager.repository.CustomerRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -21,10 +23,6 @@ public class CustomerService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private CustomerRepository customerRepository;
-    @Autowired
-    private SubscriptionPlanService subscriptionPlanService;
-    @Autowired
-    private SubscriptionService subscriptionService;
 
     public List<Customer> findAll() {
         return customerRepository.findAll();
@@ -72,17 +70,5 @@ public class CustomerService {
 
     public Boolean emailExist(String email){
         return customerRepository.existsUserAccountByEmail(email);
-    }
-
-    public Subscription subscribe(Long customerId, Long planId) {
-        Customer customer = findById(customerId);
-        SubscriptionPlan plan = subscriptionPlanService.findById(planId);
-        Subscription subscription = new Subscription();
-        subscription.setGym(plan.getGym());
-        subscription.setCustomer(customer);
-        subscription.setPrice(plan.getPrice());
-        subscription.setOngoing(true);
-        subscription.setCancelAtPeriodEnd(false);
-        return subscriptionService.create(subscription);
     }
 }
