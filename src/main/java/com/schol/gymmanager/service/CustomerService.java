@@ -4,11 +4,12 @@ import com.schol.gymmanager.exception.EmailExistsException;
 import com.schol.gymmanager.exception.EntityNotFoundException;
 import com.schol.gymmanager.model.Customer;
 import com.schol.gymmanager.model.DTOs.CustomerDto;
+import com.schol.gymmanager.model.Subscription;
+import com.schol.gymmanager.model.SubscriptionPlan;
 import com.schol.gymmanager.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -19,10 +20,14 @@ public class CustomerService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private CustomerRepository repository;
+    private CustomerRepository customerRepository;
+    @Autowired
+    private SubscriptionPlanService subscriptionPlanService;
+    @Autowired
+    private SubscriptionService subscriptionService;
 
     public List<Customer> findAll() {
-        return repository.findAll();
+        return customerRepository.findAll();
     }
 
     public Customer create(CustomerDto customerDTO) throws EmailExistsException {
@@ -40,36 +45,44 @@ public class CustomerService {
 ////        if (trainerRepository.findById(customerDTO.getTrainerId()).isPresent()) {
 //            customerToSave.setTrainer(trainerRepository.findById(customerDTO.getTrainerId()).get());
 //        }
-        return repository.save(customerToSave);
+        return customerRepository.save(customerToSave);
     }
 
     public Customer findById(Long id) {
-        return repository.findById(id)
+        return customerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Customer", id));
     }
 
     public Customer update(Customer newUser,Long id) {
-        return repository.findById(id)
+        return customerRepository.findById(id)
                 .map(user -> {
                     user.setUserName(newUser.getUserName());
                     user.setEmail(newUser.getEmail());
-                    return repository.save(user);
+                    return customerRepository.save(user);
                 })
                 .orElseGet(() -> {
                     newUser.setId(id);
-                    return repository.save(newUser);
+                    return customerRepository.save(newUser);
                 });
     }
 
     public void delete(Long id) {
-        repository.deleteById(id);
+        customerRepository.deleteById(id);
     }
 
     public Boolean emailExist(String email){
-        return repository.existsUserAccountByEmail(email);
+        return customerRepository.existsUserAccountByEmail(email);
     }
 
-    public void subscribe(Long customerId, Long planId) {
-
+    public Subscription subscribe(Long customerId, Long planId) {
+        Customer customer = findById(customerId);
+        SubscriptionPlan plan = subscriptionPlanService.findById(planId);
+        Subscription subscription = new Subscription();
+        subscription.setGym(plan.getGym());
+        subscription.setCustomer(customer);
+        subscription.setPrice(plan.getPrice());
+        subscription.setOngoing(true);
+        subscription.setCancelAtPeriodEnd(false);
+        return subscriptionService.create(subscription);
     }
 }

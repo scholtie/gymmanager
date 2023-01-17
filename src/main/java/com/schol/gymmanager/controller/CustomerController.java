@@ -4,6 +4,7 @@ import com.schol.gymmanager.exception.EmailExistsException;
 import com.schol.gymmanager.exception.EntityNotFoundException;
 import com.schol.gymmanager.model.DTOs.CustomerDto;
 import com.schol.gymmanager.model.Customer;
+import com.schol.gymmanager.model.Subscription;
 import com.schol.gymmanager.repository.CustomerRepository;
 import com.schol.gymmanager.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,32 +22,32 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping("/")
-    List<Customer> findAll() {
+    public List<Customer> findAll() {
         return customerService.findAll();
     }
 
     @PostMapping("/")
-    Customer create(@RequestBody CustomerDto customerDTO) throws EmailExistsException {
+    public Customer create(@RequestBody CustomerDto customerDTO) throws EmailExistsException {
         return customerService.create(customerDTO);
     }
 
     @GetMapping("/{id}")
-    Customer findById(@PathVariable Long id) {
+    public Customer findById(@PathVariable Long id) {
         return customerService.findById(id);
     }
 
     @PutMapping("/{id}")
-    Customer update(@RequestBody Customer newUser, @PathVariable Long id) {
+    public Customer update(@RequestBody Customer newUser, @PathVariable Long id) {
         return customerService.update(newUser, id);
     }
 
     @DeleteMapping("/{id}")
-    void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         customerService.delete(id);
     }
 
-    @PostMapping("/subscribe")
-    public void subscribe(Long customerId, Long planId) {
-        customerService.subscribe(customerId, planId);
+    @PostMapping("/subscribe/{customerId}/{planId}")
+    public Subscription subscribe(@PathVariable Long customerId, @PathVariable Long planId) {
+        return customerService.subscribe(customerId, planId);
     }
 }

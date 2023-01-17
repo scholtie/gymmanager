@@ -4,14 +4,9 @@ import com.schol.gymmanager.exception.EntityNotFoundException;
 import com.schol.gymmanager.model.DTOs.SubscriptionPlanDto;
 import com.schol.gymmanager.model.Gym;
 import com.schol.gymmanager.model.Subscription;
-import com.schol.gymmanager.repository.GymRepository;
 import com.schol.gymmanager.repository.SubscriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,7 +17,7 @@ public class SubscriptionService {
     @Autowired
     private SubscriptionRepository subscriptionRepository;
     @Autowired
-    private GymRepository gymRepository;
+    private GymService gymService;
 
     public Subscription findById(long id){
         return subscriptionRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Subscription", id));
@@ -30,6 +25,10 @@ public class SubscriptionService {
 
     public List<Subscription> findAll(){
         return subscriptionRepository.findAll();
+    }
+
+    public Subscription create(Subscription subscription) {
+        return subscriptionRepository.save(subscription);
     }
 
     public Subscription create(SubscriptionPlanDto subscriptionPlanDto){
@@ -40,8 +39,8 @@ public class SubscriptionService {
         subscription.setCurrentPeriodStart(startDate);
         subscription.setPrice(subscriptionPlanDto.getPrice());
         subscription.setCurrentPeriodEnd(startDate.plusDays(subscriptionPlanDto.getDurationInDays()));
-        Optional<Gym> gym = gymRepository.findById(subscriptionPlanDto.getGymId());
-        gym.ifPresent(subscription::setGym);
+        Gym gym = gymService.findById(subscriptionPlanDto.getGymId());
+        subscription.setGym(gym);
         return subscriptionRepository.save(subscription);
     }
 
