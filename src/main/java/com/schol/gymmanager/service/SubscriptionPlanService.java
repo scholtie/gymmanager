@@ -15,11 +15,11 @@ public class SubscriptionPlanService {
     @Autowired
     private SubscriptionPlanRepository subscriptionPlanRepository;
     @Autowired
-    private GymRepository gymRepository;
+    private GymService gymService;
 
     public SubscriptionPlan create(SubscriptionPlanDto subscriptionPlanDto) {
         SubscriptionPlan subscriptionPlan = SubscriptionPlan.builder()
-                .gym(gymRepository.findById(subscriptionPlanDto.getGymId()).get())
+                .gym(gymService.findById(subscriptionPlanDto.getGymId()))
                 .description(subscriptionPlanDto.getDescription())
                 .durationInDays(subscriptionPlanDto.getDurationInDays())
                 .price(subscriptionPlanDto.getPrice())

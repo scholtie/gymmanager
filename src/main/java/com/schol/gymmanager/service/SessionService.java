@@ -22,11 +22,11 @@ public class SessionService {
     @Autowired
     private SessionRepository sessionRepository;
     @Autowired
-    private SessionOptionRepository sessionOptionRepository;
+    private SessionOptionService sessionOptionService;
     @Autowired
-    private CustomerRepository customerRepository;
+    private CustomerService customerService;
     @Autowired
-    private TrainerRepository trainerRepository;
+    private TrainerService trainerService;
 
     public Session findById(long id){
         return sessionRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Session", id));
@@ -39,12 +39,9 @@ public class SessionService {
     public Session create(SessionDto sessionDto){
         Session session = new Session();
         session.setStart(sessionDto.getStart());
-        Optional<Customer> customer = customerRepository.findById(sessionDto.getCustomerId());
-        Optional<Trainer> trainer = trainerRepository.findById(sessionDto.getTrainerId());
-        Optional<SessionOption> option = sessionOptionRepository.findById(sessionDto.getOptionId());
-        customer.ifPresent(session::setCustomer);
-        trainer.ifPresent(session::setTrainer);
-        option.ifPresent(session::setOption);
+        session.setCustomer(customerService.findById(sessionDto.getCustomerId()));
+        session.setTrainer(trainerService.findById(sessionDto.getTrainerId()));
+        session.setOption(sessionOptionService.findById(sessionDto.getOptionId()));
         session.setEnd(sessionDto.getStart().plusMinutes(session.getOption().getLengthMinutes()));
         return sessionRepository.save(session);
     }

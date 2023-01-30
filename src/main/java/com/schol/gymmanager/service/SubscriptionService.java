@@ -22,7 +22,7 @@ public class SubscriptionService {
     @Autowired
     private SubscriptionRepository subscriptionRepository;
     @Autowired
-    private GymRepository gymRepository;
+    private GymService gymService;
 
     public Subscription findById(long id){
         return subscriptionRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Subscription", id));
@@ -40,8 +40,7 @@ public class SubscriptionService {
         subscription.setCurrentPeriodStart(startDate);
         subscription.setPrice(subscriptionPlanDto.getPrice());
         subscription.setCurrentPeriodEnd(startDate.plusDays(subscriptionPlanDto.getDurationInDays()));
-        Optional<Gym> gym = gymRepository.findById(subscriptionPlanDto.getGymId());
-        gym.ifPresent(subscription::setGym);
+        subscription.setGym(gymService.findById(subscriptionPlanDto.getGymId()));
         return subscriptionRepository.save(subscription);
     }
 
