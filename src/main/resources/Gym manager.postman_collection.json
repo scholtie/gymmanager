@@ -122,6 +122,28 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "subscribe",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/customers/subscribe/1/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"customers",
+								"subscribe",
+								"1",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

@@ -3,7 +3,6 @@ package com.schol.gymmanager.service;
 import com.schol.gymmanager.exception.EntityNotFoundException;
 import com.schol.gymmanager.model.DTOs.SubscriptionPlanDto;
 import com.schol.gymmanager.model.SubscriptionPlan;
-import com.schol.gymmanager.repository.GymRepository;
 import com.schol.gymmanager.repository.SubscriptionPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

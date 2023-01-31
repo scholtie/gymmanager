@@ -41,5 +41,10 @@ public class SubscriptionController {
         subscriptionService.delete(subscriptionId);
     }
 
+    @PostMapping("/subscribe")
+    public Subscription subscribe(@RequestBody SubscriptionPlanDto subscriptionPlanDto) {
+        return subscriptionService.create(subscriptionPlanDto);
+    }
+
 
 }

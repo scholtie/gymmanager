@@ -7,12 +7,10 @@ import com.schol.gymmanager.model.Session;
 import com.schol.gymmanager.model.SessionOption;
 import com.schol.gymmanager.model.Trainer;
 import com.schol.gymmanager.repository.CustomerRepository;
-import com.schol.gymmanager.repository.SessionOptionRepository;
 import com.schol.gymmanager.repository.SessionRepository;
 import com.schol.gymmanager.repository.TrainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,9 +37,12 @@ public class SessionService {
     public Session create(SessionDto sessionDto){
         Session session = new Session();
         session.setStart(sessionDto.getStart());
-        session.setCustomer(customerService.findById(sessionDto.getCustomerId()));
-        session.setTrainer(trainerService.findById(sessionDto.getTrainerId()));
-        session.setOption(sessionOptionService.findById(sessionDto.getOptionId()));
+        Customer customer = customerService.findById(sessionDto.getCustomerId());
+        Trainer trainer = trainerService.findById(sessionDto.getTrainerId());
+        SessionOption option = sessionOptionService.findById(sessionDto.getOptionId());
+        session.setCustomer(customer);
+        session.setTrainer(trainer);
+        session.setOption(option);
         session.setEnd(sessionDto.getStart().plusMinutes(session.getOption().getLengthMinutes()));
         return sessionRepository.save(session);
     }
