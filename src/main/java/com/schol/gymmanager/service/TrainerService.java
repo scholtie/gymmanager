@@ -20,6 +20,8 @@ public class TrainerService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private TrainerRepository trainerRepository;
+    @Autowired
+    private GymService gymService;
 
     public List<Trainer> findAll() {
         return trainerRepository.findAll();
@@ -37,6 +39,7 @@ public class TrainerService {
         trainerToSave.setEmail(trainerDTO.getEmail());
         trainerToSave.setPasswordHash(passwordEncoder.encode(trainerDTO.getPassword()));
         trainerToSave.setCreateTime(Timestamp.from(instant));
+        trainerToSave.setGym(gymService.findById(trainerDTO.getGymId()));
         return trainerRepository.save(trainerToSave);
     }
 
