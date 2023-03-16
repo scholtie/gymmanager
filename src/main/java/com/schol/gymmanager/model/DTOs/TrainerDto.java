@@ -16,8 +16,8 @@ import java.util.List;
 @Builder
 public class TrainerDto implements Serializable {
     private final Long gymId;
-    @NotNull(message = "subscriptionPlan cannot be empty")
-    private final List<SubscriptionPlan> subscriptionPlans;
+//    @NotNull(message = "subscriptionPlan cannot be empty")
+//    private final List<SubscriptionPlan> subscriptionPlans;
     @NotNull(message = "email cannot be empty")
     @NotEmpty
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
