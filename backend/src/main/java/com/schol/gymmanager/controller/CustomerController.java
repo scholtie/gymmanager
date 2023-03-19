@@ -15,6 +15,11 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
+    @GetMapping("/hello")
+    public String hello() {
+        return "hello";
+    }
+
     @GetMapping("/")
     public List<Customer> findAll() {
         return customerService.findAll();
