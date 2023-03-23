@@ -10,6 +10,7 @@ import ErrorPage from "./error-page.jsx";
 import Contact, {loader as contactLoader} from "./routes/contact.jsx";
 import EditContact, {action as editAction,} from "./routes/edit.jsx";
 import CallApi from "./routes/callApi.jsx";
+import RegistrationForm, {action as registerAction} from "./routes/register.jsx";
 
 const router = createBrowserRouter([
     {
@@ -35,6 +36,12 @@ const router = createBrowserRouter([
     {
         path: "/callapi",
         element: <CallApi />,
+        errorElement: <ErrorPage />,
+    },
+    {
+        path: "/register",
+        element: <RegistrationForm />,
+        action: registerAction,
         errorElement: <ErrorPage />,
     }
 ]);
