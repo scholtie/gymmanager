@@ -1,6 +1,23 @@
-import {Form, redirect} from "react-router-dom";
+import {Form, redirect, useLoaderData} from "react-router-dom";
 import axios from "axios";
+import React, { useState } from 'react'
+import ReactDOM from 'react-dom'
 
+// Import React FilePond
+import { FilePond, registerPlugin } from 'react-filepond'
+
+// Import FilePond styles
+import 'filepond/dist/filepond.min.css'
+
+// Import the Image EXIF Orientation and Image Preview plugins
+// Note: These need to be installed separately
+// `npm i filepond-plugin-image-preview filepond-plugin-image-exif-orientation --save`
+import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
+
+// Register the plugins
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview)
 
 export async function action({ request }) {
     const config = {
@@ -19,6 +36,7 @@ export async function action({ request }) {
 }
 
 export default function TrainerRegistrationForm() {
+    const [file, setFile] = useState()
     return (
         <Form method="post" id="register-form">
             <p>
@@ -82,11 +100,18 @@ export default function TrainerRegistrationForm() {
                 </select>
             </p>
             <p>
-                <label htmlFor="img">Select a profile picture:</label>
-                <input type="file"
-                       className="profilePic"
-                       name="profilePic"
-                       accept="image/png, image/jpeg, image/gif"/>
+            {/*<FilePond*/}
+            {/*    files={file}*/}
+            {/*    onupdatefiles={setFile}*/}
+            {/*    allowMultiple={false}*/}
+            {/*    server="/api"*/}
+            {/*    name="files"*/}
+            {/*    labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'*/}
+            {/*/>*/}
+                <input
+                    name = 'imgPath'
+                    value = 'https://placehold.co/400'
+                />
             </p>
             <p>
                 <textarea
