@@ -1,8 +1,8 @@
 package com.schol.gymmanager.controller;
 
 import com.schol.gymmanager.exception.EmailExistsException;
-import com.schol.gymmanager.model.DTOs.CustomerDto;
 import com.schol.gymmanager.model.Customer;
+import com.schol.gymmanager.model.DTOs.CustomerDto;
 import com.schol.gymmanager.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +14,8 @@ import java.util.List;
 public class CustomerController {
     @Autowired
     private CustomerService customerService;
+    @GetMapping("/profile")
+    public Customer getLoggedInUserData(){ return customerService.getLoggedInUserData();}
 
     @GetMapping("/")
     public List<Customer> findAll() {

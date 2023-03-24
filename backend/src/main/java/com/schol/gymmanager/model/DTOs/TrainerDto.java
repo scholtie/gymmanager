@@ -1,36 +1,53 @@
 package com.schol.gymmanager.model.DTOs;
 
-import com.schol.gymmanager.model.Gym;
-import com.schol.gymmanager.model.SubscriptionPlan;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.schol.gymmanager.model.Gender;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.sql.rowset.serial.SerialBlob;
 import java.io.Serializable;
-import java.util.List;
 
 @Data
 @Builder
 public class TrainerDto implements Serializable {
     private final Long gymId;
-//    @NotNull(message = "subscriptionPlan cannot be empty")
-//    private final List<SubscriptionPlan> subscriptionPlans;
-    @NotNull(message = "email cannot be empty")
-    @NotEmpty
-    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
-            flags = Pattern.Flag.CASE_INSENSITIVE)
     private final String email;
-    @NotNull(message = "password cannot be empty")
     private final String password;
-    @NotEmpty(message = "userName cannot be empty")
     private final String userName;
     private final String firstName;
     private final String lastName;
-    @NotEmpty(message = "gender cannot be empty")
     private final String gender;
-    @NotEmpty(message = "status cannot be empty")
     private final String status;
+    private String imgPath;
+    private String introduction;
+    private long rating;
+
+    @JsonCreator
+    public TrainerDto(
+            @JsonProperty("gymId") Long gymId,
+            @JsonProperty("email") String email,
+            @JsonProperty("password") String password,
+            @JsonProperty("firstName") String firstName,
+            @JsonProperty("lastName") String lastName,
+            @JsonProperty("introduction") String introduction,
+            @JsonProperty("status") String status,
+            @JsonProperty("imgPath") String imgPath,
+            @JsonProperty("gender") String gender,
+            @JsonProperty("rating") long rating,
+            @JsonProperty("userName") String userName) {
+        super();
+        this.gymId = gymId;
+        this.introduction = introduction;
+        this.status = status;
+        this.imgPath = imgPath;
+        this.gender = gender;
+        this.rating = rating;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+    }
 }

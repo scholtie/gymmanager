@@ -2,14 +2,14 @@ package com.schol.gymmanager.model;
 
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
+import javax.sql.rowset.serial.SerialBlob;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.Optional;
 
 @Getter
 @Setter
@@ -26,12 +26,6 @@ public class Trainer {
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="gym_id")
     private Gym gym;
-//    @OneToMany(mappedBy = "trainer")
-//    private List<SubscriptionPlan> subscriptionPlans;
-//    @OneToMany(mappedBy = "trainer")
-//    private List<Customer> customers;
-//    @OneToMany(mappedBy = "trainer")
-//    private List<Session> sessions;
     @Column(unique=true, nullable = false)
     @NotEmpty
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
@@ -48,4 +42,7 @@ public class Trainer {
     private String lastName;
     private Gender gender;
     private String status;
+    private String imgPath;
+    private String introduction;
+    private long rating;
 }

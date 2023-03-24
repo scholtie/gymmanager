@@ -24,6 +24,10 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    public Customer getLoggedInUserData(){
+        return null;
+    }
+
     public List<Customer> findAll() {
         return customerRepository.findAll();
     }

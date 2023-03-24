@@ -2,7 +2,7 @@ package com.schol.gymmanager.model;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -12,14 +12,14 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name="BusinessHours")
+@Table(name = "BusinessHours")
 public class BusinessHours {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
     private long id;
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="gym_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "gym_id")
     private Gym gym;
     private int day;
     private LocalTime openTime;

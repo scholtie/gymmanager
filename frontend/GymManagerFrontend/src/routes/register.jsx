@@ -1,6 +1,4 @@
 import {Form, redirect} from "react-router-dom";
-import {updateContact} from "../contacts.js";
-import {useState} from "react";
 import axios from "axios";
 
 export async function action({ request }) {

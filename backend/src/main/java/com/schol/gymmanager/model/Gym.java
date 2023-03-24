@@ -2,8 +2,7 @@ package com.schol.gymmanager.model;
 
 import lombok.*;
 
-import javax.persistence.*;
-import java.util.List;
+import jakarta.persistence.*;
 
 @Getter
 @Setter

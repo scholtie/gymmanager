@@ -1,15 +1,13 @@
 package com.schol.gymmanager.model;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.Optional;
 
 @Getter
 @Setter
@@ -17,27 +15,28 @@ import java.util.Optional;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name="Customer")
+@Table(name = "Customer")
 public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
     private long id;
-//    @OneToMany(mappedBy = "customer")
-//    private List<Session> sessions;
     @Column(unique = true, nullable = false)
-    @NotEmpty
+    @NotEmpty(message = "email cannot be empty")
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
             flags = Pattern.Flag.CASE_INSENSITIVE)
     private String email;
-    @NotNull
+    @NotNull(message = "password cannot be empty")
+    @NotEmpty
     private String passwordHash;
     @Column(unique = true, nullable = false)
-    @NotEmpty
+    @NotEmpty(message = "userName cannot be empty")
     private String userName;
     private String timeZone;
     private Timestamp createTime;
+    @NotNull(message = "firstName cannot be empty")
     private String firstName;
+    @NotNull(message = "secondName cannot be empty")
     private String lastName;
 
 }

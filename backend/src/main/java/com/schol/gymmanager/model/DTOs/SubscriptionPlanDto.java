@@ -1,10 +1,7 @@
 package com.schol.gymmanager.model.DTOs;
 
-import com.schol.gymmanager.model.Customer;
-import com.schol.gymmanager.model.Gym;
 import lombok.*;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

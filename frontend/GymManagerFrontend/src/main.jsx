@@ -11,6 +11,7 @@ import Contact, {loader as contactLoader} from "./routes/contact.jsx";
 import EditContact, {action as editAction,} from "./routes/edit.jsx";
 import CallApi from "./routes/callApi.jsx";
 import RegistrationForm, {action as registerAction} from "./routes/register.jsx";
+import TrainerRegistrationForm, {action as registerTrainerAction} from "./routes/registerTrainer.jsx";
 
 const router = createBrowserRouter([
     {
@@ -42,6 +43,12 @@ const router = createBrowserRouter([
         path: "/register",
         element: <RegistrationForm />,
         action: registerAction,
+        errorElement: <ErrorPage />,
+    },
+    {
+        path: "/registerTrainer",
+        element: <TrainerRegistrationForm />,
+        action: registerTrainerAction,
         errorElement: <ErrorPage />,
     }
 ]);
