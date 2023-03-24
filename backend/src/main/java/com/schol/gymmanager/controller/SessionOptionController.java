@@ -1,18 +1,14 @@
 package com.schol.gymmanager.controller;
 
-import com.schol.gymmanager.exception.EntityNotFoundException;
-import com.schol.gymmanager.model.DTOs.SessionDto;
 import com.schol.gymmanager.model.SessionOption;
-import com.schol.gymmanager.repository.CustomerRepository;
-import com.schol.gymmanager.repository.SessionOptionRepository;
-import com.schol.gymmanager.repository.SessionRepository;
-import com.schol.gymmanager.repository.TrainerRepository;
 import com.schol.gymmanager.service.SessionOptionService;
-import com.schol.gymmanager.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RequestMapping(value = "/sessionoptions")
 @RestController
@@ -22,15 +18,25 @@ public class SessionOptionController {
 
     @GetMapping("/{id}")
     public SessionOption findById(@PathVariable long id){
-        return sessionOptionService.findById(id);}
+        SessionOption sessionOption = sessionOptionService.findById(id);
+        addLinks(sessionOption);
+        return sessionOption;
+    }
 
     @GetMapping("/")
     public List<SessionOption> findAll(){
-        return sessionOptionService.findAll();
+        List<SessionOption> sessionOptions = sessionOptionService.findAll();
+        for (SessionOption sessionOption : sessionOptions) {
+            addLinks(sessionOption);        }
+        return sessionOptions;
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable long id) {
         sessionOptionService.delete(id);
+    }
+
+    private void addLinks(SessionOption sessionOption) {
+        sessionOption.add(linkTo(methodOn(SessionOptionController.class).findById(sessionOption.getId())).withSelfRel());
     }
 }

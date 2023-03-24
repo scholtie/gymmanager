@@ -14,6 +14,10 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping(value = "/trainers")
 public class TrainerController {
@@ -22,22 +26,32 @@ public class TrainerController {
 
     @GetMapping("/")
     public List<Trainer> findAll() {
-        return trainerService.findAll();
+        List<Trainer> trainers = trainerService.findAll();
+        for ( Trainer trainer : trainers) {
+            addLinks(trainer);
+        }
+        return trainers;
     }
 
     @PostMapping("/")
     public Trainer create(@RequestBody TrainerDto trainerDTO) throws EmailExistsException {
-        return trainerService.create(trainerDTO);
+        Trainer trainer = trainerService.create(trainerDTO);
+        addLinks(trainer);
+        return trainer;
     }
 
     @GetMapping("/{id}")
     public Trainer findById(@PathVariable Long id) {
-        return trainerService.findById(id);
+        Trainer trainer = trainerService.findById(id);
+        addLinks(trainer);
+        return trainer;
     }
 
     @PutMapping("/{id}")
     public Trainer update(@RequestBody Trainer newTrainer, @PathVariable Long id) {
-        return trainerService.update(newTrainer, id);
+        Trainer trainer = trainerService.update(newTrainer, id);
+        addLinks(trainer);
+        return trainer;
     }
 
     @DeleteMapping("/{id}")
@@ -47,5 +61,15 @@ public class TrainerController {
 
     public Boolean emailExist(String email){
         return trainerService.emailExist(email);
+    }
+
+    private void addLinks(Trainer trainer) {
+        if ( trainer != null) {
+            trainer.add(linkTo(methodOn(TrainerController.class).findById(trainer.getId())).withSelfRel());
+
+            if( trainer.getGender() != null) {
+                trainer.add(linkTo(methodOn(GymController.class).findById(trainer.getGym().getId())).withRel("gym"));
+            }
+        }
     }
 }
