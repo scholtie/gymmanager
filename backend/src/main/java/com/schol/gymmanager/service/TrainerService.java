@@ -43,7 +43,7 @@ public class TrainerService {
         trainerToSave.setGym(gymService.findById(trainerDTO.getGymId()));
         trainerToSave.setGender(Gender.valueOf(trainerDTO.getGender()));
         trainerToSave.setIntroduction(trainerDTO.getIntroduction());
-        trainerToSave.setImg(trainerDTO.getImg());
+        trainerToSave.setImgPath(trainerDTO.getImgPath());
         return trainerRepository.save(trainerToSave);
     }
 
