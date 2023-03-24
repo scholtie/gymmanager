@@ -28,7 +28,6 @@ export async function action({ request }) {
     const formData = await request.formData();
     const user = Object.fromEntries(formData);
     const userJson = JSON.stringify(user);
-    console.log(userJson);
     await axios.post('http://localhost:8081/trainers/', userJson, config)
         .then(response => console.log(response))
         .catch(err => console.log(err))
@@ -38,7 +37,7 @@ export async function action({ request }) {
 export default function TrainerRegistrationForm() {
     const [file, setFile] = useState()
     return (
-        <Form method="post" id="register-form">
+        <Form method="post" id="trainer-register-form">
             <p>
                 <input
                     placeholder="First Name"
@@ -58,7 +57,7 @@ export default function TrainerRegistrationForm() {
             <label>
                 <input
                     placeholder="Email"
-                    value="test@gmail.com"
+                    value="test1@gmail.com"
                     type="email"
                     name="email"
                 />
@@ -66,7 +65,7 @@ export default function TrainerRegistrationForm() {
             <p>
                 <input
                     placeholder="Username"
-                    value="testUserName"
+                    value="test1UserName"
                     aria-label="Username"
                     type="username"
                     name="userName"
@@ -75,27 +74,27 @@ export default function TrainerRegistrationForm() {
             <p>
                 <input
                     placeholder="Password"
-                    value="testPassword"
+                    value="testPassword1"
                     aria-label="Password"
                     type="password"
                     name="password"
                 />
             </p>
             <p>
-                <select name="gender" id="gender">
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
+                <select name="gender" id="gender" defaultValue='MALE'>
+                    <option value="MALE">Male</option>
+                    <option value="FEMALE">Female</option>
+                    <option value="OTHER">Other</option>
                 </select>
             </p>
             <p>
-                <select name="status" id="status">
+                <select name="status" id="status" defaultValue='available'>
                     <option value="available">Available</option>
                     <option value="unavailable">Unavailable</option>
                 </select>
             </p>
             <p>
-                <select name="gymId" id="gymId">
+                <select name="gymId" id="gymId" defaultValue='1'>
                     <option value="1">1</option>
                 </select>
             </p>

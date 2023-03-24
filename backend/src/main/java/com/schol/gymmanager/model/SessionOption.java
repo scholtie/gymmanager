@@ -3,6 +3,9 @@ package com.schol.gymmanager.model;
 import lombok.*;
 
 import jakarta.persistence.*;
+import org.springframework.hateoas.RepresentationModel;
+import org.yaml.snakeyaml.representer.Represent;
+
 import java.math.BigDecimal;
 
 @Entity
@@ -12,7 +15,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 @Table(name="SessionOption")
-public class SessionOption {
+public class SessionOption extends RepresentationModel<SessionOption> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)

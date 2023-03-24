@@ -3,6 +3,8 @@ package com.schol.gymmanager.model;
 import lombok.*;
 
 import jakarta.persistence.*;
+import org.springframework.hateoas.RepresentationModel;
+
 import java.time.LocalDateTime;
 
 @Getter
@@ -12,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Table(name="Session")
-public class Session {
+public class Session extends RepresentationModel<Session> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)

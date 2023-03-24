@@ -10,7 +10,6 @@ export async function action({ request }) {
     const formData = await request.formData();
     const user = Object.fromEntries(formData);
     const userJson = JSON.stringify(user);
-    console.log(userJson);
     await axios.post('http://localhost:8081/customers/', userJson, config)
             .then(response => console.log(response))
             .catch(err => console.log(err))

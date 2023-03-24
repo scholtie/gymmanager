@@ -3,6 +3,8 @@ package com.schol.gymmanager.model;
 import lombok.*;
 
 import jakarta.persistence.*;
+import org.springframework.hateoas.RepresentationModel;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -13,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Table(name="Subscription")
-public class Subscription {
+public class Subscription extends RepresentationModel<Subscription> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)

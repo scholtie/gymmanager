@@ -5,21 +5,21 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import "./index.css";
-import Root, { loader as rootLoader, action as rootAction } from "./routes/root";
+import Root from "./routes/root";
 import ErrorPage from "./error-page.jsx";
 import Contact, {loader as contactLoader} from "./routes/contact.jsx";
 import EditContact, {action as editAction,} from "./routes/edit.jsx";
 import CallApi from "./routes/callApi.jsx";
 import RegistrationForm, {action as registerAction} from "./routes/register.jsx";
 import TrainerRegistrationForm, {action as registerTrainerAction} from "./routes/registerTrainer.jsx";
+import Trainers from "./routes/trainers.jsx";
+import BookSession, {action as bookSessionAction}  from "./routes/bookSession.jsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <Root />,
         errorElement: <ErrorPage />,
-        loader: rootLoader,
-        action: rootAction,
         children: [
             {
                 path: "contacts/:contactId",
@@ -50,6 +50,17 @@ const router = createBrowserRouter([
         element: <TrainerRegistrationForm />,
         action: registerTrainerAction,
         errorElement: <ErrorPage />,
+    },
+    {
+        path: "/trainers",
+        element: <Trainers />,
+        errorElement: <ErrorPage />,
+    },
+    {
+        path: "/booksession",
+        element: <BookSession />,
+        errorElement: <ErrorPage />,
+        action: bookSessionAction,
     }
 ]);
 

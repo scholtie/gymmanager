@@ -3,6 +3,7 @@ package com.schol.gymmanager.model;
 import lombok.*;
 
 import jakarta.persistence.*;
+import org.springframework.hateoas.RepresentationModel;
 
 @Getter
 @Setter
@@ -11,7 +12,7 @@ import jakarta.persistence.*;
 @AllArgsConstructor
 @Builder
 @Table(name="Gym")
-public class Gym {
+public class Gym extends RepresentationModel<Gym> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)

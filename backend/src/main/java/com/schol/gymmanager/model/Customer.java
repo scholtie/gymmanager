@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.sql.Timestamp;
 
@@ -16,7 +17,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Builder
 @Table(name = "Customer")
-public class Customer {
+public class Customer extends RepresentationModel<Customer> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
