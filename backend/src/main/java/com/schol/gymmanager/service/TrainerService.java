@@ -3,6 +3,7 @@ package com.schol.gymmanager.service;
 import com.schol.gymmanager.exception.EmailExistsException;
 import com.schol.gymmanager.exception.EntityNotFoundException;
 import com.schol.gymmanager.model.DTOs.TrainerDto;
+import com.schol.gymmanager.model.Gender;
 import com.schol.gymmanager.model.Trainer;
 import com.schol.gymmanager.repository.TrainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,9 @@ public class TrainerService {
         trainerToSave.setPasswordHash(passwordEncoder.encode(trainerDTO.getPassword()));
         trainerToSave.setCreateTime(Timestamp.from(instant));
         trainerToSave.setGym(gymService.findById(trainerDTO.getGymId()));
+        trainerToSave.setGender(Gender.valueOf(trainerDTO.getGender()));
+        trainerToSave.setIntroduction(trainerDTO.getIntroduction());
+        trainerToSave.setImg(trainerDTO.getImg());
         return trainerRepository.save(trainerToSave);
     }
 
