@@ -26,8 +26,12 @@ public class SessionController {
     }
 
     @GetMapping("/")
-    public List<Session> findAll(){
-        return sessionService.findAll();
+    public List<Session> findAll() {
+        List<Session> sessions = sessionService.findAll();
+        for (Session session : sessions) {
+            addLinks(session);
+        }
+        return sessions;
     }
 
     @PostMapping("/")
