@@ -3,10 +3,9 @@ import {Form, redirect, useLoaderData, useLocation} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 
 export async function loader() {
-    const results = await fetch('http://localhost:8081/subscriptionplans/')
+    const results = await fetch('http://localhost:8081/subscriptionplans/findByGym/1')
 
     if (!results.ok) throw new Error('Something went wrong!');
-
     return await results.json();
 }
 
@@ -19,10 +18,10 @@ export async function action({ request }) {
     const formData = await request.formData();
     const subscribe = Object.fromEntries(formData);
     const subscribeJson = JSON.stringify(subscribe);
-    await axios.post('http://localhost:8081/subscribe/', subscribeJson, config)
+    console.log(subscribeJson)
+    await axios.post('http://localhost:8081/subscriptions/subscribe', subscribeJson, config)
         .then(response => console.log(response))
         .catch(err => console.log(err))
-    console.log(subscribeJson)
     return redirect(`/`);
 }
 
@@ -30,32 +29,33 @@ export default function Subscribe() {
     const data = useLoaderData();
     let { state } = useLocation();
     return (
-        <Form method="post" id="book-session-form">
-            <p>
-                <select name="trainerId" id="trainerId" defaultValue={state ? state.data.trainer.id:1}>
-                    <option value="1">trainer1</option>
-                    <option value="2">trainer2</option>
-                </select>
-            </p>
+        <Form method="post" id="subscribe-form">
             <label>
                 <select name="customerId" id="customerId" defaultValue='1'>
                     <option value="1">customer1</option>
                 </select>
             </label>
             <p>
-                <select name="optionId" id="optionId">(
-                    {data.map((sessionoption) => (
-                        <option value={sessionoption.id}>{sessionoption.name}</option>))}
+                <select name="subscriptionPlanId" id="subscriptionPlanId">(
+                    {data.map((subscriptionPlan) => (
+                        <option value={subscriptionPlan.id}>{subscriptionPlan.name}</option>))}
                 </select>
             </p>
             <p><input
                 placeholder="StartTime"
                 type="datetime-local"
-                name="start"
-                id="start"
+                name="startDate"
+                id="startDate"
             /></p>
             <p>
-                <button type="submit">Book Session</button>
+                <select name="paymentMethod" id="paymentMethod">
+                    <option value="CASH">Cash</option>
+                    <option value="CARD">Card</option>
+                    <option value="TRANSFER">Transfer</option>
+                </select>
+            </p>
+            <p>
+                <button type="submit">Subscribe to Gym</button>
             </p>
         </Form>
     );

@@ -2,6 +2,7 @@ package com.schol.gymmanager.service;
 
 import com.schol.gymmanager.exception.EntityNotFoundException;
 import com.schol.gymmanager.model.Customer;
+import com.schol.gymmanager.model.DTOs.SubscriptionDto;
 import com.schol.gymmanager.model.DTOs.SubscriptionPlanDto;
 import com.schol.gymmanager.model.Gym;
 import com.schol.gymmanager.model.Subscription;
@@ -10,6 +11,7 @@ import com.schol.gymmanager.repository.SubscriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -33,20 +35,25 @@ public class SubscriptionService {
         return subscriptionRepository.findAll();
     }
 
+    public List<Subscription> findAllByGymId(long gymId) {
+        return subscriptionRepository.findAllByGymId(gymId);
+    }
+
+
     public Subscription create(Subscription subscription) {
         return subscriptionRepository.save(subscription);
     }
 
-    public Subscription create(SubscriptionPlanDto subscriptionPlanDto){
+    public Subscription create(SubscriptionDto subscriptionDto){
         Subscription subscription = new Subscription();
-        LocalDateTime startDate = subscriptionPlanDto.getStartDate();
-        subscription.setCustomer(customerService.findById(subscriptionPlanDto.getCustomerId()));
+        SubscriptionPlan subscriptionPlan = subscriptionPlanService.findById(subscriptionDto.getSubscriptionPlanId());
+        //Gym gym = gymService.findById(subscriptionPlan.getGym().getId());
+        LocalDateTime startDate = subscriptionDto.getStartDate();
+        subscription.setCustomer(customerService.findById(subscriptionDto.getCustomerId()));
         subscription.setOngoing(true);
-        subscription.setPrice(subscriptionPlanDto.getPrice());
         subscription.setCurrentPeriodStart(startDate);
-        subscription.setCurrentPeriodEnd(startDate.plusDays(subscriptionPlanDto.getDurationInDays()));
-        Gym gym = gymService.findById(subscriptionPlanDto.getGymId());
-        subscription.setGym(gym);
+        subscription.setCurrentPeriodEnd(startDate.plusDays(subscriptionPlan.getDurationInDays()));
+        subscription.setSubscriptionPlan(subscriptionPlan);
         return create(subscription);
     }
 

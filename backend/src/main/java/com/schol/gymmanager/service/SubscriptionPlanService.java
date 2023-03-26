@@ -35,6 +35,10 @@ public class SubscriptionPlanService {
         return subscriptionPlanRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("SubscriptionPlan", id));
     }
 
+    public List<SubscriptionPlan> findAllByGymId(long id) {
+        return subscriptionPlanRepository.findAllByGymId(id);
+    }
+
     public void delete(long id) {
         subscriptionPlanRepository.deleteById(id);
     }

@@ -1,16 +1,24 @@
-import {useLoaderData} from "react-router-dom";
+import {Link, useLoaderData} from "react-router-dom";
 
 
 export async function loader({ params }) {
-    const results = await fetch('http://localhost:8081/gyms/' + params.gymId)
-
-    if (!results.ok) throw new Error('Something went wrong!');
-
-    return await results.json();
+    let gym;
+    let [subscriptionPlans] = [];
+    const gymId = params.gymId;
+    await fetch('http://localhost:8081/gyms/' + gymId).then((res) => res.json())
+        .then((data) => {
+            gym = data;
+        });
+    await fetch('http://localhost:8081/subscriptionplans/findByGym/' + gymId).then((res) => res.json())
+        .then((data) => {
+            subscriptionPlans = data;
+        });
+    return [gym, subscriptionPlans];
 }
 export default function Gym() {
-    const gym = useLoaderData();
-
+    const data = useLoaderData();
+    const gym = data[0];
+     const [subscriptionPlans] = [data[1]];
     return (
         <div id="gym">
             <div>
@@ -36,6 +44,22 @@ export default function Gym() {
                 <p>{gym.address.suite}</p>
                 <p>{gym.about}</p>
                 </div>
+            <div>
+                <h1>Subscription Plans</h1>
+                <p>
+                        {subscriptionPlans.map((subPlan) => (
+                            <Link to="/subscribe" state={{ data: {subPlan} }} >
+                            <dl>
+                            <dt>{subPlan.name}</dt>
+                            <dd>{subPlan.description}</dd>
+                            <dd>{subPlan.durationInDays}</dd>
+                            <dd>{subPlan.price}</dd>
+                            </dl>
+                            </Link>
+                        ))}
+
+                </p>
+            </div>
         </div>
     );
 }

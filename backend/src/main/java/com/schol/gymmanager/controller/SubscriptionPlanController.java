@@ -40,6 +40,12 @@ public class SubscriptionPlanController {
         return subscriptionPlan;
     }
 
+    @GetMapping("/findByGym/{gymId}")
+    public List<SubscriptionPlan> findByGymId(@PathVariable long gymId) {
+        //addLinks(subscriptionPlans);
+        return subscriptionPlanService.findAllByGymId(gymId);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable long id) {
         subscriptionPlanService.delete(id);
@@ -49,9 +55,9 @@ public class SubscriptionPlanController {
         if ( subscriptionPlan != null) {
             subscriptionPlan.add(linkTo(methodOn(SubscriptionPlanController.class).findById(subscriptionPlan.getId())).withSelfRel());
 
-            if ( subscriptionPlan.getCustomer() != null) {
-                subscriptionPlan.add(linkTo(methodOn(CustomerController.class).findById(subscriptionPlan.getCustomer().getId())).withRel("customer"));
-            }
+//            if ( subscriptionPlan.getCustomer() != null) {
+//                subscriptionPlan.add(linkTo(methodOn(CustomerController.class).findById(subscriptionPlan.getCustomer().getId())).withRel("customer"));
+//            }
 
             if ( subscriptionPlan.getGym() != null) {
                 subscriptionPlan.add(linkTo(methodOn(GymController.class).findById(subscriptionPlan.getGym().getId())).withRel("gym"));

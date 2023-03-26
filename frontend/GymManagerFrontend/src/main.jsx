@@ -19,6 +19,7 @@ import Gym, {loader as gymLoader} from "./routes/gym.jsx";
 import RegisterGym, {action as registerGymAction} from "./routes/registerGym.jsx";
 import Subscribe, {action as subscribeAction, loader as subscribeLoader} from "./routes/subscribe.jsx";
 import CreateSessionOption, {action as createSessionOptionAction} from "./routes/createSessionOption.jsx";
+import Subscriptions, {loader as subscriptionsLoader} from "./routes/subscriptions.jsx";
 
 const router = createBrowserRouter([
     {
@@ -27,79 +28,75 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
             {
-                path: "contacts/:contactId",
-                element: <Contact />,
-                loader: contactLoader,
+                path: "/callapi",
+                element: <CallApi />,
+                errorElement: <ErrorPage />,
             },
             {
-                path: "contacts/:contactId/edit",
-                element: <EditContact />,
-                loader: contactLoader,
-                action: editAction,
+                path: "/register",
+                element: <RegistrationForm />,
+                action: registerAction,
+                errorElement: <ErrorPage />,
             },
+            {
+                path: "/registerTrainer",
+                element: <TrainerRegistrationForm />,
+                action: registerTrainerAction,
+                errorElement: <ErrorPage />,
+            },
+            {
+                path: "/trainers",
+                element: <Trainers />,
+                loader: trainersLoader,
+                errorElement: <ErrorPage />,
+            },
+            {
+                path: "/booksession",
+                element: <BookSession />,
+                errorElement: <ErrorPage />,
+                action: bookSessionAction,
+                loader: bookSessionLoader,
+            },
+            {
+                path: "/gyms",
+                element: <Gyms />,
+                loader: gymsLoader,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/gyms/:gymId",
+                element: <Gym />,
+                loader: gymLoader,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/registerGym",
+                element: <RegisterGym />,
+                action: registerGymAction,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/subscribe",
+                element: <Subscribe />,
+                action: subscribeAction,
+                loader: subscribeLoader,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/createSessionOption",
+                element: <CreateSessionOption />,
+                action: createSessionOptionAction,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/subscriptions",
+                element: <Subscriptions />,
+                loader: subscriptionsLoader,
+                errorElement: <ErrorPage />
+            }
         ],
     },
-    {
-        path: "/callapi",
-        element: <CallApi />,
-        errorElement: <ErrorPage />,
-    },
-    {
-        path: "/register",
-        element: <RegistrationForm />,
-        action: registerAction,
-        errorElement: <ErrorPage />,
-    },
-    {
-        path: "/registerTrainer",
-        element: <TrainerRegistrationForm />,
-        action: registerTrainerAction,
-        errorElement: <ErrorPage />,
-    },
-    {
-        path: "/trainers",
-        element: <Trainers />,
-        loader: trainersLoader,
-        errorElement: <ErrorPage />,
-    },
-    {
-        path: "/booksession",
-        element: <BookSession />,
-        errorElement: <ErrorPage />,
-        action: bookSessionAction,
-        loader: bookSessionLoader,
-    },
-    {
-        path: "/gyms",
-        element: <Gyms />,
-        loader: gymsLoader,
-        errorElement: <ErrorPage />
-    },
-    {
-        path: "/gyms/:gymId",
-        element: <Gym />,
-        loader: gymLoader,
-        errorElement: <ErrorPage />
-    },
-    {
-        path: "/registerGym",
-        element: <RegisterGym />,
-        action: registerGymAction,
-        errorElement: <ErrorPage />
-    },
-    {
-        path: "/subscribe",
-        element: <Subscribe />,
-        action: subscribeAction,
-        loader: subscribeLoader,
-        errorElement: <ErrorPage />
-    },
-    {
-        path: "/createSessionOption",
-        element: <CreateSessionOption />,
-        action: createSessionOptionAction,
-        errorElement: <ErrorPage />
-    }
+
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

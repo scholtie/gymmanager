@@ -1,6 +1,7 @@
 package com.schol.gymmanager.controller;
 
 import com.schol.gymmanager.model.*;
+import com.schol.gymmanager.model.DTOs.SubscriptionDto;
 import com.schol.gymmanager.model.DTOs.SubscriptionPlanDto;
 import com.schol.gymmanager.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +33,21 @@ public class SubscriptionController {
         return subscriptions;
     }
 
-    @PostMapping("/")
-    public Subscription create(@RequestBody SubscriptionPlanDto subscriptionPlanDto){
-        Subscription subscription = subscriptionService.create(subscriptionPlanDto);
-        addLinks(subscription);
-        return subscription;
+    @GetMapping("/findByGym/{gymId}")
+    public List<Subscription> findAllByGymId(@PathVariable Long gymId){
+        List<Subscription> subscriptions = subscriptionService.findAllByGymId(gymId);
+        for (Subscription subscription : subscriptions) {
+            addLinks(subscription);
+        }
+        return subscriptions;
     }
+
+//    @PostMapping("/")
+//    public Subscription create(@RequestBody SubscriptionDto subscriptionDto){
+//        Subscription subscription = subscriptionService.create(subscriptionDto);
+//        addLinks(subscription);
+//        return subscription;
+//    }
 
     @PostMapping("/{id}")
     public void delete(@PathVariable long id) {
@@ -45,8 +55,8 @@ public class SubscriptionController {
     }
 
     @PostMapping("/subscribe")
-    public Subscription subscribe(@RequestBody SubscriptionPlanDto subscriptionPlanDto) {
-        Subscription subscription = subscriptionService.create(subscriptionPlanDto);
+    public Subscription subscribe(@RequestBody SubscriptionDto subscriptionDto) {
+        Subscription subscription = subscriptionService.create(subscriptionDto);
         addLinks(subscription);
         return subscription;
     }
@@ -55,9 +65,9 @@ public class SubscriptionController {
         if ( subscription != null ) {
             subscription.add(linkTo(methodOn(SubscriptionController.class).findById(subscription.getId())).withSelfRel());
 
-            if ( subscription.getGym() != null ) {
-                subscription.add(linkTo(methodOn(GymController.class).findById(subscription.getGym().getId())).withRel("gym"));
-            }
+//            if ( subscription.getGym() != null ) {
+//                subscription.add(linkTo(methodOn(GymController.class).findById(subscription.getGym().getId())).withRel("gym"));
+//            }
 
             if ( subscription.getCustomer() != null ) {
                 subscription.add(linkTo(methodOn(SubscriptionController.class).findById(subscription.getCustomer().getId())).withRel("customer"));

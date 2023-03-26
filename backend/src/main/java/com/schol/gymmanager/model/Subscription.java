@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -20,12 +21,12 @@ public class Subscription extends RepresentationModel<Subscription> {
     @Id
     @Column(name = "id", nullable = false)
     private long id;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
     @ManyToOne
-    @JoinColumn(name = "gym_id")
-    private Gym gym;
+    @JoinColumn(name = "subscriptionPlan_id")
+    private SubscriptionPlan subscriptionPlan;
     //ongoing should always be calculated from period start and end
     private boolean ongoing;
     private LocalDateTime currentPeriodStart;
@@ -33,5 +34,4 @@ public class Subscription extends RepresentationModel<Subscription> {
     private boolean cancelAtPeriodEnd;
     private LocalDateTime canceledAt;
     private int defaultPaymentMethod;
-    private BigDecimal price;
 }

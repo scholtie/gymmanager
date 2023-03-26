@@ -23,12 +23,8 @@ public class SubscriptionPlan extends RepresentationModel<SubscriptionPlan> {
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="gym_id")
     private Gym gym;
-    @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="customer_id")
-    private Customer customer;
     private String name;
     private String description;
     private Long durationInDays;
     private BigDecimal price;
-    private LocalDateTime startDate;
 }
