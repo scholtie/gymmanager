@@ -3,17 +3,11 @@ import {Form, redirect, useLoaderData, useLocation} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 
 export async function loader() {
-    let options;
-    let trainers;
-    await fetch('http://localhost:8081/sessionoptions/').then((res) => res.json())
-        .then((data) => {
-            options = data;
-        });
-    await fetch('http://localhost:8081/trainers/').then((res) => res.json())
-        .then((data) => {
-            trainers = data;
-        });
-    return [options, trainers];
+    const results = await fetch('http://localhost:8081/subscriptionplans/')
+
+    if (!results.ok) throw new Error('Something went wrong!');
+
+    return await results.json();
 }
 
 export async function action({ request }) {
@@ -23,23 +17,24 @@ export async function action({ request }) {
         }
     }
     const formData = await request.formData();
-    const session = Object.fromEntries(formData);
-    const sessionJson = JSON.stringify(session);
-    await axios.post('http://localhost:8081/sessions/', sessionJson, config)
+    const subscribe = Object.fromEntries(formData);
+    const subscribeJson = JSON.stringify(subscribe);
+    await axios.post('http://localhost:8081/subscribe/', subscribeJson, config)
         .then(response => console.log(response))
         .catch(err => console.log(err))
+    console.log(subscribeJson)
     return redirect(`/`);
 }
 
-export default function BookSession() {
+export default function Subscribe() {
     const data = useLoaderData();
     let { state } = useLocation();
     return (
         <Form method="post" id="book-session-form">
             <p>
-                <select name="trainerId" id="trainerId" defaultValue={state ? state.data.trainer.id:1}>(
-                    {data[1].map((trainer) => (
-                        <option value={trainer.id}>{trainer.firstName} {trainer.lastName}</option>))}
+                <select name="trainerId" id="trainerId" defaultValue={state ? state.data.trainer.id:1}>
+                    <option value="1">trainer1</option>
+                    <option value="2">trainer2</option>
                 </select>
             </p>
             <label>
@@ -49,8 +44,8 @@ export default function BookSession() {
             </label>
             <p>
                 <select name="optionId" id="optionId">(
-                        {data[0].map((sessionoption) => (
-                    <option value={sessionoption.id}>{sessionoption.name}</option>))}
+                    {data.map((sessionoption) => (
+                        <option value={sessionoption.id}>{sessionoption.name}</option>))}
                 </select>
             </p>
             <p><input

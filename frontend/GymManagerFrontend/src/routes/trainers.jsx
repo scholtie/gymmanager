@@ -1,18 +1,16 @@
 import {Link, Outlet} from "react-router-dom";
-import {useEffect, useState} from "react";
-import axios from "axios";
+import {useLoaderData} from "react-router-dom";
+
+export async function loader() {
+    const results = await fetch('http://localhost:8081/trainers/')
+
+    if (!results.ok) throw new Error('Something went wrong!');
+
+    return await results.json();
+}
 
 export default function Trainers() {
-    const [data, setData] = useState([]);
-    const getData = () => {
-        axios.get('http://localhost:8081/trainers/')
-            .then(res => {
-                setData(res.data)
-            }).catch(err => {
-            console.log(err)
-        })
-    }
-    useEffect(getData);
+    const data = useLoaderData();
     return (
         <>
             <div>
@@ -35,7 +33,7 @@ export default function Trainers() {
                                     </Link>
                                     <p>{trainer.introduction}</p>
                                     <p>{trainer.rating ? (trainer.rating) : <i>{trainer.firstName} {trainer.lastName} has no reviews yet.</i>}</p>
-                                    <Link to={'/bookSession'}>
+                                    <Link to="/booksession" state={{ data: {trainer} }} >
                                         Book Session
                                     </Link>
                                 </li>

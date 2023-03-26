@@ -1,5 +1,8 @@
 package com.schol.gymmanager.controller;
 
+import com.schol.gymmanager.exception.EmailExistsException;
+import com.schol.gymmanager.model.Customer;
+import com.schol.gymmanager.model.DTOs.CustomerDto;
 import com.schol.gymmanager.model.SessionOption;
 import com.schol.gymmanager.service.SessionOptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,13 @@ public class SessionOptionController {
         for (SessionOption sessionOption : sessionOptions) {
             addLinks(sessionOption);        }
         return sessionOptions;
+    }
+
+    @PostMapping("/")
+    public SessionOption create(@RequestBody SessionOption sessionOption){
+        SessionOption sessionOptionToSave = sessionOptionService.create(sessionOption);
+        addLinks(sessionOptionToSave);
+        return sessionOptionToSave;
     }
 
     @DeleteMapping("/{id}")

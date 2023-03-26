@@ -3,6 +3,7 @@ package com.schol.gymmanager.model;
 import lombok.*;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 import org.springframework.hateoas.RepresentationModel;
 
 @Getter
@@ -21,11 +22,7 @@ public class Gym extends RepresentationModel<Gym> {
     @OneToOne
     @JoinColumn(name = "address_id")
     private Address address;
-//    @OneToMany(mappedBy = "gym")
-//    private List<BusinessHours> businessHours;
-//    @OneToMany(mappedBy = "gym")
-//    private List<Trainer> trainers;
-//    @OneToMany(mappedBy = "gym")
-//    private List<SubscriptionPlan> subscriptionPlans;
     private String status;
+    private String avatarImgPath;
+    private String about;
 }
