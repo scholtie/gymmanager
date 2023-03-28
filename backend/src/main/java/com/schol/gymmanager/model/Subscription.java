@@ -33,5 +33,5 @@ public class Subscription extends RepresentationModel<Subscription> {
     private LocalDateTime currentPeriodEnd;
     private boolean cancelAtPeriodEnd;
     private LocalDateTime canceledAt;
-    private int defaultPaymentMethod;
+    private PaymentMethod defaultPaymentMethod;
 }

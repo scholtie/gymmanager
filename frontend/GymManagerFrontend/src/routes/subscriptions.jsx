@@ -1,5 +1,6 @@
 import {Link, Outlet} from "react-router-dom";
 import {useLoaderData} from "react-router-dom";
+import Moment from 'moment';
 
 export async function loader() {
     const results = await fetch('http://localhost:8081/subscriptions/findByGym/1')
@@ -10,6 +11,7 @@ export async function loader() {
 }
 
 export default function Subscriptions() {
+    Moment.locale('en');
     const data = useLoaderData();
     return (
         <>
@@ -29,8 +31,8 @@ export default function Subscriptions() {
                                 </Link>
                                 <p>Current Period Start: {sub.currentPeriodStart}</p>
                                 <p>Current Period End: {sub.currentPeriodEnd}</p>
-                                <p>Cancel at the end of the period: {sub.cancelAtPeriodEnd}</p>
-                                <p>Ongoing: {sub.ongoing}</p>
+                                <p>Cancel at the end of the period: {String(sub.cancelAtPeriodEnd)}</p>
+                                <p>Ongoing: {String(sub.ongoing)}</p>
                                 <p>Payment Method: {sub.defaultPaymentMethod}</p>
                                 {/*<p>{this.address.map((address) => {address})}</p>*/}
                                 {/*<p>*/}

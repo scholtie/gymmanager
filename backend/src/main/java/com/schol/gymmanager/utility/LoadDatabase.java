@@ -37,7 +37,7 @@ class LoadDatabase {
             SubscriptionPlan subscriptionPlan2 = subscriptionPlanRepository.save(SubscriptionPlan.builder().name("Monthly").price(BigDecimal.valueOf(3000)).durationInDays(30L).description("Students 30 days subscription").gym(gym).id(2L).build());
             SubscriptionPlan subscriptionPlan3 = subscriptionPlanRepository.save(SubscriptionPlan.builder().name("Monthly").price(BigDecimal.valueOf(4000)).durationInDays(30L).description("Standard 30 days subscription").gym(gym2).id(3L).build());
             SubscriptionPlan subscriptionPlan4 = subscriptionPlanRepository.save(SubscriptionPlan.builder().name("Monthly").price(BigDecimal.valueOf(3000)).durationInDays(30L).description("Students 30 days subscription").gym(gym2).id(4L).build());
-            Subscription subscription = subscriptionRepository.save(Subscription.builder().id(1L).subscriptionPlan(subscriptionPlan).customer(customer).currentPeriodStart(LocalDateTime.parse("2023-01-13T15:12:12.939766")).currentPeriodEnd(LocalDateTime.parse("2023-02-13T16:42:12.94202")).ongoing(true).cancelAtPeriodEnd(true).defaultPaymentMethod(1).build());
+            Subscription subscription = subscriptionRepository.save(Subscription.builder().id(1L).subscriptionPlan(subscriptionPlan).customer(customer).currentPeriodStart(LocalDateTime.parse("2023-01-13T15:12:12.939766")).currentPeriodEnd(LocalDateTime.parse("2023-02-13T16:42:12.94202")).ongoing(true).cancelAtPeriodEnd(true).defaultPaymentMethod(PaymentMethod.CASH).build());
         };
     }
 

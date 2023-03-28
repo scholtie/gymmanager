@@ -54,6 +54,7 @@ public class SubscriptionService {
         subscription.setCurrentPeriodStart(startDate);
         subscription.setCurrentPeriodEnd(startDate.plusDays(subscriptionPlan.getDurationInDays()));
         subscription.setSubscriptionPlan(subscriptionPlan);
+        subscription.setDefaultPaymentMethod(subscriptionDto.getPaymentMethod());
         return create(subscription);
     }
 
