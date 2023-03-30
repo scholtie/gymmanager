@@ -20,6 +20,9 @@ public class SessionOption extends RepresentationModel<SessionOption> {
     @Id
     @Column(name = "id", nullable = false)
     private Long id;
+    @ManyToOne
+    @JoinColumn(name = "trainer_id")
+    private Trainer trainer;
     private String name;
     private BigDecimal price;
     private Integer maxPeople;

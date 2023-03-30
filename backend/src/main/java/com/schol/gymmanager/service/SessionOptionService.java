@@ -4,6 +4,7 @@ import com.schol.gymmanager.exception.EmailExistsException;
 import com.schol.gymmanager.exception.EntityNotFoundException;
 import com.schol.gymmanager.model.Customer;
 import com.schol.gymmanager.model.DTOs.CustomerDto;
+import com.schol.gymmanager.model.DTOs.SessionOptionDto;
 import com.schol.gymmanager.model.Session;
 import com.schol.gymmanager.model.SessionOption;
 import com.schol.gymmanager.repository.CustomerRepository;
@@ -25,6 +26,9 @@ public class SessionOptionService {
     @Autowired
     private SessionOptionRepository sessionOptionRepository;
 
+    @Autowired
+    private TrainerService trainerService;
+
     public SessionOption findById(long id){
         return sessionOptionRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("SessionOption", id));
     }
@@ -33,12 +37,13 @@ public class SessionOptionService {
         return sessionOptionRepository.findAll();
     }
 
-    public SessionOption create(SessionOption sessionOption){
+    public SessionOption create(SessionOptionDto sessionOptionDto){
         SessionOption sessionOptionToSave = new SessionOption();
-        sessionOptionToSave.setName(sessionOption.getName());
-        sessionOptionToSave.setPrice(sessionOption.getPrice());
-        sessionOptionToSave.setMaxPeople(sessionOption.getMaxPeople());
-        sessionOptionToSave.setLengthMinutes(sessionOption.getLengthMinutes());
+        sessionOptionToSave.setName(sessionOptionDto.getName());
+        sessionOptionToSave.setPrice(sessionOptionDto.getPrice());
+        sessionOptionToSave.setMaxPeople(sessionOptionDto.getMaxPeople());
+        sessionOptionToSave.setLengthMinutes(sessionOptionDto.getLengthMinutes());
+        sessionOptionToSave.setTrainer(trainerService.findById(sessionOptionDto.getTrainerId()));
         return sessionOptionRepository.save(sessionOptionToSave);
     }
 

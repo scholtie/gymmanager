@@ -20,6 +20,7 @@ import RegisterGym, {action as registerGymAction} from "./routes/registerGym.jsx
 import Subscribe, {action as subscribeAction, loader as subscribeLoader} from "./routes/subscribe.jsx";
 import CreateSessionOption, {action as createSessionOptionAction} from "./routes/createSessionOption.jsx";
 import Subscriptions, {loader as subscriptionsLoader} from "./routes/subscriptions.jsx";
+import Success from "./routes/success.jsx";
 
 const router = createBrowserRouter([
     {
@@ -92,6 +93,11 @@ const router = createBrowserRouter([
                 path: "/subscriptions",
                 element: <Subscriptions />,
                 loader: subscriptionsLoader,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/success",
+                element: <Success />,
                 errorElement: <ErrorPage />
             }
         ],

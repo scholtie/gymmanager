@@ -9,16 +9,16 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SubscriptionDto {
-    private Long customerId;
-    private Long subscriptionPlanId;
-    private LocalDate startDate;
-    private PaymentMethod paymentMethod;
+public class SessionOptionDto {
+    private Long trainerId;
+    private String name;
+    private BigDecimal price;
+    private Integer maxPeople;
+    private Long lengthMinutes;
 }

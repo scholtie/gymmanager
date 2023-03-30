@@ -29,8 +29,8 @@ public class Subscription extends RepresentationModel<Subscription> {
     private SubscriptionPlan subscriptionPlan;
     //ongoing should always be calculated from period start and end
     private boolean ongoing;
-    private LocalDateTime currentPeriodStart;
-    private LocalDateTime currentPeriodEnd;
+    private LocalDate currentPeriodStart;
+    private LocalDate currentPeriodEnd;
     private boolean cancelAtPeriodEnd;
     private LocalDateTime canceledAt;
     private PaymentMethod defaultPaymentMethod;

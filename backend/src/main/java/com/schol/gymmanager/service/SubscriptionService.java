@@ -48,7 +48,7 @@ public class SubscriptionService {
         Subscription subscription = new Subscription();
         SubscriptionPlan subscriptionPlan = subscriptionPlanService.findById(subscriptionDto.getSubscriptionPlanId());
         //Gym gym = gymService.findById(subscriptionPlan.getGym().getId());
-        LocalDateTime startDate = subscriptionDto.getStartDate();
+        LocalDate startDate = subscriptionDto.getStartDate();
         subscription.setCustomer(customerService.findById(subscriptionDto.getCustomerId()));
         subscription.setOngoing(true);
         subscription.setCurrentPeriodStart(startDate);
