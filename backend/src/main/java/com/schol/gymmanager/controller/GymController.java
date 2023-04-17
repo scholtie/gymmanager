@@ -55,6 +55,11 @@ public class GymController {
         return gymService.setBusinessHours(businessHoursDto);
     }
 
+    @GetMapping("/businessHours/{id}")
+    public List<BusinessHours> findBusinessHoursForGym(@PathVariable long id){
+        return gymService.findBusinessHoursForGym(id);
+    }
+
     private void addLinks(Gym gym) {
         gym.add(linkTo(methodOn(GymController.class).findById(gym.getId())).withSelfRel());
     }

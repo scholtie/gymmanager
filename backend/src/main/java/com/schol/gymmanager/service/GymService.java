@@ -78,4 +78,8 @@ public class GymService {
         businessHours.setModifyDate(LocalDate.now());
         return businessHoursRepository.save(businessHours);
     }
+
+    public List<BusinessHours> findBusinessHoursForGym(long id){
+        return businessHoursRepository.findAllByGymId(id);
+    }
 }
