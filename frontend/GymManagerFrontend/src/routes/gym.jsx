@@ -1,4 +1,5 @@
 import {Link, useLoaderData} from "react-router-dom";
+import { Map, Marker } from "pigeon-maps"
 
 
 export async function loader({ params }) {
@@ -27,7 +28,6 @@ export default function Gym() {
                     src={gym.avatarImgPath || null}
                 />
             </div>
-
             <div>
                 <h1>
                     {gym.name ? (
@@ -39,7 +39,9 @@ export default function Gym() {
                     )}{" "}
                 </h1>
                 <h2>{gym.address.city}</h2>
-                <p>{gym.address.zipcode}</p>
+                <Map height={300} defaultCenter={[gym.address.geo.lat, gym.address.geo.lng]} defaultZoom={11}>
+                    <Marker width={50} anchor={[gym.address.geo.lat, gym.address.geo.lng]} />
+                </Map>
                 <p>{gym.address.street}</p>
                 <p>{gym.address.suite}</p>
                 <p>{gym.about}</p>

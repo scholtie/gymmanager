@@ -1,5 +1,7 @@
 package com.schol.gymmanager.controller;
 
+import com.schol.gymmanager.model.BusinessHours;
+import com.schol.gymmanager.model.DTOs.BusinessHoursDto;
 import com.schol.gymmanager.model.DTOs.GymDto;
 import com.schol.gymmanager.model.DTOs.SessionDto;
 import com.schol.gymmanager.model.Gym;
@@ -46,6 +48,11 @@ public class GymController {
         Gym gym = gymService.create(gymDTO);
         addLinks(gym);
         return gym;
+    }
+
+    @PostMapping("/setBusinessHours/")
+    public BusinessHours setBusinessHours(@RequestBody BusinessHoursDto businessHoursDto){
+        return gymService.setBusinessHours(businessHoursDto);
     }
 
     private void addLinks(Gym gym) {

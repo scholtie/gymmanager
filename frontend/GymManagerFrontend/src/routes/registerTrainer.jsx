@@ -15,6 +15,7 @@ import 'filepond/dist/filepond.min.css'
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
+import {Select} from "@mui/material";
 
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview)
@@ -81,22 +82,22 @@ export default function TrainerRegistrationForm() {
                 />
             </p>
             <p>
-                <select name="gender" id="gender" defaultValue='MALE'>
+                <Select name="gender" id="gender" defaultValue='MALE'>
                     <option value="MALE">Male</option>
                     <option value="FEMALE">Female</option>
                     <option value="OTHER">Other</option>
-                </select>
+                </Select>
             </p>
             <p>
-                <select name="status" id="status" defaultValue='available'>
+                <Select name="status" id="status" defaultValue='available'>
                     <option value="available">Available</option>
                     <option value="unavailable">Unavailable</option>
-                </select>
+                </Select>
             </p>
             <p>
-                <select name="gymId" id="gymId" defaultValue='1'>
+                <Select name="gymId" id="gymId" defaultValue='1'>
                     <option value="1">1</option>
-                </select>
+                </Select>
             </p>
             <p>
             {/*<FilePond*/}

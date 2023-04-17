@@ -34,14 +34,14 @@ export default function RegisterGym() {
                     aria-label="lat"
                     type="text"
                     name="lat"
-                    value = "23.2352"
+                    value = "47.4840537609864"
                 />
                 <input
                     placeholder="Lng"
                     aria-label="lng"
                     type="text"
                     name="lng"
-                    value = "63.2352"
+                    value = "18.972526984546764"
                 />
             </p>
             <input

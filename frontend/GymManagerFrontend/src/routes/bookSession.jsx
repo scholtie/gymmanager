@@ -48,7 +48,7 @@ export default function BookSession() {
                 <Select label="Trainer" name="trainerId" id="trainerId"
                         defaultValue={state ? state.data.trainer.id : 1}>
                     {data[1]?.map((trainer) => (
-                        <MenuItem value={trainer.id}>{trainer.firstName}{trainer.lastName}</MenuItem>))}
+                        <MenuItem value={trainer.id}>{trainer.firstName} {trainer.lastName}</MenuItem>))}
                 </Select>
             </p>
             <label>
