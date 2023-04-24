@@ -34,7 +34,6 @@ public class TrainerService {
         }
         Instant instant = Instant.now();
         Trainer trainerToSave = new Trainer();
-        trainerToSave.setUserName(trainerDTO.getUserName());
         trainerToSave.setLastName(trainerDTO.getLastName());
         trainerToSave.setFirstName(trainerDTO.getFirstName());
         trainerToSave.setEmail(trainerDTO.getEmail());
@@ -55,7 +54,6 @@ public class TrainerService {
     public Trainer update(Trainer newTrainer, Long id) {
         return trainerRepository.findById(id)
                 .map(user -> {
-                    user.setUserName(newTrainer.getUserName());
                     user.setEmail(newTrainer.getEmail());
                     return trainerRepository.save(user);
                 })

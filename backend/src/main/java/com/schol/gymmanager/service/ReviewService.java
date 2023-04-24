@@ -38,10 +38,23 @@ public class ReviewService {
         return reviewRepository.findAllByCustomerId(id);
     }
 
+    public Long getAverageReviewByGymId(long id) {
+        return reviewRepository.getAverageRatingGym(id);
+    }
+
+    public Long getAverageReviewByTrainerId(long id) {
+        return reviewRepository.getAverageRatingTrainer(id);
+    }
+
+
     public Review create(ReviewDto reviewDto){
         Review review = new Review();
-        review.setGym(gymService.findById(reviewDto.getGymId()));
-        review.setTrainer(trainerService.findById(reviewDto.getTrainerId()));
+        if (reviewDto.getGymId() != null) {
+            review.setGym(gymService.findById(reviewDto.getGymId()));
+        }
+        if (reviewDto.getTrainerId() != null) {
+            review.setTrainer(trainerService.findById(reviewDto.getTrainerId()));
+        }
         review.setCustomer(customerService.findById(reviewDto.getCustomerId()));
         review.setComment(reviewDto.getComment());
         review.setRating(reviewDto.getRating());

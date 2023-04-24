@@ -36,11 +36,11 @@ public class Trainer extends RepresentationModel<Trainer> {
     private String passwordHash;
     @Column(unique=true, nullable = false)
     @NotEmpty
-    private String userName;
     private String timeZone;
     private Timestamp createTime;
     private String firstName;
     private String lastName;
+    @Enumerated(EnumType.STRING)
     private Gender gender;
     private String status;
     private String imgPath;

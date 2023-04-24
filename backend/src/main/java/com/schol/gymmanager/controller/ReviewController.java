@@ -35,4 +35,13 @@ public class ReviewController {
     public Review create(@RequestBody ReviewDto reviewDto) {
         return reviewService.create(reviewDto);
     }
+    @GetMapping("/gym/{id}/average")
+    public Long getAverageRatingForGym(@PathVariable long id){
+        return reviewService.getAverageReviewByGymId(id);
+    }
+
+    @GetMapping("/trainer/{id}/average")
+    public long getAverageRatingForTrainer(@PathVariable long id){
+        return reviewService.getAverageReviewByTrainerId(id);
+    }
 }

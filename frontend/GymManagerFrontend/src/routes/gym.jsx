@@ -4,22 +4,36 @@ import { Map, Marker } from "pigeon-maps"
 
 export async function loader({ params }) {
     let gym;
+    let average;
+    let [reviews] = []
     let [subscriptionPlans] = [];
     const gymId = params.gymId;
     await fetch('http://localhost:8081/gyms/' + gymId).then((res) => res.json())
         .then((data) => {
             gym = data;
         });
+    await fetch('http://localhost:8081/review/gym/' + gymId).then((res) => res.json())
+        .then((data) => {
+            console.log(data)
+            reviews = data;
+        });
     await fetch('http://localhost:8081/subscriptionplans/findByGym/' + gymId).then((res) => res.json())
         .then((data) => {
             subscriptionPlans = data;
         });
-    return [gym, subscriptionPlans];
+    await fetch('http://localhost:8081/review/gym/' + gymId + '/average').then((res) => res.json())
+        .then((data) => {
+            average = data;
+        });
+    return [gym, subscriptionPlans, reviews, average];
 }
 export default function Gym() {
     const data = useLoaderData();
     const gym = data[0];
      const [subscriptionPlans] = [data[1]];
+     const [reviews] = [data[2]];
+     const averageRating = data[3];
+     console.log(reviews)
     return (
         <div id="gym">
             <div>
@@ -61,6 +75,16 @@ export default function Gym() {
                         ))}
 
                 </p>
+            </div>
+            <div>
+                Average rating : {averageRating}
+                {reviews.map((review) => (
+                        <dl>
+                            <dt>{review.rating}</dt>
+                            <dd>{review.comment}</dd>
+                            <dd>{review.customer.firstName}</dd>
+                        </dl>
+                ))}
             </div>
         </div>
     );

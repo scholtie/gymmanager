@@ -58,7 +58,6 @@ public class CustomerService {
     public Customer update(Customer newUser,Long id) {
         return customerRepository.findById(id)
                 .map(user -> {
-                    user.setUserName(newUser.getUserName());
                     user.setEmail(newUser.getEmail());
                     return customerRepository.save(user);
                 })
