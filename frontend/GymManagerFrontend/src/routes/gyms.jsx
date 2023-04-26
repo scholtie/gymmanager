@@ -2,10 +2,12 @@ import {Link, Outlet} from "react-router-dom";
 import {useLoaderData} from "react-router-dom";
 
 export async function loader() {
-    const results = await fetch('http://localhost:8081/gyms/')
-
+    const headers = {'Content-Type':'application/json',
+        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Methods':'POST,PATCH,OPTIONS,GET',}
+    const results = await fetch('http://localhost:8081/gyms/',
+        { headers: { Authorization:localStorage.getItem('SavedToken') }})
     if (!results.ok) throw new Error('Something went wrong!');
-
     return await results.json();
 }
 

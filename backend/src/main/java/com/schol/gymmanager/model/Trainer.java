@@ -34,8 +34,6 @@ public class Trainer extends RepresentationModel<Trainer> {
     private String email;
     @NotNull
     private String passwordHash;
-    @Column(unique=true, nullable = false)
-    @NotEmpty
     private String timeZone;
     private Timestamp createTime;
     private String firstName;

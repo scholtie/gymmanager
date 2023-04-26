@@ -6,14 +6,11 @@ import com.schol.gymmanager.model.DTOs.SessionDto;
 import com.schol.gymmanager.model.Session;
 import com.schol.gymmanager.model.SessionOption;
 import com.schol.gymmanager.model.Trainer;
-import com.schol.gymmanager.repository.CustomerRepository;
 import com.schol.gymmanager.repository.SessionRepository;
-import com.schol.gymmanager.repository.TrainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SessionService {
@@ -30,14 +27,21 @@ public class SessionService {
         return sessionRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Session", id));
     }
 
-    public List<Session> findAll(){
-        return sessionRepository.findAll();
+    public List<Session> findAllForCustomer(){
+        Customer customer = new Customer();
+        if (customerService.getLoggedInCustomer().isPresent()){
+            customer = customerService.getLoggedInCustomer().get();
+        }
+        return sessionRepository.findAllByCustomerId(customer.getId());
     }
 
     public Session create(SessionDto sessionDto){
         Session session = new Session();
         session.setStart(sessionDto.getStart());
-        Customer customer = customerService.findById(sessionDto.getCustomerId());
+        Customer customer = new Customer();
+        if (customerService.getLoggedInCustomer().isPresent()) {
+            customer = (customerService.getLoggedInCustomer().get());
+        }
         Trainer trainer = trainerService.findById(sessionDto.getTrainerId());
         SessionOption option = sessionOptionService.findById(sessionDto.getOptionId());
         session.setCustomer(customer);

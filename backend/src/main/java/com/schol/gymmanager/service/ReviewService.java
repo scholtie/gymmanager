@@ -55,7 +55,9 @@ public class ReviewService {
         if (reviewDto.getTrainerId() != null) {
             review.setTrainer(trainerService.findById(reviewDto.getTrainerId()));
         }
-        review.setCustomer(customerService.findById(reviewDto.getCustomerId()));
+        if (customerService.getLoggedInCustomer().isPresent()) {
+            review.setCustomer(customerService.getLoggedInCustomer().get());
+        }
         review.setComment(reviewDto.getComment());
         review.setRating(reviewDto.getRating());
         return reviewRepository.save(review);

@@ -1,5 +1,7 @@
 import {Form, redirect} from "react-router-dom";
 import axios from "axios";
+import {MenuItem, Select} from "@mui/material";
+import React from "react";
 
 export async function action({ request }) {
     const config = {
@@ -10,7 +12,7 @@ export async function action({ request }) {
     const formData = await request.formData();
     const user = Object.fromEntries(formData);
     const userJson = JSON.stringify(user);
-    await axios.post('http://localhost:8081/customers/', userJson, config)
+    await axios.post('http://localhost:8081/auth/register', userJson, config)
             .then(response => console.log(response))
             .catch(err => console.log(err))
     return redirect(`/`);
@@ -42,19 +44,18 @@ export default function RegistrationForm() {
             </label>
             <p>
                 <input
-                    placeholder="Username"
-                    aria-label="Username"
-                    type="username"
-                    name="userName"
-                    />
-            </p>
-            <p>
-                <input
                     placeholder="Password"
                     aria-label="Password"
                     type="password"
                     name="password"
                 />
+            </p>
+            <p>
+                <Select label="Gender" name="gender" id="gender" defaultValue="MALE">
+                        <MenuItem value="MALE">Male</MenuItem>
+                        <MenuItem value="FEMALE">Female</MenuItem>
+                        <MenuItem value="OTHER">Other</MenuItem>
+                </Select>
             </p>
             <p>
                 <button type="submit">Register</button>

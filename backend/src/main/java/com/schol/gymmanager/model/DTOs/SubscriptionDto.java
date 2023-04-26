@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SubscriptionDto {
-    private Long customerId;
     private Long subscriptionPlanId;
     private LocalDate startDate;
     private PaymentMethod paymentMethod;

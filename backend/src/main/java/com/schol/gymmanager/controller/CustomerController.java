@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -17,9 +18,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class CustomerController {
     @Autowired
     private CustomerService customerService;
-
-    @GetMapping("/profile")
-    public Customer getLoggedInUserData(){ return customerService.getLoggedInUserData();}
 
     @GetMapping("/")
     public List<Customer> findAll() {
@@ -54,6 +52,11 @@ public class CustomerController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         customerService.delete(id);
+    }
+
+    @GetMapping("/profile")
+    public Optional<Customer> profile(){
+        return customerService.getLoggedInCustomer();
     }
 
     private void addLinks(Customer customer) {

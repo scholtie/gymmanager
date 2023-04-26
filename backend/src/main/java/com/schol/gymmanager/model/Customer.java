@@ -35,9 +35,6 @@ public class Customer extends RepresentationModel<Customer> implements UserDetai
     @NotNull(message = "password cannot be empty")
     @NotEmpty
     private String passwordHash;
-    @Column(unique = true, nullable = false)
-    @NotEmpty(message = "userName cannot be empty")
-    private String userName;
     private String timeZone;
     private Timestamp createTime;
     @NotNull(message = "firstName cannot be empty")
@@ -66,21 +63,21 @@ public class Customer extends RepresentationModel<Customer> implements UserDetai
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

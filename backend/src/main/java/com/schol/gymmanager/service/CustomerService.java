@@ -5,10 +5,13 @@ import com.schol.gymmanager.exception.EntityNotFoundException;
 import com.schol.gymmanager.model.Customer;
 import com.schol.gymmanager.model.DTOs.CustomerDto;
 import com.schol.gymmanager.model.DTOs.SubscriptionPlanDto;
+import com.schol.gymmanager.model.Gender;
 import com.schol.gymmanager.model.Subscription;
 import com.schol.gymmanager.model.SubscriptionPlan;
 import com.schol.gymmanager.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -23,10 +27,6 @@ public class CustomerService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private CustomerRepository customerRepository;
-
-    public Customer getLoggedInUserData(){
-        return null;
-    }
 
     public List<Customer> findAll() {
         return customerRepository.findAll();
@@ -38,7 +38,7 @@ public class CustomerService {
         }
         Instant instant = Instant.now();
         Customer customerToSave = new Customer();
-        customerToSave.setUserName(customerDTO.getUserName());
+        customerToSave.setGender(Gender.valueOf(customerDTO.getGender()));
         customerToSave.setLastName(customerDTO.getLastName());
         customerToSave.setFirstName(customerDTO.getFirstName());
         customerToSave.setEmail(customerDTO.getEmail());
@@ -65,6 +65,12 @@ public class CustomerService {
                     newUser.setId(id);
                     return customerRepository.save(newUser);
                 });
+    }
+
+    public Optional<Customer> getLoggedInCustomer(){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        return customerRepository.findByEmail(userDetails.getUsername());
     }
 
     public void delete(Long id) {

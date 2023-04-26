@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 public class ReviewDto {
     private Long trainerId;
     private Long gymId;
-    private Long customerId;
     private int rating;
     private String comment;
 }

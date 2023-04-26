@@ -24,6 +24,7 @@ import Success from "./routes/success.jsx";
 import Review from "./routes/review.jsx";
 import ReviewTrainer from "./routes/reviewTrainer.jsx";
 import ReviewGym, {action as reviewGymAction, loader as reviewGymLoader} from "./routes/reviewGym.jsx";
+import Login, {action as loginAction} from "./routes/login.jsx";
 
 const router = createBrowserRouter([
     {
@@ -118,6 +119,12 @@ const router = createBrowserRouter([
                 element: <ReviewGym />,
                 action: reviewGymAction,
                 loader: reviewGymLoader,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/login",
+                element: <Login />,
+                action: loginAction,
                 errorElement: <ErrorPage />
             }
         ],
