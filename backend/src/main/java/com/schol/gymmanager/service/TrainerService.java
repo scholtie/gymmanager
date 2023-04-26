@@ -2,9 +2,13 @@ package com.schol.gymmanager.service;
 
 import com.schol.gymmanager.exception.EmailExistsException;
 import com.schol.gymmanager.exception.EntityNotFoundException;
+import com.schol.gymmanager.model.Customer;
+import com.schol.gymmanager.model.DTOs.CustomerDto;
 import com.schol.gymmanager.model.DTOs.TrainerDto;
 import com.schol.gymmanager.model.Gender;
+import com.schol.gymmanager.model.Session;
 import com.schol.gymmanager.model.Trainer;
+import com.schol.gymmanager.repository.SessionRepository;
 import com.schol.gymmanager.repository.TrainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TrainerService {
@@ -21,6 +26,8 @@ public class TrainerService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private TrainerRepository trainerRepository;
+    @Autowired
+    private SessionRepository sessionRepository;
     @Autowired
     private GymService gymService;
 
@@ -71,4 +78,10 @@ public class TrainerService {
         return trainerRepository.existsUserAccountByEmail(email);
     }
 
+    public List<Customer> findCustomersOfTrainer(Long trainerId) {
+        return sessionRepository.findAll().stream()
+                .filter(session -> session.getTrainer().getId() == trainerId)
+                .map(Session::getCustomer)
+                .collect(Collectors.toList());
+    }
 }

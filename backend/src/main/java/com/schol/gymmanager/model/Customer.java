@@ -45,6 +45,9 @@ public class Customer extends RepresentationModel<Customer> implements UserDetai
     private Gender gender;
     @Enumerated(EnumType.STRING)
     private Role role;
+    @OneToMany(mappedBy = "customer")
+    private List<Token> tokens;
+    // private List<Goal> goals;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

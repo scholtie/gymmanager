@@ -2,6 +2,8 @@ package com.schol.gymmanager.controller;
 
 import com.schol.gymmanager.exception.EmailExistsException;
 import com.schol.gymmanager.exception.EntityNotFoundException;
+import com.schol.gymmanager.model.Customer;
+import com.schol.gymmanager.model.DTOs.CustomerDto;
 import com.schol.gymmanager.model.DTOs.TrainerDto;
 import com.schol.gymmanager.model.Trainer;
 import com.schol.gymmanager.repository.TrainerRepository;
@@ -52,6 +54,11 @@ public class TrainerController {
         Trainer trainer = trainerService.update(newTrainer, id);
         addLinks(trainer);
         return trainer;
+    }
+
+    @GetMapping("/{id}/customers")
+    public List<Customer> findCustomersOfTrainer(@PathVariable Long trainerId) {
+        return trainerService.findCustomersOfTrainer(trainerId);
     }
 
     @DeleteMapping("/{id}")
