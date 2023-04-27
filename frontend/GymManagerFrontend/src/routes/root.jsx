@@ -16,6 +16,8 @@ export default function Root() {
                     <Link to={`subscriptions`}>Subscriptions</Link>
                     <Link to={`review`}>Review</Link>
                     <Link to={`login`}>Login</Link>
+                    <Link to={`setBusinessHours`}>Set Business Hours</Link>
+                    <Link to={`profile`}>Profile</Link>
                 </nav>
             </div>
             <div id="detail">

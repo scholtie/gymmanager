@@ -5,10 +5,13 @@ import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import {Button, MenuItem, Select, TextField} from "@mui/material";
+import {format} from "date-fns";
 
+let startDate = new Date();
 export async function loader({state}) {
     console.log(state)
-    const results = await fetch('http://localhost:8081/subscriptionplans/findByGym/1')
+    const results = await fetch('http://localhost:8081/subscriptionplans/findByGym/1',
+        { headers: { Authorization:localStorage.getItem('SavedToken') }})
     //const results = await fetch('http://localhost:8081/gyms/')
 
     if (!results.ok) throw new Error('Something went wrong!');
@@ -18,14 +21,14 @@ export async function loader({state}) {
 export async function action({ request }) {
     const config = {
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization:localStorage.getItem('SavedToken')
         }
     }
-    console.log(request)
     const formData = await request.formData();
+    formData.append('startDate', format(startDate, "yyyy-MM-dd"));
     const subscribe = Object.fromEntries(formData);
     const subscribeJson = JSON.stringify(subscribe);
-    console.log(subscribeJson)
     await axios.post('http://localhost:8081/subscriptions/subscribe', subscribeJson, config)
         .then(response => console.log(response))
         .catch(err => console.log(err))
@@ -39,7 +42,8 @@ export default function Subscribe() {
         redirect('/')
     }
     useEffect(() => {
-        fetch('http://localhost:8081/subscriptionplans/findByGym/' + state.data.subPlan.gym.id)
+        fetch('http://localhost:8081/subscriptionplans/findByGym/' + state.data.subPlan.gym.id,
+            { headers: { Authorization:localStorage.getItem('SavedToken') }})
             .then(response => response.json())
             .then(data => setData(data))
             .catch(error => console.error(error));
@@ -47,7 +51,9 @@ export default function Subscribe() {
     const [selectedDate, setSelectedDate] = useState(null);
     const handleDateChange = (date) => {
         setSelectedDate(date);
+        startDate = date;
     };
+    const today = new Date();
     return (
         <Form method="post" id="subscribe-form">
             <label>
@@ -68,6 +74,7 @@ export default function Subscribe() {
             <p>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
+                        minDate={today}
                         id="startDate"
                         name="startDate"
                         label="Select the start date"

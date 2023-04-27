@@ -68,7 +68,8 @@ public class CustomerService {
     }
 
     public Optional<Customer> getLoggedInCustomer(){
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
                 .getPrincipal();
         return customerRepository.findByEmail(userDetails.getUsername());
     }

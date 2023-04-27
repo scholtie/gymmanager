@@ -25,6 +25,8 @@ import Review from "./routes/review.jsx";
 import ReviewTrainer from "./routes/reviewTrainer.jsx";
 import ReviewGym, {action as reviewGymAction, loader as reviewGymLoader} from "./routes/reviewGym.jsx";
 import Login, {action as loginAction} from "./routes/login.jsx";
+import SetBusinessHours, {action as businessHoursAction, loader as businessHoursLoader} from "./routes/setBusinessHours.jsx";
+import Profile, {loader as profileLoader} from "./routes/profile.jsx";
 
 const router = createBrowserRouter([
     {
@@ -125,6 +127,19 @@ const router = createBrowserRouter([
                 path: "/login",
                 element: <Login />,
                 action: loginAction,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/setBusinessHours",
+                element: <SetBusinessHours />,
+                loader: businessHoursLoader,
+                action: businessHoursAction,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/profile",
+                element: <Profile />,
+                loader: profileLoader,
                 errorElement: <ErrorPage />
             }
         ],

@@ -24,6 +24,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -69,14 +70,29 @@ public class GymService {
         return gymRepository.save(gym);
     }
 
-    public BusinessHours setBusinessHours(BusinessHoursDto businessHoursDTO){
-        BusinessHours businessHours = new BusinessHours();
-        businessHours.setGym(findById(businessHoursDTO.getGymId()));
-        businessHours.setDay(businessHoursDTO.getDay());
-        businessHours.setCloseTime(businessHoursDTO.getCloseTime());
-        businessHours.setOpenTime(businessHoursDTO.getOpenTime());
-        businessHours.setModifyDate(LocalDate.now());
-        return businessHoursRepository.save(businessHours);
+    public List<BusinessHours> setBusinessHours(BusinessHoursDto businessHoursDTO){
+        List<BusinessHours> businessHours = new ArrayList<>();
+//        if (businessHoursDTO.isSameEveryDay()) {
+//            for (int i = 1; i < 8; i++) {
+//                BusinessHours businessHour = BusinessHours.builder()
+//                        .gym(findById(businessHoursDTO.getGymId()))
+//                        .day(i)
+//                        .closeTime(businessHoursDTO.getCloseTime())
+//                        .modifyDate(LocalDate.now())
+//                        .openTime(businessHoursDTO.getOpenTime()).build();
+//                businessHours.add(businessHour);
+//                businessHoursRepository.save(businessHour);
+//            }
+//        }
+            BusinessHours businessHour = BusinessHours.builder()
+                    .gym(findById(businessHoursDTO.getGymId()))
+                    .day(businessHoursDTO.getDay())
+                    .closeTime(businessHoursDTO.getCloseTime())
+                    .modifyDate(LocalDate.now())
+                    .openTime(businessHoursDTO.getOpenTime()).build();
+            businessHours.add(businessHour);
+            businessHoursRepository.save(businessHour);
+        return businessHours;
     }
 
     public List<BusinessHours> findBusinessHoursForGym(long id){

@@ -1,5 +1,6 @@
 package com.schol.gymmanager.model.DTOs;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.schol.gymmanager.model.PaymentMethod;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class SubscriptionDto {
     private Long subscriptionPlanId;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
     private PaymentMethod paymentMethod;
 }

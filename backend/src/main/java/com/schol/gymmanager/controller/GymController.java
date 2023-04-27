@@ -46,7 +46,7 @@ public class GymController {
     }
 
     @PostMapping("/setBusinessHours/")
-    public BusinessHours setBusinessHours(@RequestBody BusinessHoursDto businessHoursDto){
+    public List<BusinessHours> setBusinessHours(@RequestBody BusinessHoursDto businessHoursDto){
         return gymService.setBusinessHours(businessHoursDto);
     }
 

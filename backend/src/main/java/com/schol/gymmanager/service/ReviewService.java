@@ -38,11 +38,11 @@ public class ReviewService {
         return reviewRepository.findAllByCustomerId(id);
     }
 
-    public Long getAverageReviewByGymId(long id) {
+    public Long getAverageReviewByGymId(Long id) {
         return reviewRepository.getAverageRatingGym(id);
     }
 
-    public Long getAverageReviewByTrainerId(long id) {
+    public Long getAverageReviewByTrainerId(Long id) {
         return reviewRepository.getAverageRatingTrainer(id);
     }
 

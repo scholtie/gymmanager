@@ -13,13 +13,12 @@ export async function action({ request }) {
     await axios.post('http://localhost:8081/auth/login', userJson, config)
         .then(response => {
             console.log(response)
-            let token = response.data.token;
+            let token = response.data.access_token;
             localStorage.setItem("SavedToken", 'Bearer ' + token);
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
         })
         .catch(err => console.log(err))
-
-    return redirect(`/`);
+        return redirect(`/`);
 }
 
 export default function Login() {

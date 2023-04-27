@@ -4,15 +4,19 @@ import React, {useEffect, useState} from "react";
 import {MenuItem, Select, TextField} from "@mui/material";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import {DatePicker, DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import { format } from 'date-fns';
 
+let startDate = new Date();
 export async function loader() {
     let options;
     let trainers;
-    await fetch('http://localhost:8081/sessionoptions/').then((res) => res.json())
+    await fetch('http://localhost:8081/sessionoptions/',
+        { headers: { Authorization:localStorage.getItem('SavedToken') }}).then((res) => res.json())
         .then((data) => {
             options = data;
         });
-    await fetch('http://localhost:8081/trainers/').then((res) => res.json())
+    await fetch('http://localhost:8081/trainers/',
+        { headers: { Authorization:localStorage.getItem('SavedToken') }}).then((res) => res.json())
         .then((data) => {
             trainers = data;
         });
@@ -22,10 +26,12 @@ export async function loader() {
 export async function action({ request }) {
     const config = {
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization:localStorage.getItem('SavedToken')
         }
     }
     const formData = await request.formData();
+    formData.append('start', format(startDate, "yyyy-MM-dd HH:mm"));
     const session = Object.fromEntries(formData);
     const sessionJson = JSON.stringify(session);
     await axios.post('http://localhost:8081/sessions/', sessionJson, config)
@@ -36,12 +42,13 @@ export async function action({ request }) {
 
 export default function BookSession() {
     const data = useLoaderData();
-    console.log(data)
     let { state } = useLocation();
     const [selectedDate, setSelectedDate] = useState(null);
     const handleDateChange = (date) => {
         setSelectedDate(date);
+        startDate = date;
     };
+    const today = new Date();
     return (
         <Form method="post" id="book-session-form">
             <p>
@@ -65,6 +72,7 @@ export default function BookSession() {
             <p>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DateTimePicker
+                        minDateTime={today}
                         id="start"
                         name="start"
                         label="Select the date and time of the session"
@@ -76,6 +84,5 @@ export default function BookSession() {
             <p>
                 <button type="submit">Book Session</button>
             </p>
-        </Form>
-    );
+        </Form>);
 }

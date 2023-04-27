@@ -3,7 +3,8 @@ import {useLoaderData} from "react-router-dom";
 import Moment from 'moment';
 
 export async function loader() {
-    const results = await fetch('http://localhost:8081/subscriptions/findByGym/1')
+    const results = await fetch('http://localhost:8081/subscriptions/findByGym/1',
+        { headers: { Authorization:localStorage.getItem('SavedToken') }})
 
     if (!results.ok) throw new Error('Something went wrong!');
 

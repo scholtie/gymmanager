@@ -2,7 +2,8 @@ import {Link, Outlet} from "react-router-dom";
 import {useLoaderData} from "react-router-dom";
 
 export async function loader() {
-    const results = await fetch('http://localhost:8081/trainers/')
+    const results = await fetch('http://localhost:8081/trainers/',
+        { headers: { Authorization:localStorage.getItem('SavedToken') }})
 
     if (!results.ok) throw new Error('Something went wrong!');
 

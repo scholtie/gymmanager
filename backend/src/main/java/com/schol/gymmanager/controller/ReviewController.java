@@ -36,7 +36,7 @@ public class ReviewController {
         return reviewService.create(reviewDto);
     }
     @GetMapping("/gym/{id}/average")
-    public Long getAverageRatingForGym(@PathVariable long id){
+    public Long getAverageRatingForGym(@PathVariable Long id){
         return reviewService.getAverageReviewByGymId(id);
     }
 

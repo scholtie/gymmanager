@@ -8,23 +8,31 @@ export async function loader({ params }) {
     let [reviews] = []
     let [subscriptionPlans] = [];
     const gymId = params.gymId;
-    await fetch('http://localhost:8081/gyms/' + gymId).then((res) => res.json())
+    const config = {
+        headers: {
+            Authorization:localStorage.getItem('SavedToken')
+        }
+    }
+    await fetch('http://localhost:8081/gyms/' + gymId, config)
+        .then((res) => res.json())
         .then((data) => {
             gym = data;
         });
-    await fetch('http://localhost:8081/review/gym/' + gymId).then((res) => res.json())
+    await fetch('http://localhost:8081/review/gym/' + gymId, config)
+        .then((res) => res.json())
         .then((data) => {
-            console.log(data)
             reviews = data;
         });
-    await fetch('http://localhost:8081/subscriptionplans/findByGym/' + gymId).then((res) => res.json())
+    await fetch('http://localhost:8081/subscriptionplans/findByGym/' + gymId, config)
+        .then((res) => res.json())
         .then((data) => {
             subscriptionPlans = data;
         });
-    await fetch('http://localhost:8081/review/gym/' + gymId + '/average').then((res) => res.json())
-        .then((data) => {
-            average = data;
-        });
+    // await fetch('http://localhost:8081/review/gym/' + gymId + '/average', config)
+    //     .then((res) => res.json())
+    //     .then((data) => {
+    //         average = data;
+    //     });
     return [gym, subscriptionPlans, reviews, average];
 }
 export default function Gym() {
@@ -33,7 +41,7 @@ export default function Gym() {
      const [subscriptionPlans] = [data[1]];
      const [reviews] = [data[2]];
      const averageRating = data[3];
-     console.log(reviews)
+     console.log(gym, subscriptionPlans, averageRating, reviews)
     return (
         <div id="gym">
             <div>

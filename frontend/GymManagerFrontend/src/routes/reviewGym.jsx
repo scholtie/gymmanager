@@ -4,7 +4,8 @@ import axios from "axios";
 import {Button, MenuItem, Rating, Select, Typography} from "@mui/material";
 
 export async function loader() {
-    const results = await fetch('http://localhost:8081/gyms/')
+    const results = await fetch('http://localhost:8081/gyms/',
+        { headers: { Authorization:localStorage.getItem('SavedToken') }})
 
     if (!results.ok) throw new Error('Something went wrong!');
 
@@ -14,7 +15,8 @@ export async function loader() {
 export async function action({ request }) {
     const config = {
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization:localStorage.getItem('SavedToken')
         }
     }
     const formData = await request.formData();
