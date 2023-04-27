@@ -5,12 +5,10 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import "./index.css";
-import Root from "./routes/root";
+import Root, {loader as rootLoader} from "./routes/root";
 import ErrorPage from "./error-page.jsx";
 import Contact, {loader as contactLoader} from "./routes/contact.jsx";
 import EditContact, {action as editAction,} from "./routes/edit.jsx";
-import CallApi from "./routes/callApi.jsx";
-import RegistrationForm, {action as registerAction} from "./routes/register.jsx";
 import TrainerRegistrationForm, {action as registerTrainerAction} from "./routes/registerTrainer.jsx";
 import Trainers, {loader as trainersLoader} from "./routes/trainers.jsx";
 import BookSession, {action as bookSessionAction, loader as bookSessionLoader}  from "./routes/bookSession.jsx";
@@ -24,29 +22,35 @@ import Success from "./routes/success.jsx";
 import Review from "./routes/review.jsx";
 import ReviewTrainer from "./routes/reviewTrainer.jsx";
 import ReviewGym, {action as reviewGymAction, loader as reviewGymLoader} from "./routes/reviewGym.jsx";
-import Login, {action as loginAction} from "./routes/login.jsx";
+import Login, {action as loginAction, loader as loginLoader} from "./routes/login.jsx";
 import SetBusinessHours, {action as businessHoursAction, loader as businessHoursLoader} from "./routes/setBusinessHours.jsx";
 import Profile, {loader as profileLoader} from "./routes/profile.jsx";
+import CustomerRegistrationForm, {action as registerCustomerAction} from "./routes/registerCustomer.jsx";
+import RegistrationForm, {action as registerAction, loader as registerLoader} from "./routes/register.jsx";
+import Logout, {loader as logoutLoader} from "./routes/logout.jsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <Root />,
+        loader: rootLoader,
         errorElement: <ErrorPage />,
         children: [
-            {
-                path: "/callapi",
-                element: <CallApi />,
-                errorElement: <ErrorPage />,
-            },
             {
                 path: "/register",
                 element: <RegistrationForm />,
                 action: registerAction,
+                loader: registerLoader,
                 errorElement: <ErrorPage />,
             },
             {
-                path: "/registerTrainer",
+                path: "/register/customer",
+                element: <CustomerRegistrationForm />,
+                action: registerCustomerAction,
+                errorElement: <ErrorPage />,
+            },
+            {
+                path: "/register/trainer",
                 element: <TrainerRegistrationForm />,
                 action: registerTrainerAction,
                 errorElement: <ErrorPage />,
@@ -58,7 +62,7 @@ const router = createBrowserRouter([
                 errorElement: <ErrorPage />,
             },
             {
-                path: "/booksession",
+                path: "/book-session",
                 element: <BookSession />,
                 errorElement: <ErrorPage />,
                 action: bookSessionAction,
@@ -77,7 +81,7 @@ const router = createBrowserRouter([
                 errorElement: <ErrorPage />
             },
             {
-                path: "/registerGym",
+                path: "/register/gym",
                 element: <RegisterGym />,
                 action: registerGymAction,
                 errorElement: <ErrorPage />
@@ -127,6 +131,7 @@ const router = createBrowserRouter([
                 path: "/login",
                 element: <Login />,
                 action: loginAction,
+                loader: loginLoader,
                 errorElement: <ErrorPage />
             },
             {
@@ -140,6 +145,12 @@ const router = createBrowserRouter([
                 path: "/profile",
                 element: <Profile />,
                 loader: profileLoader,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/logout",
+                element: <Logout />,
+                loader: logoutLoader,
                 errorElement: <ErrorPage />
             }
         ],

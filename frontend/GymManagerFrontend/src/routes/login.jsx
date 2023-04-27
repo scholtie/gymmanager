@@ -20,6 +20,13 @@ export async function action({ request }) {
         .catch(err => console.log(err))
         return redirect(`/`);
 }
+export async function loader() {
+    // if (!!localStorage.getItem("SavedToken")){
+    //     return redirect('/');
+    // }
+    // else{return null;}
+    return null;
+}
 
 export default function Login() {
     return (

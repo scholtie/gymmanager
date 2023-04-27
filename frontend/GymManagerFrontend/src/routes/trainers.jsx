@@ -34,7 +34,7 @@ export default function Trainers() {
                                     </Link>
                                     <p>{trainer.introduction}</p>
                                     <p>{trainer.rating ? (trainer.rating) : <i>{trainer.firstName} {trainer.lastName} has no reviews yet.</i>}</p>
-                                    <Link to="/booksession" state={{ data: {trainer} }} >
+                                    <Link to="/book-session" state={{ data: {trainer} }} >
                                         Book Session
                                     </Link>
                                 </li>

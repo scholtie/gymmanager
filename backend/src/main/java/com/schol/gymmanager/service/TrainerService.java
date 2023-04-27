@@ -30,22 +30,20 @@ public class TrainerService {
     private SessionRepository sessionRepository;
     @Autowired
     private GymService gymService;
+    @Autowired
+    private AuthService authService;
 
     public List<Trainer> findAll() {
         return trainerRepository.findAll();
     }
 
     public Trainer create(TrainerDto trainerDTO) throws EmailExistsException {
-        if (emailExist(trainerDTO.getEmail())) {
-            throw new EmailExistsException(trainerDTO.getEmail());
-        }
-        Instant instant = Instant.now();
         Trainer trainerToSave = new Trainer();
         trainerToSave.setLastName(trainerDTO.getLastName());
         trainerToSave.setFirstName(trainerDTO.getFirstName());
-        trainerToSave.setEmail(trainerDTO.getEmail());
-        trainerToSave.setPasswordHash(passwordEncoder.encode(trainerDTO.getPassword()));
-        trainerToSave.setCreateTime(Timestamp.from(instant));
+        if (authService.getLoggedInUser().isPresent()){
+            trainerToSave.setBaseUser(authService.getLoggedInUser().get());
+        }
         trainerToSave.setGym(gymService.findById(trainerDTO.getGymId()));
         trainerToSave.setGender(Gender.valueOf(trainerDTO.getGender()));
         trainerToSave.setIntroduction(trainerDTO.getIntroduction());
@@ -61,7 +59,7 @@ public class TrainerService {
     public Trainer update(Trainer newTrainer, Long id) {
         return trainerRepository.findById(id)
                 .map(user -> {
-                    user.setEmail(newTrainer.getEmail());
+                    //user.setEmail(newTrainer.getEmail());
                     return trainerRepository.save(user);
                 })
                 .orElseGet(() -> {
@@ -72,10 +70,6 @@ public class TrainerService {
 
     public void delete(Long id) {
         trainerRepository.deleteById(id);
-    }
-
-    public Boolean emailExist(String email){
-        return trainerRepository.existsUserAccountByEmail(email);
     }
 
     public List<Customer> findCustomersOfTrainer(Long trainerId) {

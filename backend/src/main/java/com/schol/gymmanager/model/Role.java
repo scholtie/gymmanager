@@ -1,6 +1,8 @@
 package com.schol.gymmanager.model;
 
 public enum Role {
-    USER,
+    CUSTOMER,
+    TRAINER,
+    GYM,
     ADMIN
 }

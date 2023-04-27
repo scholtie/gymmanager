@@ -66,10 +66,6 @@ public class TrainerController {
         trainerService.delete(id);
     }
 
-    public Boolean emailExist(String email){
-        return trainerService.emailExist(email);
-    }
-
     private void addLinks(Trainer trainer) {
         if ( trainer != null) {
             trainer.add(linkTo(methodOn(TrainerController.class).findById(trainer.getId())).withSelfRel());

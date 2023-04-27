@@ -24,21 +24,14 @@ public class Trainer extends RepresentationModel<Trainer> {
     @Id
     @Column(name = "id", nullable = false)
     private long id;
+    @OneToOne
+    @JoinColumn(name = "base_user_id")
+    private BaseUser baseUser;
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="gym_id")
     private Gym gym;
-    @Column(unique=true, nullable = false)
-    @NotEmpty
-    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
-            flags = Pattern.Flag.CASE_INSENSITIVE)
-    private String email;
-    @NotNull
-    private String passwordHash;
-    private String timeZone;
-    private Timestamp createTime;
     private String firstName;
     private String lastName;
-    @Enumerated(EnumType.STRING)
     private Gender gender;
     private String status;
     private String imgPath;

@@ -9,8 +9,8 @@ import java.util.Optional;
 
 public interface TokenRepository extends JpaRepository<Token, Long> {
     @Query(value = """
-      select t from Token t inner join Customer u\s
-      on t.customer.id = u.id\s
+      select t from Token t inner join BaseUser u\s
+      on t.baseUser.id = u.id\s
       where u.id = :id and (t.expired = false or t.revoked = false)\s
       """)
     List<Token> findAllValidTokenByUser(Long id);

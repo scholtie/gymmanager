@@ -1,10 +1,8 @@
 package com.schol.gymmanager.controller;
 
-import com.schol.gymmanager.model.AuthRequest;
-import com.schol.gymmanager.model.AuthResponse;
-import com.schol.gymmanager.model.Customer;
+import com.schol.gymmanager.model.*;
+import com.schol.gymmanager.model.DTOs.BaseUserDto;
 import com.schol.gymmanager.model.DTOs.CustomerDto;
-import com.schol.gymmanager.model.RegisterRequest;
 import com.schol.gymmanager.service.AuthService;
 import com.schol.gymmanager.service.LogoutService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -26,7 +25,7 @@ public class AuthController {
     private final LogoutService logoutService;
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(
-            @RequestBody CustomerDto request
+            @RequestBody BaseUserDto request
     ){
         return ResponseEntity.ok(service.register(request));
     }
@@ -51,5 +50,10 @@ public class AuthController {
                        HttpServletResponse response,
                        Authentication authentication){
         logoutService.logout(request, response, authentication);
+    }
+
+    @GetMapping("/loggedInUser")
+    public Optional<BaseUser> getLoggedInUser(){
+        return service.getLoggedInUser();
     }
 }

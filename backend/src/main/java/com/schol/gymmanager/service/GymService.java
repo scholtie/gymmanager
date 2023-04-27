@@ -40,6 +40,8 @@ public class GymService {
 
     @Autowired
     private BusinessHoursRepository businessHoursRepository;
+    @Autowired
+    private AuthService authService;
 
     public List<Gym> findAll() {
         return gymRepository.findAll();
@@ -53,6 +55,9 @@ public class GymService {
         Gym gym = new Gym();
         Address address = new Address();
         Geo geo = new Geo();
+        if (authService.getLoggedInUser().isPresent()){
+            gym.setBaseUser(authService.getLoggedInUser().get());
+        }
         gym.setAbout(gymDto.getAbout());
         gym.setName(gymDto.getName());
         gym.setStatus(gymDto.getStatus());

@@ -18,6 +18,9 @@ public class Gym extends RepresentationModel<Gym> {
     @Id
     @Column(name = "id", nullable = false)
     private long id;
+    @OneToOne
+    @JoinColumn(name = "base_user_id")
+    private BaseUser baseUser;
     private String name;
     @OneToOne
     @JoinColumn(name = "address_id")

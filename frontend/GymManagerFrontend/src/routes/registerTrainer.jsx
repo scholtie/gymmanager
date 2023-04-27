@@ -55,32 +55,6 @@ export default function TrainerRegistrationForm() {
                     name="lastName"
                 />
             </p>
-            <label>
-                <input
-                    placeholder="Email"
-                    value="test1@gmail.com"
-                    type="email"
-                    name="email"
-                />
-            </label>
-            <p>
-                <input
-                    placeholder="Username"
-                    value="test1UserName"
-                    aria-label="Username"
-                    type="username"
-                    name="userName"
-                />
-            </p>
-            <p>
-                <input
-                    placeholder="Password"
-                    value="testPassword1"
-                    aria-label="Password"
-                    type="password"
-                    name="password"
-                />
-            </p>
             <p>
                 <Select name="gender" id="gender" defaultValue='MALE'>
                     <option value="MALE">Male</option>

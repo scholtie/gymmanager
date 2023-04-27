@@ -19,7 +19,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GymDto {
-    private long id;
     private String name;
     private String street;
     private String suite;

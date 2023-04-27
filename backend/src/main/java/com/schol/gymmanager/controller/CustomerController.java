@@ -22,30 +22,30 @@ public class CustomerController {
     @GetMapping("/")
     public List<Customer> findAll() {
         List<Customer> customers = customerService.findAll();
-        for (Customer customer : customers) {
-            addLinks(customer);
-        }
+//        for (Customer customer : customers) {
+//            //addLinks(customer);
+//        }
         return customers;
     }
 
     @PostMapping("/")
     public Customer create(@RequestBody CustomerDto customerDTO) throws EmailExistsException {
         Customer customer = customerService.create(customerDTO);
-        addLinks(customer);
+        //addLinks(customer);
         return customer;
     }
 
     @GetMapping("/{id}")
     public Customer findById(@PathVariable Long id) {
         Customer customer = customerService.findById(id);
-        addLinks(customer);
+        //addLinks(customer);
         return customer;
     }
 
     @PutMapping("/{id}")
     public Customer update(@RequestBody Customer newUser, @PathVariable Long id) {
         Customer customer = customerService.update(newUser, id);
-        addLinks(customer);
+        //addLinks(customer);
         return customer;
     }
 
@@ -59,7 +59,7 @@ public class CustomerController {
         return customerService.getLoggedInCustomer();
     }
 
-    private void addLinks(Customer customer) {
-        customer.add(linkTo(methodOn(CustomerController.class).findById(customer.getId())).withSelfRel());
-    }
+//    private void addLinks(Customer customer) {
+//        customer.add(linkTo(methodOn(CustomerController.class).findById(customer.getId())).withSelfRel());
+//    }
 }

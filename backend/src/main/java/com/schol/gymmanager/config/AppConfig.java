@@ -1,5 +1,6 @@
 package com.schol.gymmanager.config;
 
+import com.schol.gymmanager.repository.BaseUserRepository;
 import com.schol.gymmanager.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @RequiredArgsConstructor
 public class AppConfig {
-    private final CustomerRepository repository;
+    private final BaseUserRepository repository;
 
     @Bean
     public UserDetailsService userDetailsService(){
