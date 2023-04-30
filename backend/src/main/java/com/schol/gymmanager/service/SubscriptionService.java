@@ -13,67 +13,81 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SubscriptionService {
-    @Autowired
-    private SubscriptionRepository subscriptionRepository;
-    @Autowired
-    private CustomerService customerService;
-    @Autowired
-    private SubscriptionPlanService subscriptionPlanService;
-    @Autowired
-    private GymService gymService;
-    @Autowired
-    private AuthService authService;
+    private final SubscriptionRepository subscriptionRepository;
+    private final CustomerService customerService;
+    private final SubscriptionPlanService subscriptionPlanService;
+    private final GymService gymService;
+    private final AuthService authService;
 
-    public Subscription findById(long id){
-        return subscriptionRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Subscription", id));
+    @Autowired
+    public SubscriptionService(SubscriptionRepository subscriptionRepository,
+                               CustomerService customerService,
+                               SubscriptionPlanService subscriptionPlanService,
+                               GymService gymService,
+                               AuthService authService) {
+        this.subscriptionRepository = subscriptionRepository;
+        this.customerService = customerService;
+        this.subscriptionPlanService = subscriptionPlanService;
+        this.gymService = gymService;
+        this.authService = authService;
     }
 
-    public List<Subscription> findAll(){
+    public Subscription findById(long id) {
+        return subscriptionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Subscription", id));
+    }
+
+    public List<Subscription> findAll() {
         return subscriptionRepository.findAll();
     }
 
     public List<Subscription> findAllOngoingByLoggedInUser() {
-        if (authService.getLoggedInUser().isPresent()) {
-            Role role = authService.getLoggedInUser().get().getRole();
-            if (role == Role.CUSTOMER)  {
-                Customer customer = customerService.findByBaseUser(authService.getLoggedInUser().get());
+        Optional<BaseUser> loggedInUser = authService.getLoggedInUser();
+        if (loggedInUser.isPresent()) {
+            Role role = loggedInUser.get().getRole();
+            if (role == Role.CUSTOMER) {
+                Customer customer = customerService.findByBaseUser(loggedInUser.get());
                 return subscriptionRepository.findAllByCustomerId(customer.getId());
             } else if (role == Role.GYM) {
-                Gym gym = gymService.findByBaseUser(authService.getLoggedInUser().get());
+                Gym gym = gymService.findByBaseUser(loggedInUser.get());
                 return subscriptionRepository.findAllByGymId(gym.getId());
-            }
-            else{throw new InsufficientRoleException(role);
+            } else {
+                throw new InsufficientRoleException(role);
             }
         }
-        else {return new ArrayList<>();}
+        return new ArrayList<>();
     }
-
 
     public Subscription create(Subscription subscription) {
-            return subscriptionRepository.save(subscription);
+        return subscriptionRepository.save(subscription);
     }
 
-    public Subscription create(SubscriptionDto subscriptionDto){
-        if (findAllOngoingByLoggedInUser().isEmpty()) {
+    public Subscription create(SubscriptionDto subscriptionDto) {
+        List<Subscription> ongoingSubscriptions = findAllOngoingByLoggedInUser();
+        if (ongoingSubscriptions.isEmpty()) {
             Subscription subscription = new Subscription();
             SubscriptionPlan subscriptionPlan = subscriptionPlanService.findById(subscriptionDto.getSubscriptionPlanId());
             LocalDate startDate = subscriptionDto.getStartDate();
-            if (customerService.getLoggedInCustomer().isPresent()) {
-                subscription.setCustomer(customerService.getLoggedInCustomer().get());
+
+            Optional<Customer> loggedInCustomer = customerService.getLoggedInCustomer();
+            if (loggedInCustomer.isPresent()) {
+                subscription.setCustomer(loggedInCustomer.get());
             } else {
                 throw new InsufficientRoleException();
             }
+
             subscription.setOngoing(true);
             subscription.setCurrentPeriodStart(startDate);
             subscription.setCurrentPeriodEnd(startDate.plusDays(subscriptionPlan.getDurationInDays()));
             subscription.setSubscriptionPlan(subscriptionPlan);
             subscription.setDefaultPaymentMethod(subscriptionDto.getPaymentMethod());
             return create(subscription);
-        }
-        else{throw new SubscriptionException();
+        } else {
+            throw new SubscriptionException();
         }
     }
 

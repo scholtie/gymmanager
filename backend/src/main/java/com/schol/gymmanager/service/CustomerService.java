@@ -16,30 +16,26 @@ import java.util.Optional;
 
 @Service
 public class CustomerService {
+    private final CustomerRepository customerRepository;
+    private final AuthService authService;
+    private final BaseUserRepository baseUserRepository;
     @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private CustomerRepository customerRepository;
-    @Autowired
-    private AuthService authService;
-    @Autowired
-    private BaseUserRepository baseUserRepository;
+    public CustomerService(CustomerRepository customerRepository, AuthService authService, BaseUserRepository baseUserRepository) {
+        this.customerRepository = customerRepository;
+        this.authService = authService;
+        this.baseUserRepository = baseUserRepository;
+    }
 
     public List<Customer> findAll() {
         return customerRepository.findAll();
     }
 
-    public Customer create(CustomerDto customerDTO) throws EmailExistsException {
+    public Customer create(CustomerDto customerDto) throws EmailExistsException {
         Customer customerToSave = new Customer();
-        customerToSave.setGender(Gender.valueOf(customerDTO.getGender()));
-        customerToSave.setLastName(customerDTO.getLastName());
-        customerToSave.setFirstName(customerDTO.getFirstName());
-        if (authService.getLoggedInUser().isPresent()){
-            customerToSave.setBaseUser(authService.getLoggedInUser().get());
-        }
-////        if (trainerRepository.findById(customerDTO.getTrainerId()).isPresent()) {
-//            customerToSave.setTrainer(trainerRepository.findById(customerDTO.getTrainerId()).get());
-//        }
+        customerToSave.setGender(Gender.valueOf(customerDto.getGender()));
+        customerToSave.setLastName(customerDto.getLastName());
+        customerToSave.setFirstName(customerDto.getFirstName());
+        authService.getLoggedInUser().ifPresent(customerToSave::setBaseUser);
         return customerRepository.save(customerToSave);
     }
 
@@ -50,21 +46,19 @@ public class CustomerService {
 
     public Customer update(Customer newUser,Long id) {
         return customerRepository.findById(id)
-                .map(user -> {
-                    //user.setEmail(newUser.getEmail());
-                    return customerRepository.save(user);
-                })
+                .map(customerRepository::save)
                 .orElseGet(() -> {
                     newUser.setId(id);
                     return customerRepository.save(newUser);
                 });
     }
 
-    public Optional<Customer> getLoggedInCustomer(){
-        return customerRepository.findByBaseUser(getLoggedInBaseUser().get());
+    public Optional<Customer> getLoggedInCustomer() {
+        return authService.getLoggedInUser()
+                .flatMap(customerRepository::findByBaseUser);
     }
 
-    public Optional<BaseUser> getLoggedInBaseUser(){
+    public Optional<BaseUser> getLoggedInBaseUser() {
         return authService.getLoggedInUser();
     }
 
@@ -73,6 +67,7 @@ public class CustomerService {
     }
 
     public Customer findByBaseUser(BaseUser baseUser) {
-        return customerRepository.findByBaseUser(baseUser).get();
+        return customerRepository.findByBaseUser(baseUser)
+                .orElseThrow(() -> new EntityNotFoundException("Customer with BaseUser", baseUser.getId()));
     }
 }

@@ -2,8 +2,11 @@ package com.schol.gymmanager.service;
 
 import com.schol.gymmanager.exception.EmailExistsException;
 import com.schol.gymmanager.exception.EntityNotFoundException;
-import com.schol.gymmanager.model.*;
+import com.schol.gymmanager.model.BaseUser;
+import com.schol.gymmanager.model.Customer;
 import com.schol.gymmanager.model.DTOs.TrainerDto;
+import com.schol.gymmanager.model.Session;
+import com.schol.gymmanager.model.Trainer;
 import com.schol.gymmanager.model.enums.Gender;
 import com.schol.gymmanager.repository.SessionRepository;
 import com.schol.gymmanager.repository.TrainerRepository;
@@ -16,16 +19,22 @@ import java.util.stream.Collectors;
 
 @Service
 public class TrainerService {
+
+    private final PasswordEncoder passwordEncoder;
+    private final TrainerRepository trainerRepository;
+    private final SessionRepository sessionRepository;
+    private final GymService gymService;
+    private final AuthService authService;
+
     @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private TrainerRepository trainerRepository;
-    @Autowired
-    private SessionRepository sessionRepository;
-    @Autowired
-    private GymService gymService;
-    @Autowired
-    private AuthService authService;
+    public TrainerService(PasswordEncoder passwordEncoder, TrainerRepository trainerRepository,
+                          SessionRepository sessionRepository, GymService gymService, AuthService authService) {
+        this.passwordEncoder = passwordEncoder;
+        this.trainerRepository = trainerRepository;
+        this.sessionRepository = sessionRepository;
+        this.gymService = gymService;
+        this.authService = authService;
+    }
 
     public List<Trainer> findAll() {
         return trainerRepository.findAll();
@@ -35,7 +44,7 @@ public class TrainerService {
         Trainer trainerToSave = new Trainer();
         trainerToSave.setLastName(trainerDTO.getLastName());
         trainerToSave.setFirstName(trainerDTO.getFirstName());
-        if (authService.getLoggedInUser().isPresent()){
+        if (authService.getLoggedInUser().isPresent()) {
             trainerToSave.setBaseUser(authService.getLoggedInUser().get());
         }
         trainerToSave.setGym(gymService.findById(trainerDTO.getGymId()));
@@ -56,9 +65,9 @@ public class TrainerService {
 
     public Trainer update(Trainer newTrainer, Long id) {
         return trainerRepository.findById(id)
-                .map(user -> {
-                    //user.setEmail(newTrainer.getEmail());
-                    return trainerRepository.save(user);
+                .map(trainer -> {
+                    // trainer.setEmail(newTrainer.getEmail());
+                    return trainerRepository.save(trainer);
                 })
                 .orElseGet(() -> {
                     newTrainer.setId(id);
@@ -77,3 +86,4 @@ public class TrainerService {
                 .collect(Collectors.toList());
     }
 }
+

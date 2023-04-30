@@ -27,6 +27,4 @@ public class SessionOption extends RepresentationModel<SessionOption> {
     private BigDecimal price;
     private Integer maxPeople;
     private Long lengthMinutes;
-//    @OneToMany(mappedBy = "option")
-//    private List<Session> sessions;
 }

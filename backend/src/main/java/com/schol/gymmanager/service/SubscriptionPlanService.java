@@ -14,12 +14,18 @@ import java.util.List;
 
 @Service
 public class SubscriptionPlanService {
+    private final SubscriptionPlanRepository subscriptionPlanRepository;
+    private final GymService gymService;
+    private final AuthService authService;
+
     @Autowired
-    private SubscriptionPlanRepository subscriptionPlanRepository;
-    @Autowired
-    private GymService gymService;
-    @Autowired
-    private AuthService authService;
+    public SubscriptionPlanService(SubscriptionPlanRepository subscriptionPlanRepository,
+                                   GymService gymService,
+                                   AuthService authService) {
+        this.subscriptionPlanRepository = subscriptionPlanRepository;
+        this.gymService = gymService;
+        this.authService = authService;
+    }
 
     public SubscriptionPlan create(SubscriptionPlanDto subscriptionPlanDto) {
         Gym gym = null;
@@ -46,7 +52,7 @@ public class SubscriptionPlanService {
     }
 
     public SubscriptionPlan findById(long id) {
-        return subscriptionPlanRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("SubscriptionPlan", id));
+        return subscriptionPlanRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("SubscriptionPlan", id));
     }
 
     public List<SubscriptionPlan> findAllByGymId(long id) {
@@ -56,5 +62,4 @@ public class SubscriptionPlanService {
     public void delete(long id) {
         subscriptionPlanRepository.deleteById(id);
     }
-
 }

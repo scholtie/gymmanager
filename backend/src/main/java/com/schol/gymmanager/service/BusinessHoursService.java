@@ -1,6 +1,7 @@
 package com.schol.gymmanager.service;
 
 import com.schol.gymmanager.exception.InsufficientRoleException;
+import com.schol.gymmanager.model.BaseUser;
 import com.schol.gymmanager.model.BusinessHours;
 import com.schol.gymmanager.model.DTOs.BusinessHoursDto;
 import com.schol.gymmanager.model.Gym;
@@ -11,36 +12,42 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BusinessHoursService {
-    @Autowired
-    private BusinessHoursRepository businessHoursRepository;
-    @Autowired
-    private GymService gymService;
-    @Autowired
-    private TrainerService trainerService;
-    @Autowired
-    private AuthService authService;
+    private final BusinessHoursRepository businessHoursRepository;
+    private final GymService gymService;
+    private final TrainerService trainerService;
+    private final AuthService authService;
 
-    public List<BusinessHours> setBusinessHours(List<BusinessHoursDto> businessHoursDtoList){
+    @Autowired
+    public BusinessHoursService(BusinessHoursRepository businessHoursRepository,
+                                GymService gymService,
+                                TrainerService trainerService,
+                                AuthService authService) {
+        this.businessHoursRepository = businessHoursRepository;
+        this.gymService = gymService;
+        this.trainerService = trainerService;
+        this.authService = authService;
+    }
+
+    public List<BusinessHours> setBusinessHours(List<BusinessHoursDto> businessHoursDtoList) {
         List<BusinessHours> businessHoursList = new ArrayList<>();
         for (BusinessHoursDto businessHoursDTO : businessHoursDtoList) {
-            Gym gym = new Gym();
-            Trainer trainer = new Trainer();
-            if (authService.getLoggedInUser().isPresent()) {
-                Role role = authService.getLoggedInUser().get().getRole();
-                if (role == Role.GYM)  {
+            Optional<Role> loggedInUserRole = authService.getLoggedInUser().map(BaseUser::getRole);
+            Gym gym = null;
+            Trainer trainer = null;
+            if (loggedInUserRole.isPresent()) {
+                Role role = loggedInUserRole.get();
+                if (role == Role.GYM) {
                     gym = gymService.findByBaseUser(authService.getLoggedInUser().get());
-                    trainer = null;
                 } else if (role == Role.TRAINER) {
                     trainer = trainerService.findByBaseUser(authService.getLoggedInUser().get());
-                    gym = null;
-                }
-                else{throw new InsufficientRoleException(role);
+                } else {
+                    throw new InsufficientRoleException(role);
                 }
             }
             BusinessHours businessHour = BusinessHours.builder()
@@ -49,22 +56,23 @@ public class BusinessHoursService {
                     .trainer(trainer)
                     .day(businessHoursDTO.getDay())
                     .closeTime(businessHoursDTO.getCloseTime())
-                    .openTime(businessHoursDTO.getOpenTime()).build();
-            businessHoursList.add(businessHour);
+                    .openTime(businessHoursDTO.getOpenTime())
+                    .build();
             businessHoursRepository.save(businessHour);
+            businessHoursList.add(businessHour);
         }
         return businessHoursList;
     }
 
-    public List<BusinessHours> findBusinessHoursForGym(long id){
-        return businessHoursRepository.findAllByGymId(id);
+    public List<BusinessHours> findBusinessHoursForGym(long gymId) {
+        return businessHoursRepository.findAllByGymId(gymId);
     }
 
-    public List<BusinessHours> findBusinessHoursForTrainer(long id){
-        return businessHoursRepository.findAllByTrainerId(id);
+    public List<BusinessHours> findBusinessHoursForTrainer(long trainerId) {
+        return businessHoursRepository.findAllByTrainerId(trainerId);
     }
 
-    public BusinessHours findBusinessHourForTrainerByDay(long trainerId, DayOfWeek day){
+    public BusinessHours findBusinessHourForTrainerByDay(long trainerId, DayOfWeek day) {
         return businessHoursRepository.findAllByTrainerIdAndDay(trainerId, day);
     }
 

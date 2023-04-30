@@ -17,7 +17,7 @@ public class RepetitionGoalController {
     
     @GetMapping("/{id}")
     public RepetitionGoal findById(@PathVariable Long id) {
-        return repetitionGoalService.findById(id);
+        return repetitionGoalService.getById(id);
     }
     
     @PostMapping("/")
@@ -27,7 +27,7 @@ public class RepetitionGoalController {
     
     @GetMapping("/customer/{customerId}")
     public List<RepetitionGoal> findByCustomerId(@PathVariable Long customerId) {
-        return repetitionGoalService.findByCustomerId(customerId);
+        return repetitionGoalService.getByCustomerId(customerId);
     }
 
     @GetMapping("/getForLoggedInCustomer")

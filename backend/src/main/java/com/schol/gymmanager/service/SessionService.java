@@ -12,63 +12,78 @@ import org.springframework.stereotype.Service;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class SessionService {
-    @Autowired
-    private SessionRepository sessionRepository;
-    @Autowired
-    private SessionOptionService sessionOptionService;
-    @Autowired
-    private CustomerService customerService;
-    @Autowired
-    private TrainerService trainerService;
-    @Autowired
-    private BusinessHoursService businessHoursService;
-    @Autowired
-    private AuthService authService;
+    private final SessionRepository sessionRepository;
+    private final SessionOptionService sessionOptionService;
+    private final CustomerService customerService;
+    private final TrainerService trainerService;
+    private final BusinessHoursService businessHoursService;
+    private final AuthService authService;
 
-    public Session findById(long id){
-        return sessionRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Session", id));
+    @Autowired
+    public SessionService(SessionRepository sessionRepository,
+                          SessionOptionService sessionOptionService,
+                          CustomerService customerService,
+                          TrainerService trainerService,
+                          BusinessHoursService businessHoursService,
+                          AuthService authService) {
+        this.sessionRepository = sessionRepository;
+        this.sessionOptionService = sessionOptionService;
+        this.customerService = customerService;
+        this.trainerService = trainerService;
+        this.businessHoursService = businessHoursService;
+        this.authService = authService;
     }
 
-    public List<Session> findAllSessionsForDateTrainer(long trainerId, LocalDate date){
-        List <Session> sessionsForDate = new ArrayList<>();
+    public Session findById(long id) {
+        return sessionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Session", id));
+    }
+
+    public List<Session> findAllSessionsForDateTrainer(long trainerId, LocalDate date) {
+        List<Session> sessionsForDate = new ArrayList<>();
         Trainer trainer = trainerService.findById(trainerId);
-        for (Session session : sessionRepository.findAllByTrainer(trainer)){
-            if (session.getStart().toLocalDate().equals(date)){
+        for (Session session : sessionRepository.findAllByTrainer(trainer)) {
+            if (session.getStart().toLocalDate().equals(date)) {
                 sessionsForDate.add(session);
             }
         }
         return sessionsForDate;
     }
 
-    public List<Session> findAllForLoggedInUser(){
-        if (authService.getLoggedInUser().isPresent()) {
-            Role role = authService.getLoggedInUser().get().getRole();
-            if (role == Role.CUSTOMER)  {
-                Customer customer = customerService.findByBaseUser(authService.getLoggedInUser().get());
+    public List<Session> findAllForLoggedInUser() {
+        Optional<BaseUser> optionalLoggedInUser = authService.getLoggedInUser();
+        if (optionalLoggedInUser.isPresent()) {
+            BaseUser loggedInUser = optionalLoggedInUser.get();
+            Role role = loggedInUser.getRole();
+            if (role == Role.CUSTOMER) {
+                Customer customer = customerService.findByBaseUser(loggedInUser);
                 return sessionRepository.findAllByCustomer(customer);
             } else if (role == Role.TRAINER) {
-                Trainer trainer = trainerService.findByBaseUser(authService.getLoggedInUser().get());
+                Trainer trainer = trainerService.findByBaseUser(loggedInUser);
                 return sessionRepository.findAllByTrainer(trainer);
+            } else {
+                throw new InsufficientRoleException(role);
             }
-            else{throw new InsufficientRoleException(role);
-            }
+        } else {
+            return null;
         }
-        else {return null;}
     }
 
-    public Session create(SessionDto sessionDto){
+    public Session create(SessionDto sessionDto) {
         Customer customer;
-        if (customerService.getLoggedInCustomer().isPresent()) {
-            customer = (customerService.getLoggedInCustomer().get());
+        Optional<Customer> optionalLoggedInCustomer = customerService.getLoggedInCustomer();
+        if (optionalLoggedInCustomer.isPresent()) {
+            customer = optionalLoggedInCustomer.get();
+        } else {
+            throw new InsufficientRoleException();
         }
-        else{throw new InsufficientRoleException();}
         Session session = new Session();
         session.setStart(sessionDto.getStart());
         Trainer trainer = trainerService.findById(sessionDto.getTrainerId());
@@ -80,7 +95,7 @@ public class SessionService {
         return sessionRepository.save(session);
     }
 
-    public List<LocalTime> getAvailableTimesForDate(LocalDate date, Long trainerId){
+    public List<LocalTime> getAvailableTimesForDate(LocalDate date, Long trainerId) {
         List<Session> sessionsForDate = findAllSessionsForDateTrainer(trainerId, date);
         List<LocalTime> availableTimes = new ArrayList<>();
         DayOfWeek day = date.getDayOfWeek();
@@ -89,18 +104,21 @@ public class SessionService {
         boolean isToday = date.equals(LocalDate.now());
         LocalTime currentTime = LocalTime.now();
         boolean isAvailable;
-        if (Objects.nonNull(businessHours.getOpenTime())) {
-            for (LocalTime time = businessHours.getOpenTime();
+        LocalTime openTime = businessHours.getOpenTime();
+        if (Objects.nonNull(openTime)) {
+            for (LocalTime time = openTime;
                  time.isBefore(businessHours.getCloseTime());
                  time = time.plusMinutes(30)) {
                 isAvailable = true;
                 if (!sessionsForDate.isEmpty()) {
                     for (Session session : sessionsForDate) {
-                        if (time.equals(session.getStart().toLocalTime()) || time.equals(session.getStart().toLocalTime().plusMinutes(30))) {
+                        if (time.equals(session.getStart().toLocalTime())
+                                || time.equals(session.getStart().toLocalTime().plusMinutes(30))) {
                             isAvailable = false;
                             break;
                         }
-                        if (time.isAfter(session.getStart().toLocalTime()) && time.plusMinutes(30).isBefore(session.getEnd().toLocalTime())) {
+                        if (time.isAfter(session.getStart().toLocalTime())
+                                && time.plusMinutes(30).isBefore(session.getEnd().toLocalTime())) {
                             isAvailable = false;
                             break;
                         }
@@ -121,7 +139,6 @@ public class SessionService {
     }
 
     public void delete(long id) {
-        //refund money?
         sessionRepository.deleteById(id);
     }
 }
