@@ -1,16 +1,14 @@
 package com.schol.gymmanager.model.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.schol.gymmanager.model.PaymentMethod;
+import com.schol.gymmanager.model.enums.PaymentMethod;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @Getter

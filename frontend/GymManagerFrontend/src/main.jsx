@@ -7,11 +7,9 @@ import {
 import "./index.css";
 import Root, {loader as rootLoader} from "./routes/root";
 import ErrorPage from "./error-page.jsx";
-import Contact, {loader as contactLoader} from "./routes/contact.jsx";
-import EditContact, {action as editAction,} from "./routes/edit.jsx";
 import TrainerRegistrationForm, {action as registerTrainerAction} from "./routes/registerTrainer.jsx";
 import Trainers, {loader as trainersLoader} from "./routes/trainers.jsx";
-import BookSession, {action as bookSessionAction, loader as bookSessionLoader}  from "./routes/bookSession.jsx";
+import BookSession, {loader as bookSessionLoader}  from "./routes/bookSession.jsx";
 import Gyms, {loader as gymsLoader} from "./routes/gyms.jsx";
 import Gym, {loader as gymLoader} from "./routes/gym.jsx";
 import RegisterGym, {action as registerGymAction} from "./routes/registerGym.jsx";
@@ -20,7 +18,7 @@ import CreateSessionOption, {action as createSessionOptionAction} from "./routes
 import Subscriptions, {loader as subscriptionsLoader} from "./routes/subscriptions.jsx";
 import Success from "./routes/success.jsx";
 import Review from "./routes/review.jsx";
-import ReviewTrainer from "./routes/reviewTrainer.jsx";
+import ReviewTrainer, {action as reviewTrainerAction, loader as reviewTrainerLoader} from "./routes/reviewTrainer.jsx";
 import ReviewGym, {action as reviewGymAction, loader as reviewGymLoader} from "./routes/reviewGym.jsx";
 import Login, {action as loginAction, loader as loginLoader} from "./routes/login.jsx";
 import SetBusinessHours, {action as businessHoursAction, loader as businessHoursLoader} from "./routes/setBusinessHours.jsx";
@@ -28,6 +26,12 @@ import Profile, {loader as profileLoader} from "./routes/profile.jsx";
 import CustomerRegistrationForm, {action as registerCustomerAction} from "./routes/registerCustomer.jsx";
 import RegistrationForm, {action as registerAction, loader as registerLoader} from "./routes/register.jsx";
 import Logout, {loader as logoutLoader} from "./routes/logout.jsx";
+import BookSessionByDate, {action as bookSessionByDateAction, loader as bookSessionByDateLoader} from "./routes/bookSessionByDate.jsx";
+import Sessions, {loader as sessionsLoader} from "./routes/sessions.jsx";
+import Progress, {loader as progressLoader} from "./routes/progress.jsx";
+import CreateNumericGoal, {action as numericGoalAction} from "./routes/createNumericGoal.jsx";
+import CreateRepetitionGoal, {action as repetitionGoalAction} from "./routes/createRepetitionGoal.jsx";
+import Trainer, {loader as trainerLoader} from "./routes/trainer.jsx";
 
 const router = createBrowserRouter([
     {
@@ -65,8 +69,14 @@ const router = createBrowserRouter([
                 path: "/book-session",
                 element: <BookSession />,
                 errorElement: <ErrorPage />,
-                action: bookSessionAction,
                 loader: bookSessionLoader,
+            },
+            {
+                path: "/book-session/:trainerId/:date",
+                element: <BookSessionByDate />,
+                errorElement: <ErrorPage />,
+                loader: bookSessionByDateLoader,
+                action: bookSessionByDateAction,
             },
             {
                 path: "/gyms",
@@ -118,6 +128,8 @@ const router = createBrowserRouter([
             {
                 path: "/review/trainer",
                 element: <ReviewTrainer />,
+                action: reviewTrainerAction,
+                loader: reviewTrainerLoader,
                 errorElement: <ErrorPage />
             },
             {
@@ -152,7 +164,37 @@ const router = createBrowserRouter([
                 element: <Logout />,
                 loader: logoutLoader,
                 errorElement: <ErrorPage />
-            }
+            },
+            {
+                path: "/sessions",
+                element: <Sessions />,
+                loader: sessionsLoader,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/progress",
+                element: <Progress />,
+                loader: progressLoader,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/progress/create-numeric-goal",
+                element: <CreateNumericGoal />,
+                action: numericGoalAction,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/progress/create-repetition-goal",
+                element: <CreateRepetitionGoal />,
+                action: repetitionGoalAction,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/trainer/:trainerId",
+                element: <Trainer />,
+                loader: trainerLoader,
+                errorElement: <ErrorPage />
+            },
         ],
     },
 

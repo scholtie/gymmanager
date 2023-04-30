@@ -1,6 +1,7 @@
 package com.schol.gymmanager.service;
 
 import com.schol.gymmanager.exception.EntityNotFoundException;
+import com.schol.gymmanager.exception.InsufficientRoleException;
 import com.schol.gymmanager.model.*;
 import com.schol.gymmanager.model.DTOs.GymDto;
 import com.schol.gymmanager.model.DTOs.ReviewDto;
@@ -58,6 +59,7 @@ public class ReviewService {
         if (customerService.getLoggedInCustomer().isPresent()) {
             review.setCustomer(customerService.getLoggedInCustomer().get());
         }
+        else{throw new InsufficientRoleException();}
         review.setComment(reviewDto.getComment());
         review.setRating(reviewDto.getRating());
         return reviewRepository.save(review);

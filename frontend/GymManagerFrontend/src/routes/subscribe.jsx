@@ -1,28 +1,25 @@
 import axios from "axios";
-import {Form, redirect, useLoaderData, useLocation} from "react-router-dom";
+import {Form, redirect, useLocation} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import {Button, MenuItem, Select, TextField} from "@mui/material";
 import {format} from "date-fns";
 
 let startDate = new Date();
-export async function loader({state}) {
-    console.log(state)
-    const results = await fetch('http://localhost:8081/subscriptionplans/findByGym/1',
-        { headers: { Authorization:localStorage.getItem('SavedToken') }})
-    //const results = await fetch('http://localhost:8081/gyms/')
 
+export async function loader({state}) {
+    const results = await fetch('http://localhost:8081/subscriptionplans/findByGym/1',
+        {headers: {Authorization: localStorage.getItem('SavedToken')}})
     if (!results.ok) throw new Error('Something went wrong!');
     return await results.json();
 }
 
-export async function action({ request }) {
+export async function action({request}) {
     const config = {
         headers: {
             'Content-Type': 'application/json',
-            Authorization:localStorage.getItem('SavedToken')
+            Authorization: localStorage.getItem('SavedToken')
         }
     }
     const formData = await request.formData();
@@ -38,38 +35,52 @@ export async function action({ request }) {
 export default function Subscribe() {
     let {state} = useLocation();
     const [data, setData] = useState(null);
-    if (state == null){
-        redirect('/')
+    if (state == null) {
+        return redirect('/');
     }
     useEffect(() => {
         fetch('http://localhost:8081/subscriptionplans/findByGym/' + state.data.subPlan.gym.id,
-            { headers: { Authorization:localStorage.getItem('SavedToken') }})
+            {headers: {Authorization: localStorage.getItem('SavedToken')}})
             .then(response => response.json())
             .then(data => setData(data))
             .catch(error => console.error(error));
     }, []);
     const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedOption, setSelectedOption] = useState(null);
     const handleDateChange = (date) => {
         setSelectedDate(date);
         startDate = date;
     };
+    const handleOptionChange = (event) => {
+        const optionId = parseInt(event.target.value);
+        const selectedOption = data.find((option) => option.id === optionId);
+        setSelectedOption(selectedOption);
+    };
     const today = new Date();
     return (
         <Form method="post" id="subscribe-form">
-            <label>
-                <Select label="Customer" name="customerId" id="customerId" value='1'>
-                    <MenuItem value={"1"}>customer1</MenuItem>
-                </Select>
-            </label>
             <p>
                 <h1>{state.data.subPlan.gym.name}</h1>
             </p>
             <p>
-                <Select label="Subscription Plan" name="subscriptionPlanId" id="subscriptionPlanId"
-                        defaultValue={state ? state.data.subPlan.id : 1}>
+                <Select
+                    label="Subscription Plan"
+                    name="subscriptionPlanId"
+                    id="subscriptionPlanId"
+                    defaultValue={state ? state.data.subPlan.id : 0}
+                    onChange={handleOptionChange}>
                     {data?.map((subscriptionPlan) => (
                         <MenuItem value={subscriptionPlan.id}>{subscriptionPlan.name}</MenuItem>))}
                 </Select>
+                <p>
+                    Price: {selectedOption?.price.toLocaleString("en-US", {style: "currency", currency: "HUF"})}
+                </p>
+                <p>
+                    Duration: {selectedOption?.durationInDays} days
+                </p>
+                <p>
+                    Description: {selectedOption?.description}
+                </p>
             </p>
             <p>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>

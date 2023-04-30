@@ -1,6 +1,7 @@
 package com.schol.gymmanager.controller;
 
 import com.schol.gymmanager.exception.EmailExistsException;
+import com.schol.gymmanager.model.BaseUser;
 import com.schol.gymmanager.model.Customer;
 import com.schol.gymmanager.model.DTOs.CustomerDto;
 import com.schol.gymmanager.service.CustomerService;
@@ -11,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "/customers")
@@ -57,6 +57,11 @@ public class CustomerController {
     @GetMapping("/profile")
     public Optional<Customer> profile(){
         return customerService.getLoggedInCustomer();
+    }
+
+    @GetMapping("/loggedInUser")
+    public Optional<BaseUser> getLoggedInBaseUser(){
+        return customerService.getLoggedInBaseUser();
     }
 
 //    private void addLinks(Customer customer) {

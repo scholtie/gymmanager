@@ -6,6 +6,7 @@ import com.schol.gymmanager.model.DTOs.GymDto;
 import com.schol.gymmanager.model.DTOs.SessionDto;
 import com.schol.gymmanager.model.Gym;
 import com.schol.gymmanager.model.Session;
+import com.schol.gymmanager.service.BusinessHoursService;
 import com.schol.gymmanager.service.GymService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,8 @@ public class GymController {
 
     @Autowired
     private GymService gymService;
+    @Autowired
+    private BusinessHoursService businessHoursService;
 
     @GetMapping("/")
     public List<Gym> findAll() {
@@ -46,13 +49,13 @@ public class GymController {
     }
 
     @PostMapping("/setBusinessHours/")
-    public List<BusinessHours> setBusinessHours(@RequestBody BusinessHoursDto businessHoursDto){
-        return gymService.setBusinessHours(businessHoursDto);
+    public List<BusinessHours> setBusinessHours(@RequestBody List<BusinessHoursDto> businessHoursDtoList){
+        return businessHoursService.setBusinessHours(businessHoursDtoList);
     }
 
     @GetMapping("/businessHours/{id}")
     public List<BusinessHours> findBusinessHoursForGym(@PathVariable long id){
-        return gymService.findBusinessHoursForGym(id);
+        return businessHoursService.findBusinessHoursForGym(id);
     }
 
     private void addLinks(Gym gym) {

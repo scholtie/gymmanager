@@ -1,8 +1,11 @@
 package com.schol.gymmanager.model;
 
+import com.schol.gymmanager.validation.TrainerOrGymNotNull;
 import lombok.*;
 
 import jakarta.persistence.*;
+
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -12,6 +15,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@TrainerOrGymNotNull
 @Table(name = "BusinessHours")
 public class BusinessHours {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +25,12 @@ public class BusinessHours {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gym_id")
     private Gym gym;
-    private int day;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "trainer_id")
+    private Trainer trainer;
+    private DayOfWeek day;
     private LocalTime openTime;
     private LocalTime closeTime;
     private LocalDate modifyDate;
+    private boolean available;
 }

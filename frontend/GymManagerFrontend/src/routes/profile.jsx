@@ -1,11 +1,8 @@
-import {Link, useLoaderData} from "react-router-dom";
-import {Map, Marker} from "pigeon-maps";
+import {useLoaderData} from "react-router-dom";
 
 export async function loader() {
-    console.log(localStorage.getItem('SavedToken'));
     const results = await fetch('http://localhost:8081/customers/profile',
-        { headers: { Authorization:localStorage.getItem('SavedToken') }})
-    console.log(results);
+        {headers: {Authorization: localStorage.getItem('SavedToken')}})
     if (!results.ok) throw new Error('Something went wrong!');
     return await results.json();
 }
@@ -18,7 +15,7 @@ export default function Profile() {
                 <h1>
                     {user.baseUser.email}
                 </h1>
-                <p></p>
+                <p>{user.baseUser.role}</p>
             </div>
         </div>
     );

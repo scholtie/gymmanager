@@ -1,5 +1,6 @@
 package com.schol.gymmanager.model;
 
+import com.schol.gymmanager.model.enums.TokenType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

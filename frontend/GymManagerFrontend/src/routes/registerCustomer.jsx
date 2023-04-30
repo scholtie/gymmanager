@@ -1,21 +1,21 @@
 import {Form, redirect} from "react-router-dom";
 import axios from "axios";
-import {MenuItem, Select} from "@mui/material";
+import {Button, MenuItem, Select} from "@mui/material";
 import React from "react";
 
-export async function action({ request }) {
+export async function action({request}) {
     const config = {
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: localStorage.getItem('SavedToken')
         }
     }
     const formData = await request.formData();
     const user = Object.fromEntries(formData);
     const userJson = JSON.stringify(user);
-    console.log(userJson);
     await axios.post('http://localhost:8081/customers/', userJson, config)
-            .then(response => console.log(response))
-            .catch(err => console.log(err))
+        .then(response => console.log(response))
+        .catch(err => console.log(err))
     return redirect(`/`);
 }
 
@@ -38,13 +38,13 @@ export default function CustomerRegistrationForm() {
             </p>
             <p>
                 <Select label="Gender" name="gender" id="gender" defaultValue="MALE">
-                        <MenuItem value="MALE">Male</MenuItem>
-                        <MenuItem value="FEMALE">Female</MenuItem>
-                        <MenuItem value="OTHER">Other</MenuItem>
+                    <MenuItem value="MALE">Male</MenuItem>
+                    <MenuItem value="FEMALE">Female</MenuItem>
+                    <MenuItem value="OTHER">Other</MenuItem>
                 </Select>
             </p>
             <p>
-                <button type="submit">Register</button>
+                <Button type="submit">Finalize Details</Button>
             </p>
         </Form>
     );

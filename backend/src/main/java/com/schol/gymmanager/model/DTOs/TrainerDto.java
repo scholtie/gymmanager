@@ -1,11 +1,7 @@
 package com.schol.gymmanager.model.DTOs;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.schol.gymmanager.model.Gender;
 import lombok.*;
 
-import javax.sql.rowset.serial.SerialBlob;
 import java.io.Serializable;
 
 @Data

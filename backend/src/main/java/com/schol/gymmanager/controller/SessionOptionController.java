@@ -27,6 +27,11 @@ public class SessionOptionController {
         return sessionOption;
     }
 
+    @GetMapping("/findByTrainer/{id}")
+    public List<SessionOption> findAllByTrainer(@PathVariable long id){
+        return sessionOptionService.findAllByTrainer(id);
+    }
+
     @GetMapping("/")
     public List<SessionOption> findAll(){
         List<SessionOption> sessionOptions = sessionOptionService.findAll();

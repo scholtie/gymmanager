@@ -1,8 +1,8 @@
 package com.schol.gymmanager.model.DTOs;
 
-import com.schol.gymmanager.model.Gym;
 import lombok.*;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -12,9 +12,9 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BusinessHoursDto {
-    private long gymId;
-    private int day;
+    private DayOfWeek day;
     private LocalTime openTime;
     private LocalTime closeTime;
     private LocalDate modifyDate;
+    private boolean available;
 }

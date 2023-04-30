@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -25,9 +27,9 @@ public class SessionController {
         return session;
     }
 
-    @GetMapping("/")
-    public List<Session> findAll() {
-        List<Session> sessions = sessionService.findAllForCustomer();
+    @GetMapping("/findAllByLoggedInUser")
+    public List<Session> findAllSessionsByLoggedInUser(){
+        List<Session> sessions = sessionService.findAllForLoggedInUser();
         for (Session session : sessions) {
             addLinks(session);
         }
@@ -41,6 +43,11 @@ public class SessionController {
         return session;
     }
 
+    @GetMapping("/availableTimes/{id}/{date}")
+    public List<LocalTime> getAvailableTimesForDate(@PathVariable Long id,
+                                                    @PathVariable LocalDate date){
+        return sessionService.getAvailableTimesForDate(date, id);
+    }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable long id) {
         //refund money?

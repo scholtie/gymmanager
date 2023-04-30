@@ -4,18 +4,13 @@ import com.schol.gymmanager.exception.EmailExistsException;
 import com.schol.gymmanager.exception.EntityNotFoundException;
 import com.schol.gymmanager.model.*;
 import com.schol.gymmanager.model.DTOs.CustomerDto;
-import com.schol.gymmanager.model.DTOs.SubscriptionPlanDto;
+import com.schol.gymmanager.model.enums.Gender;
 import com.schol.gymmanager.repository.BaseUserRepository;
 import com.schol.gymmanager.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,11 +61,18 @@ public class CustomerService {
     }
 
     public Optional<Customer> getLoggedInCustomer(){
-        return customerRepository.findByBaseUser(authService.getLoggedInUser().get());
+        return customerRepository.findByBaseUser(getLoggedInBaseUser().get());
     }
 
-
+    public Optional<BaseUser> getLoggedInBaseUser(){
+        return authService.getLoggedInUser();
+    }
 
     public void delete(Long id) {
         customerRepository.deleteById(id);
-    }}
+    }
+
+    public Customer findByBaseUser(BaseUser baseUser) {
+        return customerRepository.findByBaseUser(baseUser).get();
+    }
+}

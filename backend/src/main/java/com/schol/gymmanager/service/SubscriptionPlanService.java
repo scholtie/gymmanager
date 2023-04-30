@@ -1,8 +1,11 @@
 package com.schol.gymmanager.service;
 
 import com.schol.gymmanager.exception.EntityNotFoundException;
+import com.schol.gymmanager.exception.InsufficientRoleException;
 import com.schol.gymmanager.model.DTOs.SubscriptionPlanDto;
+import com.schol.gymmanager.model.Gym;
 import com.schol.gymmanager.model.SubscriptionPlan;
+import com.schol.gymmanager.model.enums.Role;
 import com.schol.gymmanager.repository.SubscriptionPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +18,21 @@ public class SubscriptionPlanService {
     private SubscriptionPlanRepository subscriptionPlanRepository;
     @Autowired
     private GymService gymService;
+    @Autowired
+    private AuthService authService;
 
     public SubscriptionPlan create(SubscriptionPlanDto subscriptionPlanDto) {
+        Gym gym = null;
+        if (authService.getLoggedInUser().isPresent()) {
+            Role role = authService.getLoggedInUser().get().getRole();
+            if (role == Role.GYM) {
+                gym = gymService.findByBaseUser(authService.getLoggedInUser().get());
+            } else {
+                throw new InsufficientRoleException(role);
+            }
+        }
         SubscriptionPlan subscriptionPlan = SubscriptionPlan.builder()
-                .gym(gymService.findById(subscriptionPlanDto.getGymId()))
+                .gym(gym)
                 .description(subscriptionPlanDto.getDescription())
                 .durationInDays(subscriptionPlanDto.getDurationInDays())
                 .price(subscriptionPlanDto.getPrice())

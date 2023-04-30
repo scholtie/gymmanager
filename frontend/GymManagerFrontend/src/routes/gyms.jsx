@@ -1,10 +1,7 @@
-import {Link, Outlet} from "react-router-dom";
-import {useLoaderData} from "react-router-dom";
+import {Link, Outlet, useLoaderData} from "react-router-dom";
 
 export async function loader() {
-    console.log(localStorage.getItem('SavedToken'));
-    const results = await fetch('http://localhost:8081/gyms/',
-        { headers: { Authorization:localStorage.getItem('SavedToken') }})
+    const results = await fetch('http://localhost:8081/gyms/')
     if (!results.ok) throw new Error('Something went wrong!');
     return await results.json();
 }
@@ -46,7 +43,7 @@ export default function Gyms() {
                 )}
             </div>
             <div id="detail">
-                <Outlet />
+                <Outlet/>
             </div>
         </>
     );

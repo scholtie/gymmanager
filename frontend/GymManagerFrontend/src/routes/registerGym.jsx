@@ -1,10 +1,13 @@
 import {Form, redirect} from "react-router-dom";
 import axios from "axios";
+import {Button} from "@mui/material";
+import React from "react";
 
-export async function action({ request }) {
+export async function action({request}) {
     const config = {
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: localStorage.getItem('SavedToken')
         }
     }
     const formData = await request.formData();
@@ -25,7 +28,7 @@ export default function RegisterGym() {
                     aria-label="name"
                     type="text"
                     name="name"
-                    value = "FunnyGym"
+                    value="FunnyGym"
                 />
             </p>
             <p>
@@ -34,19 +37,19 @@ export default function RegisterGym() {
                     aria-label="lat"
                     type="text"
                     name="lat"
-                    value = "47.4840537609864"
+                    value="47.4840537609864"
                 />
                 <input
                     placeholder="Lng"
                     aria-label="lng"
                     type="text"
                     name="lng"
-                    value = "18.972526984546764"
+                    value="18.972526984546764"
                 />
             </p>
             <input
-                name = 'avatarImgPath'
-                value = 'https://placehold.co/400'
+                name='avatarImgPath'
+                value='https://placehold.co/400'
             />
             <p>
                 <textarea
@@ -55,11 +58,11 @@ export default function RegisterGym() {
                     rows="4"
                     cols="50"
                     name="about"
-                    value = "GymDescription GymDescription GymDescription GymDescription "
+                    value="GymDescription GymDescription GymDescription GymDescription "
                 />
             </p>
             <p>
-                <button type="submit">Register</button>
+                <Button type="submit">Finalize Details</Button>
             </p>
         </Form>
     );

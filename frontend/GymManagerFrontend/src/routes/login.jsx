@@ -1,7 +1,7 @@
 import {Form, redirect} from "react-router-dom";
 import axios from "axios";
 
-export async function action({ request }) {
+export async function action({request}) {
     const config = {
         headers: {
             'Content-Type': 'application/json'
@@ -18,8 +18,9 @@ export async function action({ request }) {
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
         })
         .catch(err => console.log(err))
-        return redirect(`/`);
+    return redirect(`/`);
 }
+
 export async function loader() {
     // if (!!localStorage.getItem("SavedToken")){
     //     return redirect('/');

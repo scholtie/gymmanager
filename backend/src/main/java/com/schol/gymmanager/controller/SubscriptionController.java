@@ -2,7 +2,6 @@ package com.schol.gymmanager.controller;
 
 import com.schol.gymmanager.model.*;
 import com.schol.gymmanager.model.DTOs.SubscriptionDto;
-import com.schol.gymmanager.model.DTOs.SubscriptionPlanDto;
 import com.schol.gymmanager.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,23 +32,16 @@ public class SubscriptionController {
         return subscriptions;
     }
 
-    @GetMapping("/findByGym/{gymId}")
-    public List<Subscription> findAllByGymId(@PathVariable Long gymId){
-        List<Subscription> subscriptions = subscriptionService.findAllByGymId(gymId);
+    @GetMapping("/findByLoggedInUser")
+    public List<Subscription> findAllByGymId(){
+        List<Subscription> subscriptions = subscriptionService.findAllOngoingByLoggedInUser();
         for (Subscription subscription : subscriptions) {
             addLinks(subscription);
         }
         return subscriptions;
     }
 
-//    @PostMapping("/")
-//    public Subscription create(@RequestBody SubscriptionDto subscriptionDto){
-//        Subscription subscription = subscriptionService.create(subscriptionDto);
-//        addLinks(subscription);
-//        return subscription;
-//    }
-
-    @PostMapping("/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable long id) {
         subscriptionService.delete(id);
     }

@@ -5,7 +5,7 @@ import com.schol.gymmanager.exception.EmailExistsException;
 import com.schol.gymmanager.exception.EntityNotFoundException;
 import com.schol.gymmanager.model.*;
 import com.schol.gymmanager.model.DTOs.BaseUserDto;
-import com.schol.gymmanager.model.DTOs.CustomerDto;
+import com.schol.gymmanager.model.enums.TokenType;
 import com.schol.gymmanager.repository.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

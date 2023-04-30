@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -38,13 +39,15 @@ public class SecurityConfig {
         http.cors().and()
                 .csrf()
                 .disable().authorizeHttpRequests()
-                .requestMatchers("/review/**").permitAll().and()
+                .requestMatchers(HttpMethod.GET, "/review/**").permitAll().and()
                 .authorizeHttpRequests()
-                .requestMatchers("/customers/**").permitAll().and()
+                .requestMatchers(HttpMethod.GET, "/sessionoptions/**").permitAll().and()
                 .authorizeHttpRequests()
-                .requestMatchers("/trainers/**").permitAll().and()
+                .requestMatchers(HttpMethod.GET, "/subscriptionplans/**").permitAll().and()
                 .authorizeHttpRequests()
-                .requestMatchers("/gyms/**").permitAll().and()
+                .requestMatchers(HttpMethod.GET, "/trainers/**").permitAll().and()
+                .authorizeHttpRequests()
+                .requestMatchers(HttpMethod.GET, "/gyms/**").permitAll().and()
                 .authorizeHttpRequests()
                 .requestMatchers("/auth/**")
                 .permitAll()

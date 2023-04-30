@@ -1,9 +1,5 @@
-import axios from "axios";
-import {Form, Link, redirect, useLoaderData, useLocation} from "react-router-dom";
-import React, {useEffect, useState} from "react";
-import {MenuItem, Select, TextField} from "@mui/material";
-import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
-import {DatePicker, DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import {Link} from "react-router-dom";
+import React from "react";
 
 export default function Review() {
     return (
@@ -12,9 +8,9 @@ export default function Review() {
                 Review a gym
             </Link>
             <p>
-            <Link to={`/review/trainer`}>
-                Review a trainer
-            </Link>
+                <Link to={`/review/trainer`}>
+                    Review a trainer
+                </Link>
             </p>
         </div>
     );

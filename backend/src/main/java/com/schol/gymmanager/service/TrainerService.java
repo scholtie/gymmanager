@@ -2,21 +2,15 @@ package com.schol.gymmanager.service;
 
 import com.schol.gymmanager.exception.EmailExistsException;
 import com.schol.gymmanager.exception.EntityNotFoundException;
-import com.schol.gymmanager.model.Customer;
-import com.schol.gymmanager.model.DTOs.CustomerDto;
+import com.schol.gymmanager.model.*;
 import com.schol.gymmanager.model.DTOs.TrainerDto;
-import com.schol.gymmanager.model.Gender;
-import com.schol.gymmanager.model.Session;
-import com.schol.gymmanager.model.Trainer;
+import com.schol.gymmanager.model.enums.Gender;
 import com.schol.gymmanager.repository.SessionRepository;
 import com.schol.gymmanager.repository.TrainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,6 +48,10 @@ public class TrainerService {
     public Trainer findById(Long id) {
         return trainerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Trainer", id));
+    }
+
+    public Trainer findByBaseUser(BaseUser baseUser) {
+        return trainerRepository.findByBaseUser(baseUser);
     }
 
     public Trainer update(Trainer newTrainer, Long id) {

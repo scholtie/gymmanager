@@ -3,7 +3,7 @@ import {Form, redirect} from "react-router-dom";
 import {Button, MenuItem, Select} from "@mui/material";
 import React from "react";
 
-export async function action({ request }) {
+export async function action({request}) {
     const configPost = {
         headers: {
             'Content-Type': 'application/json'
@@ -22,20 +22,19 @@ export async function action({ request }) {
         .catch(err => console.log(err))
     const configRedirect = {
         headers: {
-            Authorization:localStorage.getItem('SavedToken')
+            Authorization: localStorage.getItem('SavedToken')
         }
     }
-    if (user.role === "CUSTOMER"){
+    if (user.role === "CUSTOMER") {
         return redirect('/register/customer', configRedirect);
-    }
-    else if (user.role === "TRAINER"){
+    } else if (user.role === "TRAINER") {
         return redirect('/register/trainer', configRedirect);
-    }
-    else if (user.role === "GYM"){
+    } else if (user.role === "GYM") {
         return redirect('/register/gym', configRedirect);
     }
     return null;
 }
+
 export async function loader() {
     // if (!!localStorage.getItem("SavedToken")){
     //     return redirect('/');

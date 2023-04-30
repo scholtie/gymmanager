@@ -1,11 +1,11 @@
 package com.schol.gymmanager.model;
 
+import com.schol.gymmanager.model.enums.PaymentMethod;
 import lombok.*;
 
 import jakarta.persistence.*;
 import org.springframework.hateoas.RepresentationModel;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 

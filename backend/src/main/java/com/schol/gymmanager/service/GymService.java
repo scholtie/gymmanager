@@ -31,15 +31,10 @@ import java.util.List;
 public class GymService {
     @Autowired
     private GymRepository gymRepository;
-
     @Autowired
     private AddressRepository addressRepository;
-
     @Autowired
     private GeoRepository geoRepository;
-
-    @Autowired
-    private BusinessHoursRepository businessHoursRepository;
     @Autowired
     private AuthService authService;
 
@@ -49,6 +44,10 @@ public class GymService {
 
     public Gym findById(long id) {
         return gymRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Gym", id));
+    }
+
+    public Gym findByBaseUser(BaseUser baseUser) {
+        return gymRepository.findByBaseUser(baseUser);
     }
 
     public Gym create(GymDto gymDto){
@@ -73,34 +72,5 @@ public class GymService {
         geoRepository.save(geo);
         addressRepository.save(address);
         return gymRepository.save(gym);
-    }
-
-    public List<BusinessHours> setBusinessHours(BusinessHoursDto businessHoursDTO){
-        List<BusinessHours> businessHours = new ArrayList<>();
-//        if (businessHoursDTO.isSameEveryDay()) {
-//            for (int i = 1; i < 8; i++) {
-//                BusinessHours businessHour = BusinessHours.builder()
-//                        .gym(findById(businessHoursDTO.getGymId()))
-//                        .day(i)
-//                        .closeTime(businessHoursDTO.getCloseTime())
-//                        .modifyDate(LocalDate.now())
-//                        .openTime(businessHoursDTO.getOpenTime()).build();
-//                businessHours.add(businessHour);
-//                businessHoursRepository.save(businessHour);
-//            }
-//        }
-            BusinessHours businessHour = BusinessHours.builder()
-                    .gym(findById(businessHoursDTO.getGymId()))
-                    .day(businessHoursDTO.getDay())
-                    .closeTime(businessHoursDTO.getCloseTime())
-                    .modifyDate(LocalDate.now())
-                    .openTime(businessHoursDTO.getOpenTime()).build();
-            businessHours.add(businessHour);
-            businessHoursRepository.save(businessHour);
-        return businessHours;
-    }
-
-    public List<BusinessHours> findBusinessHoursForGym(long id){
-        return businessHoursRepository.findAllByGymId(id);
     }
 }

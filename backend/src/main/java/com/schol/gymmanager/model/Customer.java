@@ -1,18 +1,11 @@
 package com.schol.gymmanager.model;
 
+import com.schol.gymmanager.model.enums.Gender;
+import com.schol.gymmanager.model.progress.NumericGoal;
+import com.schol.gymmanager.model.progress.RepetitionGoal;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.*;
-import org.springframework.hateoas.RepresentationModel;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.sql.Timestamp;
-import java.util.Collection;
 import java.util.List;
 
 @Getter

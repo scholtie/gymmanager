@@ -1,15 +1,20 @@
-import {Link, Outlet, redirect, useLoaderData} from "react-router-dom";
+import {Link, Outlet, useLoaderData} from "react-router-dom";
+import {Button} from "@mui/material";
 
 export async function loader() {
-    // const config = {
-    //     headers: {
-    //         Authorization:localStorage.getItem('SavedToken')
-    //     }
-    // }
-    // if (localStorage.getItem('SavedToken') != null) {
-    //     const results = await fetch('http://localhost:8081/customers/loggedInCustomer', config);
-    //     return await results.json();
-    // }
+    const config = {
+        headers: {
+            Authorization: localStorage.getItem('SavedToken')
+        }
+    }
+    try {
+        if (localStorage.getItem('SavedToken')) {
+            const results = await fetch('http://localhost:8081/customers/loggedInUser', config);
+            return await results.json();
+        }
+    } catch (e) {
+        return null;
+    }
     return null;
 }
 
@@ -24,24 +29,23 @@ export default function Root() {
             <div id="sidebar">
                 <nav>
                     {data === null && <Link to={`register`}>Register</Link>}
-                    {userType === null && <Link to={`register/customer`}>Register Customer</Link>}
-                    {userType === null && <Link to={`register/trainer`}>Register Trainer</Link>}
-                    {userType === null && <Link to={`register/gym`}>Register Gym</Link>}
                     {userType === 'TRAINER' && <Link to={`createSessionOption`}>Create Session Option</Link>}
                     {userType === 'CUSTOMER' && <Link to={`book-session`}>Book Session</Link>}
                     <Link to={`trainers`}>Trainers</Link>
                     <Link to={`gyms`}>Gyms</Link>
-                    {userType === 'CUSTOMER' && <Link to={`subscribe`}>Subscribe</Link>}
-                    {userType === 'GYM' && <Link to={`subscriptions`}>Subscriptions</Link>}
+                    {(userType === 'GYM' || userType === 'CUSTOMER') && <Link to={`subscriptions`}>Subscriptions</Link>}
                     {userType === 'CUSTOMER' && <Link to={`review`}>Review</Link>}
-                    <Link to={`login`}>Login</Link>
-                    {userType === 'GYM' && <Link to={`setBusinessHours`}>Set Business Hours</Link>}
+                    {data == null && <Link to={`login`}>Login</Link>}
+                    {(userType === 'GYM' || userType === 'TRAINER') &&
+                        <Link to={`setBusinessHours`}>Set Business Hours</Link>}
                     {data != null && <Link to={`profile`}>Profile</Link>}
-                    {data != null && <Link to={`logout`}>Logout</Link>}
+                    {(userType === 'CUSTOMER' || userType === 'TRAINER') && <Link to={`sessions`}>My Sessions</Link>}
+                    {userType === 'CUSTOMER' && <Link to={`progress`}>My Progress</Link>}
+                    {data != null && <Button color="error"> <Link to={`logout`}>Logout</Link></Button>}
                 </nav>
             </div>
             <div id="detail">
-                <Outlet />
+                <Outlet/>
             </div>
         </>
     );

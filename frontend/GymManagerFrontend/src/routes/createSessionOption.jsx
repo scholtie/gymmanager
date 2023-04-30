@@ -1,18 +1,16 @@
 import {Form, redirect} from "react-router-dom";
 import axios from "axios";
 
-export async function action({ request }) {
+export async function action({request}) {
     const config = {
         headers: {
             'Content-Type': 'application/json',
-            Authorization:localStorage.getItem('SavedToken')
+            Authorization: localStorage.getItem('SavedToken')
         }
     }
     const formData = await request.formData();
-    formData.append('trainerId', 1);
     const sessionOption = Object.fromEntries(formData);
     const sessionOptionJson = JSON.stringify(sessionOption);
-    console.log(sessionOptionJson);
     await axios.post('http://localhost:8081/sessionoptions/', sessionOptionJson, config)
         .then(response => console.log(response))
         .catch(err => console.log(err))
@@ -51,10 +49,11 @@ export default function CreateSessionOption() {
                     aria-label="Max People"
                     type="number"
                     name="maxPeople"
+                    min = '1'
                 />
             </p>
             <p>
-                <button type="submit">Register</button>
+                <button type="submit">Create Session Option</button>
             </p>
         </Form>
     );

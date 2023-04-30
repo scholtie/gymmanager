@@ -1,4 +1,4 @@
-package com.schol.gymmanager.model;
+package com.schol.gymmanager.model.enums;
 
 public enum Role {
     CUSTOMER,

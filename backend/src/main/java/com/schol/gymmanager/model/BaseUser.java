@@ -1,5 +1,6 @@
 package com.schol.gymmanager.model;
 
+import com.schol.gymmanager.model.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
