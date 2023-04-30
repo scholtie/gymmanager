@@ -1,5 +1,6 @@
 package com.schol.gymmanager.model.progress;
 
+import com.schol.gymmanager.model.Customer;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,10 +19,9 @@ public class RepetitionGoal {
     @Column(name = "id", nullable = false)
     private Long id;
     private String name;
-    private LocalDate start;
-    private LocalDate finish;
-    private Integer startValue;
-    private Integer startRep;
-    private Integer goalValue;
-    private Integer goalRep;
+    private LocalDate date;
+    private Integer repetitions;
+    private Integer value;
+    @ManyToOne
+    private Customer customer;
 }

@@ -26,5 +26,8 @@ public class Customer{
     private String firstName;
     private String lastName;
     private Gender gender;
-    // private List<Goal> goals;
+    @OneToMany
+    private List<NumericGoal> numericGoals;
+    @OneToMany
+    private List<RepetitionGoal> repetitionGoals;
 }
