@@ -51,7 +51,7 @@ public class NumericGoalService {
     }
 
     public NumericGoal create(NumericGoalDto numericGoal) {
-        Customer customer = null;
+        Customer customer;
         BaseUser loggedInUser = authService.getLoggedInUser()
                 .orElseThrow(() -> new IllegalStateException("User not logged in"));
         if (loggedInUser.getRole() != Role.CUSTOMER) {
@@ -65,5 +65,9 @@ public class NumericGoalService {
                 .name(numericGoal.getName())
                 .build();
         return numericGoalRepository.save(numericGoalToSave);
+    }
+
+    public void delete(long id) {
+        numericGoalRepository.deleteById(id);
     }
 }

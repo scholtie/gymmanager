@@ -54,11 +54,6 @@ public class CustomerController {
         customerService.delete(id);
     }
 
-    @GetMapping("/profile")
-    public Optional<Customer> profile(){
-        return customerService.getLoggedInCustomer();
-    }
-
     @GetMapping("/loggedInUser")
     public Optional<BaseUser> getLoggedInBaseUser(){
         return customerService.getLoggedInBaseUser();

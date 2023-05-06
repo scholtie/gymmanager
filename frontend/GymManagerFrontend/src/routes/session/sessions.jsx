@@ -1,6 +1,7 @@
 import {Link, useLoaderData} from "react-router-dom";
 import {Button} from "@mui/material";
 import {useState} from "react";
+import moment from "moment/moment.js";
 
 export async function loader() {
     try {
@@ -36,11 +37,13 @@ export default function Sessions() {
                     <ul>
                         {data.map((session) => (
                             <li key={session.id}>
-                                <p>Session Start: {session.start}</p>
+                                <p>Session Start: {moment(session.start, "yyyy.MM.DD HH:mm").format("yyyy.MM.DD HH:mm A")}</p>
                                 <p>Session Type: {session.option.name}</p>
                                 <p>Session Length: {session.option.lengthMinutes} Minutes</p>
                                 <p>Trainer: {session.trainer.firstName} {session.trainer.lastName}</p>
+                                <p>Trainer email : {session.trainer.baseUser.email}</p>
                                 <p>Customer: {session.customer.firstName} {session.customer.lastName}</p>
+                                <p>Customer email: {session.customer.baseUser.email}</p>
                                 <Button color="error" onClick={() => handleDeleteSession(session.id)}>Delete
                                     session</Button>
                             </li>

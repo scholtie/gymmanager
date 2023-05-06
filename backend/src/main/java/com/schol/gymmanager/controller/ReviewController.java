@@ -41,7 +41,7 @@ public class ReviewController {
     }
 
     @GetMapping("/trainer/{id}/average")
-    public long getAverageRatingForTrainer(@PathVariable long id){
+    public Long getAverageRatingForTrainer(@PathVariable long id){
         return reviewService.getAverageReviewByTrainerId(id);
     }
 }

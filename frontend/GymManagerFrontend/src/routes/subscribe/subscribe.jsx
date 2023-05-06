@@ -9,10 +9,7 @@ import {format} from "date-fns";
 let startDate = new Date();
 
 export async function loader({state}) {
-    const results = await fetch('http://localhost:8081/subscriptionplans/findByGym/1',
-        {headers: {Authorization: localStorage.getItem('SavedToken')}})
-    if (!results.ok) throw new Error('Something went wrong!');
-    return await results.json();
+    return null;
 }
 
 export async function action({request}) {
@@ -35,9 +32,6 @@ export async function action({request}) {
 export default function Subscribe() {
     let {state} = useLocation();
     const [data, setData] = useState(null);
-    if (state == null) {
-        return redirect('/');
-    }
     useEffect(() => {
         fetch('http://localhost:8081/subscriptionplans/findByGym/' + state.data.subPlan.gym.id,
             {headers: {Authorization: localStorage.getItem('SavedToken')}})
@@ -67,10 +61,10 @@ export default function Subscribe() {
                     label="Subscription Plan"
                     name="subscriptionPlanId"
                     id="subscriptionPlanId"
-                    defaultValue={state ? state.data.subPlan.id : 0}
+                    defaultValue={state ? state.data.subPlan.id : 1}
                     onChange={handleOptionChange}>
                     {data?.map((subscriptionPlan) => (
-                        <MenuItem value={subscriptionPlan.id}>{subscriptionPlan.name}</MenuItem>))}
+                        <MenuItem value={subscriptionPlan.id}>{subscriptionPlan.name} {subscriptionPlan.durationInDays} days</MenuItem>))}
                 </Select>
                 <p>
                     Price: {selectedOption?.price.toLocaleString("en-US", {style: "currency", currency: "HUF"})}

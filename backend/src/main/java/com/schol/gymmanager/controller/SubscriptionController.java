@@ -53,6 +53,11 @@ public class SubscriptionController {
         return subscription;
     }
 
+    @GetMapping("/{id}/cancelAtPeriodEnd")
+    public void cancelAtPeriodEnd(@PathVariable long id){
+        subscriptionService.cancelAtPeriodEnd(id);
+    }
+
     private void addLinks(Subscription subscription) {
         if ( subscription != null ) {
             subscription.add(linkTo(methodOn(SubscriptionController.class).findById(subscription.getId())).withSelfRel());

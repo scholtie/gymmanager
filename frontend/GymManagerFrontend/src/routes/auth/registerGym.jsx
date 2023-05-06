@@ -28,7 +28,7 @@ export default function RegisterGym() {
                     aria-label="name"
                     type="text"
                     name="name"
-                    value="FunnyGym"
+                    required={true}
                 />
             </p>
             <p>
@@ -37,19 +37,19 @@ export default function RegisterGym() {
                     aria-label="lat"
                     type="text"
                     name="lat"
-                    value="47.4840537609864"
+                    required={true}
                 />
                 <input
                     placeholder="Lng"
                     aria-label="lng"
                     type="text"
                     name="lng"
-                    value="18.972526984546764"
+                    required={true}
                 />
             </p>
             <input
                 name='avatarImgPath'
-                value='https://placehold.co/400'
+                placeholder='Image path'
             />
             <p>
                 <textarea
@@ -58,7 +58,7 @@ export default function RegisterGym() {
                     rows="4"
                     cols="50"
                     name="about"
-                    value="GymDescription GymDescription GymDescription GymDescription "
+                    required={true}
                 />
             </p>
             <p>

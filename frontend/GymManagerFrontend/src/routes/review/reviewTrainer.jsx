@@ -48,7 +48,6 @@ export default function ReviewTrainer() {
                     rows="4"
                     cols="50"
                     name="comment"
-                    value="I like this gym"
                 />
             </div>
             <div>
@@ -62,13 +61,6 @@ export default function ReviewTrainer() {
                     }}
                 />
             </div>
-            <input
-                placeholder="CustomerId"
-                aria-label="customerId"
-                type="number"
-                name="customerId"
-                value="1"
-            />
             <div>
                 <Button type="submit">Send Review</Button>
             </div>

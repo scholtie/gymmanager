@@ -56,9 +56,9 @@ public class TrainerController {
         return trainer;
     }
 
-    @GetMapping("/{id}/customers")
-    public List<Customer> findCustomersOfTrainer(@PathVariable Long trainerId) {
-        return trainerService.findCustomersOfTrainer(trainerId);
+    @GetMapping("/customers")
+    public List<Customer> findCustomersOfTrainer() {
+        return trainerService.findCustomersOfTrainer();
     }
 
     @DeleteMapping("/{id}")

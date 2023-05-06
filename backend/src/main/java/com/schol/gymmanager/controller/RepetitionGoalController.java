@@ -35,4 +35,8 @@ public class RepetitionGoalController {
         return repetitionGoalService.getAllForLoggedInCustomer();
     }
 
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable long id) {
+        repetitionGoalService.delete(id);
+    }
 }

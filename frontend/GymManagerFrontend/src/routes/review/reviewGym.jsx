@@ -20,9 +20,9 @@ export async function action({request}) {
         }
     }
     const formData = await request.formData();
-    const session = Object.fromEntries(formData);
-    const sessionJson = JSON.stringify(session);
-    await axios.post('http://localhost:8081/review/', sessionJson, config)
+    const gymReview = Object.fromEntries(formData);
+    const gymReviewJson = JSON.stringify(gymReview);
+    await axios.post('http://localhost:8081/review/', gymReviewJson, config)
         .then(response => console.log(response))
         .catch(err => console.log(err))
     return redirect(`/success`);
@@ -48,7 +48,6 @@ export default function ReviewGym() {
                     rows="4"
                     cols="50"
                     name="comment"
-                    value="I like this gym"
                 />
             </div>
             <div>
@@ -62,13 +61,6 @@ export default function ReviewGym() {
                     }}
                 />
             </div>
-            <input
-                placeholder="CustomerId"
-                aria-label="customerId"
-                type="number"
-                name="customerId"
-                value="1"
-            />
             <div>
                 <Button type="submit">Send Review</Button>
             </div>

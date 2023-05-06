@@ -71,5 +71,9 @@ public class RepetitionGoalService {
         }
         return customerService.findByBaseUser(user);
     }
+
+    public void delete(long id) {
+        repository.deleteById(id);
+    }
 }
 

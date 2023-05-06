@@ -1,7 +1,7 @@
 import {useLoaderData} from "react-router-dom";
 
 export async function loader() {
-    const results = await fetch('http://localhost:8081/customers/profile',
+    const results = await fetch('http://localhost:8081/customers/loggedInUser',
         {headers: {Authorization: localStorage.getItem('SavedToken')}})
     if (!results.ok) throw new Error('Something went wrong!');
     return await results.json();
@@ -13,9 +13,9 @@ export default function Profile() {
         <div id="profile">
             <div>
                 <h1>
-                    {user.baseUser.email}
+                    {user.email}
                 </h1>
-                <p>{user.baseUser.role}</p>
+                <p>{user.role}</p>
             </div>
         </div>
     );

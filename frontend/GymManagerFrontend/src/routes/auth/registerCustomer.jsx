@@ -28,12 +28,14 @@ export default function CustomerRegistrationForm() {
                     aria-label="First name"
                     type="text"
                     name="firstName"
+                    required={true}
                 />
                 <input
                     placeholder="Last Name"
                     aria-label="Last name"
                     type="text"
                     name="lastName"
+                    required={true}
                 />
             </p>
             <p>

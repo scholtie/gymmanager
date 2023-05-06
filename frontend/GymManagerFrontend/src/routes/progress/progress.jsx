@@ -1,5 +1,7 @@
 import {Link, useLoaderData} from "react-router-dom";
 import {Button} from "@mui/material";
+import moment from "moment/moment.js";
+import {useState} from "react";
 
 
 export async function loader() {
@@ -24,9 +26,33 @@ export async function loader() {
 }
 
 export default function Progress() {
+    const [deletedNumericGoals, setDeletedNumericGoals] = useState([]);
+    const [deletedRepetitionGoals, setDeletedRepetitionGoals] = useState([]);
     const data = useLoaderData();
     const numericGoals = data[0];
     const repetitionGoals = data[1];
+    const handleDeleteNumericGoal = async (numericGoalId) => {
+        if (window.confirm('Are you sure you want to delete this goal?')) {
+            const response = await fetch('http://localhost:8081/numericgoal/' + numericGoalId, {
+                method: 'DELETE',
+                headers: {Authorization: localStorage.getItem('SavedToken')}
+            });
+            if (response.ok) {
+                setDeletedNumericGoals([...deletedNumericGoals, numericGoalId]);
+            }
+        }
+    };
+    const handleDeleteRepetitionGoal = async (repetitionGoalId) => {
+        if (window.confirm('Are you sure you want to delete this goal?')) {
+            const response = await fetch('http://localhost:8081/repetitionoal/' + repetitionGoalId, {
+                method: 'DELETE',
+                headers: {Authorization: localStorage.getItem('SavedToken')}
+            });
+            if (response.ok) {
+                setDeletedRepetitionGoals([...deletedRepetitionGoals, repetitionGoalId]);
+            }
+        }
+    };
     return (
         <div id="progress">
             <div id="numericGoals">
@@ -37,8 +63,13 @@ export default function Progress() {
                             {numericGoals.map((numericGoal) => (
                                 <li key={numericGoal.id}>
                                     <p>Name: {numericGoal.name}</p>
-                                    <p>Date: {numericGoal.date}</p>
+                                    <p>Date: {moment(numericGoal.date, "yyyy.MM.DD").format("yyyy.MM.DD")}</p>
                                     <p>Value: {numericGoal.value}</p>
+                                    <Button
+                                        color="error"
+                                        onClick={() => handleDeleteNumericGoal(numericGoal.id)}>
+                                        Delete progress
+                                    </Button>
                                 </li>
                             ))}
                         </ul>
@@ -65,9 +96,14 @@ export default function Progress() {
                             {repetitionGoals.map((repetitionGoal) => (
                                 <li key={repetitionGoal.id}>
                                     <p>Name: {repetitionGoal.name}</p>
-                                    <p>Date: {repetitionGoal.date}</p>
+                                    <p>Date: {moment(repetitionGoal.date, "yyyy.MM.DD").format("yyyy.MM.DD")}</p>
                                     <p>Value: {repetitionGoal.value}</p>
                                     <p>Repetitions: {repetitionGoal.repetitions}</p>
+                                    <Button
+                                        color="error"
+                                        onClick={() => handleDeleteRepetitionGoal(repetitionGoal.id)}>
+                                        Delete progress
+                                    </Button>
                                 </li>
                             ))}
                         </ul>

@@ -41,6 +41,7 @@ export default function Root() {
                     {data != null && <Link to={`profile`}>Profile</Link>}
                     {(userType === 'CUSTOMER' || userType === 'TRAINER') && <Link to={`sessions`}>My Sessions</Link>}
                     {userType === 'CUSTOMER' && <Link to={`progress`}>My Progress</Link>}
+                    {userType === 'TRAINER' && <Link to={`session-options`}>My Session Options</Link>}
                     {data != null && <Button color="error"> <Link to={`logout`}>Logout</Link></Button>}
                 </nav>
             </div>

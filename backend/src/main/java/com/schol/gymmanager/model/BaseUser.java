@@ -39,7 +39,6 @@ public class BaseUser extends RepresentationModel<BaseUser> implements UserDetai
     private Timestamp createTime;
     @Enumerated(EnumType.STRING)
     private Role role;
-    // private List<Goal> goals;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

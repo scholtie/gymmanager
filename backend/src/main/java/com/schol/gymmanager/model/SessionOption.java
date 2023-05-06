@@ -25,6 +25,6 @@ public class SessionOption extends RepresentationModel<SessionOption> {
     private Trainer trainer;
     private String name;
     private BigDecimal price;
-    private Integer maxPeople;
     private Long lengthMinutes;
+    private String description;
 }

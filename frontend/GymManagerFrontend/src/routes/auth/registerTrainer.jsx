@@ -1,7 +1,16 @@
-import {Form, redirect} from "react-router-dom";
+import {Form, redirect, useLoaderData} from "react-router-dom";
 import axios from "axios";
 import React, {useState} from 'react'
-import {Button, Select} from "@mui/material";
+import {Button, MenuItem, Select} from "@mui/material";
+
+export async function loader() {
+    const results = await fetch('http://localhost:8081/gyms/',
+        {headers: {Authorization: localStorage.getItem('SavedToken')}})
+
+    if (!results.ok) throw new Error('Something went wrong!');
+
+    return await results.json();
+}
 
 export async function action({request}) {
     const config = {
@@ -20,65 +29,59 @@ export async function action({request}) {
 }
 
 export default function TrainerRegistrationForm() {
-    const [file, setFile] = useState()
+    const gyms = useLoaderData();
     return (
         <Form method="post" id="trainer-register-form">
             <p>
                 <input
                     placeholder="First Name"
-                    value="testFirstName"
                     aria-label="First name"
                     type="text"
                     name="firstName"
+                    required={true}
                 />
                 <input
                     placeholder="Last Name"
-                    value="testLastName"
                     aria-label="Last name"
                     type="text"
                     name="lastName"
+                    required={true}
                 />
             </p>
             <p>
                 <Select name="gender" id="gender" defaultValue='MALE'>
-                    <option value="MALE">Male</option>
-                    <option value="FEMALE">Female</option>
-                    <option value="OTHER">Other</option>
+                    <MenuItem value="MALE">Male</MenuItem>
+                    <MenuItem value="FEMALE">Female</MenuItem>
+                    <MenuItem value="OTHER">Other</MenuItem>
                 </Select>
             </p>
             <p>
                 <Select name="status" id="status" defaultValue='available'>
-                    <option value="available">Available</option>
-                    <option value="unavailable">Unavailable</option>
+                    <MenuItem value="available">Available</MenuItem>
+                    <MenuItem value="unavailable">Unavailable</MenuItem>
                 </Select>
             </p>
-            <p>
-                <Select name="gymId" id="gymId" defaultValue='1'>
-                    <option value="1">1</option>
+            <div>
+                <Select label="Gym" name="gymId" id="gymId"
+                        defaultValue={1}>
+                    {gyms?.map((gym) => (
+                        <MenuItem value={gym.id}>{gym.name}</MenuItem>))}
                 </Select>
-            </p>
+            </div>
             <p>
-                {/*<FilePond*/}
-                {/*    files={file}*/}
-                {/*    onupdatefiles={setFile}*/}
-                {/*    allowMultiple={false}*/}
-                {/*    server="/api"*/}
-                {/*    name="files"*/}
-                {/*    labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'*/}
-                {/*/>*/}
                 <input
+                    placeholder='Image path'
                     name='imgPath'
-                    value='https://placehold.co/400'
                 />
             </p>
             <p>
                 <textarea
-                    value="testIntroductiontestIntroductiontestIntroductiontestIntroduction"
                     placeholder="Introduction"
                     aria-label="Introduction"
                     rows="4"
                     cols="50"
                     name="introduction"
+                    required={true}
                 />
             </p>
             <p>

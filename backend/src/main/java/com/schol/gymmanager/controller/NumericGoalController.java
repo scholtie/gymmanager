@@ -48,6 +48,8 @@ public class NumericGoalController {
         return numericGoalService.create(goal);
     }
 
-
-
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable long id) {
+        numericGoalService.delete(id);
+    }
 }

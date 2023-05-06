@@ -7,31 +7,33 @@ import {
 import "./index.css";
 import Root, {loader as rootLoader} from "./routes/root";
 import ErrorPage from "./error-page.jsx";
-import TrainerRegistrationForm, {action as registerTrainerAction} from "./routes/registerTrainer.jsx";
-import Trainers, {loader as trainersLoader} from "./routes/trainers.jsx";
-import BookSession, {loader as bookSessionLoader}  from "./routes/bookSession.jsx";
-import Gyms, {loader as gymsLoader} from "./routes/gyms.jsx";
-import Gym, {loader as gymLoader} from "./routes/gym.jsx";
-import RegisterGym, {action as registerGymAction} from "./routes/registerGym.jsx";
-import Subscribe, {action as subscribeAction, loader as subscribeLoader} from "./routes/subscribe.jsx";
-import CreateSessionOption, {action as createSessionOptionAction} from "./routes/createSessionOption.jsx";
-import Subscriptions, {loader as subscriptionsLoader} from "./routes/subscriptions.jsx";
+import TrainerRegistrationForm, {loader as registerTrainerLoader, action as registerTrainerAction} from "./routes/auth/registerTrainer.jsx";
+import Trainers, {loader as trainersLoader} from "./routes/trainer/trainers.jsx";
+import BookSession, {loader as bookSessionLoader}  from "./routes/session/bookSession.jsx";
+import Gyms, {loader as gymsLoader} from "./routes/gym/gyms.jsx";
+import Gym, {loader as gymLoader} from "./routes/gym/gym.jsx";
+import RegisterGym, {action as registerGymAction} from "./routes/auth/registerGym.jsx";
+import Subscribe, {action as subscribeAction, loader as subscribeLoader} from "./routes/subscribe/subscribe.jsx";
+import CreateSessionOption, {action as createSessionOptionAction} from "./routes/sessionOption/createSessionOption.jsx";
+import Subscriptions, {loader as subscriptionsLoader} from "./routes/subscribe/subscriptions.jsx";
 import Success from "./routes/success.jsx";
-import Review from "./routes/review.jsx";
-import ReviewTrainer, {action as reviewTrainerAction, loader as reviewTrainerLoader} from "./routes/reviewTrainer.jsx";
-import ReviewGym, {action as reviewGymAction, loader as reviewGymLoader} from "./routes/reviewGym.jsx";
-import Login, {action as loginAction, loader as loginLoader} from "./routes/login.jsx";
-import SetBusinessHours, {action as businessHoursAction, loader as businessHoursLoader} from "./routes/setBusinessHours.jsx";
+import Review from "./routes/review/review.jsx";
+import ReviewTrainer, {action as reviewTrainerAction, loader as reviewTrainerLoader} from "./routes/review/reviewTrainer.jsx";
+import ReviewGym, {action as reviewGymAction, loader as reviewGymLoader} from "./routes/review/reviewGym.jsx";
+import Login, {action as loginAction, loader as loginLoader} from "./routes/auth/login.jsx";
+import SetBusinessHours, {action as businessHoursAction, loader as businessHoursLoader} from "./routes/businessHours/setBusinessHours.jsx";
 import Profile, {loader as profileLoader} from "./routes/profile.jsx";
-import CustomerRegistrationForm, {action as registerCustomerAction} from "./routes/registerCustomer.jsx";
-import RegistrationForm, {action as registerAction, loader as registerLoader} from "./routes/register.jsx";
-import Logout, {loader as logoutLoader} from "./routes/logout.jsx";
-import BookSessionByDate, {action as bookSessionByDateAction, loader as bookSessionByDateLoader} from "./routes/bookSessionByDate.jsx";
-import Sessions, {loader as sessionsLoader} from "./routes/sessions.jsx";
-import Progress, {loader as progressLoader} from "./routes/progress.jsx";
-import CreateNumericGoal, {action as numericGoalAction} from "./routes/createNumericGoal.jsx";
-import CreateRepetitionGoal, {action as repetitionGoalAction} from "./routes/createRepetitionGoal.jsx";
-import Trainer, {loader as trainerLoader} from "./routes/trainer.jsx";
+import CustomerRegistrationForm, {action as registerCustomerAction} from "./routes/auth/registerCustomer.jsx";
+import RegistrationForm, {action as registerAction, loader as registerLoader} from "./routes/auth/register.jsx";
+import Logout, {loader as logoutLoader} from "./routes/auth/logout.jsx";
+import BookSessionByDate, {action as bookSessionByDateAction, loader as bookSessionByDateLoader} from "./routes/session/bookSessionByDate.jsx";
+import Sessions, {loader as sessionsLoader} from "./routes/session/sessions.jsx";
+import Progress, {loader as progressLoader} from "./routes/progress/progress.jsx";
+import CreateNumericGoal, {action as numericGoalAction} from "./routes/progress/createNumericGoal.jsx";
+import CreateRepetitionGoal, {action as repetitionGoalAction} from "./routes/progress/createRepetitionGoal.jsx";
+import Trainer, {loader as trainerLoader} from "./routes/trainer/trainer.jsx";
+import SessionOptions, {loader as sessionOptionsLoader} from "./routes/sessionOption/sessionOptions.jsx";
+import EditSessionOption, {action as editSessionOptionAction, loader as editSessionOptionLoader} from "./routes/sessionOption/editSessionOption.jsx";
 
 const router = createBrowserRouter([
     {
@@ -57,6 +59,7 @@ const router = createBrowserRouter([
                 path: "/register/trainer",
                 element: <TrainerRegistrationForm />,
                 action: registerTrainerAction,
+                loader: registerTrainerLoader,
                 errorElement: <ErrorPage />,
             },
             {
@@ -193,6 +196,19 @@ const router = createBrowserRouter([
                 path: "/trainer/:trainerId",
                 element: <Trainer />,
                 loader: trainerLoader,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/session-options",
+                element: <SessionOptions />,
+                loader: sessionOptionsLoader,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/session-options/edit/:sessionOptionId",
+                element: <EditSessionOption />,
+                loader: editSessionOptionLoader,
+                action: editSessionOptionAction,
                 errorElement: <ErrorPage />
             },
         ],

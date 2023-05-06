@@ -55,8 +55,4 @@ public class AuthController {
         logoutService.logout(request, response, authentication);
     }
 
-    @GetMapping("/loggedInUser")
-    public Optional<BaseUser> getLoggedInUser(){
-        return service.getLoggedInUser();
-    }
 }

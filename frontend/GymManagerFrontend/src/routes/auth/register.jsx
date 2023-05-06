@@ -51,6 +51,7 @@ export default function RegistrationForm() {
                     placeholder="Email"
                     type="email"
                     name="email"
+                    required={true}
                 />
             </label>
             <p>
@@ -59,6 +60,7 @@ export default function RegistrationForm() {
                     aria-label="Password"
                     type="password"
                     name="password"
+                    required={true}
                 />
             </p>
             <p>

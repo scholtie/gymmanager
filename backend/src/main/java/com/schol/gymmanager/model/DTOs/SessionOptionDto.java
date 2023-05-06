@@ -14,8 +14,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SessionOptionDto {
+    private Long id;
     private String name;
     private BigDecimal price;
-    private Integer maxPeople;
     private Long lengthMinutes;
+    private String description;
 }

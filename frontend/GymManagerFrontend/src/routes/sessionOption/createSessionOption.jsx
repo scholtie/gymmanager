@@ -1,5 +1,6 @@
 import {Form, redirect} from "react-router-dom";
 import axios from "axios";
+import React from "react";
 
 export async function action({request}) {
     const config = {
@@ -14,7 +15,7 @@ export async function action({request}) {
     await axios.post('http://localhost:8081/sessionoptions/', sessionOptionJson, config)
         .then(response => console.log(response))
         .catch(err => console.log(err))
-    return redirect(`/`);
+    return redirect(`/session-options`);
 }
 
 export default function CreateSessionOption() {
@@ -44,12 +45,12 @@ export default function CreateSessionOption() {
                 />
             </p>
             <p>
-                <input
-                    placeholder="Max People"
-                    aria-label="Max People"
-                    type="number"
-                    name="maxPeople"
-                    min = '1'
+                <textarea
+                    placeholder="Description"
+                    aria-label="Description"
+                    rows="4"
+                    cols="50"
+                    name="description"
                 />
             </p>
             <p>

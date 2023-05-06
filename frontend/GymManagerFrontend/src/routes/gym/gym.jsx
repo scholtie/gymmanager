@@ -1,5 +1,7 @@
 import {Link, useLoaderData} from "react-router-dom";
 import {Map, Marker} from "pigeon-maps"
+import {Button} from "@mui/material";
+import moment from "moment";
 
 
 export async function loader({params}) {
@@ -34,14 +36,11 @@ export async function loader({params}) {
         .then((data) => {
             businessHours = data;
         });
-    try {
         await fetch('http://localhost:8081/review/gym/' + gymId + '/average')
-            .then((res) => res.json())
+            .then((res) => res)
             .then((data) => {
                 average = data;
             });
-    } catch (e) {
-    }
     return [gym, subscriptionPlans, reviews, average, businessHours];
 }
 
@@ -80,50 +79,72 @@ export default function Gym() {
             </div>
             <div>
                 <h1>Business Hours</h1>
-                <p>
-                    {businessHours.length ? (
+                {businessHours.length ? (
+                    <ul>
+                        {businessHours.map((businessHour) => (
+                            <li key={businessHour.id}>
+                                <h2>{businessHour.day}</h2>
+                                {businessHour.openTime ? (
+                                    <>
+                                        <p>Open: {moment(businessHour.openTime, "HH:mm").format("hh:mm A")}</p>
+                                        <p>Close: {moment(businessHour.closeTime, "HH:mm").format("hh:mm A")}</p>
+                                    </>
+                                ) : (
+                                    <p>CLOSED</p>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>
+                        <i>No business hours specified</i>
+                    </p>
+                )}
+            </div>
+            <div>
+                <h1>Subscription Plans</h1>
+                    {subscriptionPlans.length ? (
                         <ul>
-                            {businessHours.map((businessHour) => (
-                                <li key={businessHour.id}>
-                                    <p>{businessHour.day}</p>
-                                    <p>{businessHour.openTime}</p>
-                                    <p>{businessHour.closeTime}</p>
-                                </li>
+                            {subscriptionPlans.map((subPlan) => (
+                                <Button>
+                                    <Link to="/subscribe" state={{data: {subPlan}}}>
+                                <dl>
+                                    <p>{subPlan.name}</p>
+                                    <p>{subPlan.description}</p>
+                                    <p>Length: {subPlan.durationInDays} days</p>
+                                    <p>Price: {subPlan.price} Huf</p>
+                                </dl>
+                                    </Link>
+                                </Button>
                             ))}
                         </ul>
                     ) : (
                         <p>
-                            <i>No Business Hours Specified</i>
+                            <i>No subscription plans</i>
                         </p>
                     )}
-
-                </p>
             </div>
             <div>
-                <h1>Subscription Plans</h1>
-                <p>
-                    {subscriptionPlans.map((subPlan) => (
-                        <Link to="/subscribe" state={{data: {subPlan}}}>
-                            <dl>
-                                <dt>{subPlan.name}</dt>
-                                <dd>{subPlan.description}</dd>
-                                <dd>{subPlan.durationInDays}</dd>
-                                <dd>{subPlan.price}</dd>
-                            </dl>
-                        </Link>
-                    ))}
-
-                </p>
+                <h1>Reviews</h1>
+                {reviews.length ? (
+                    <ul>
+                        Average rating: {averageRating}
+                        {reviews.map((review) => (
+                            <li key={review.id}>
+                                <p>{review.customer.firstName}</p>
+                                <p>{review.rating}</p>
+                                <p>{review.comment}</p>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>
+                        <i>No reviews</i>
+                    </p>
+                )}
             </div>
             <div>
-                Average rating : {averageRating}
-                {reviews.map((review) => (
-                    <dl>
-                        <dt>{review.rating}</dt>
-                        <dd>{review.comment}</dd>
-                        <dd>{review.customer.firstName}</dd>
-                    </dl>
-                ))}
+                <p><Button><Link to='/review/gym' state={{data: {gym}}}>Write a review</Link></Button></p>
             </div>
         </div>
     );

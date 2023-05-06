@@ -2,12 +2,14 @@ package com.schol.gymmanager.service;
 
 import com.schol.gymmanager.exception.EmailExistsException;
 import com.schol.gymmanager.exception.EntityNotFoundException;
+import com.schol.gymmanager.exception.InsufficientRoleException;
 import com.schol.gymmanager.model.BaseUser;
 import com.schol.gymmanager.model.Customer;
 import com.schol.gymmanager.model.DTOs.TrainerDto;
 import com.schol.gymmanager.model.Session;
 import com.schol.gymmanager.model.Trainer;
 import com.schol.gymmanager.model.enums.Gender;
+import com.schol.gymmanager.model.enums.Role;
 import com.schol.gymmanager.repository.SessionRepository;
 import com.schol.gymmanager.repository.TrainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -79,9 +82,24 @@ public class TrainerService {
         trainerRepository.deleteById(id);
     }
 
-    public List<Customer> findCustomersOfTrainer(Long trainerId) {
+    public List<Customer> findCustomersOfTrainer() {
+        Optional<Role> loggedInUserRole = authService.getLoggedInUser().map(BaseUser::getRole);
+        Trainer trainer;
+        if (loggedInUserRole.isPresent()) {
+            Role role = loggedInUserRole.get();
+            if (role == Role.TRAINER) {
+                trainer = findByBaseUser(authService.getLoggedInUser().get());
+            }else {
+                throw new InsufficientRoleException(role);
+            }
+        } else {
+            trainer = null;
+        }
         return sessionRepository.findAll().stream()
-                .filter(session -> session.getTrainer().getId() == trainerId)
+                .filter(session -> {
+                    assert trainer != null;
+                    return session.getTrainer().getId() == trainer.getId();
+                })
                 .map(Session::getCustomer)
                 .collect(Collectors.toList());
     }

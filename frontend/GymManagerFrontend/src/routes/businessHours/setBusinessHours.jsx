@@ -4,10 +4,7 @@ import React, {useState} from "react";
 import axios from "axios";
 
 export async function loader() {
-    const results = await fetch('http://localhost:8081/gyms/',
-        {headers: {Authorization: localStorage.getItem('SavedToken')}})
-    if (!results.ok) throw new Error('Something went wrong!');
-    return await results.json();
+    return null;
 }
 
 export async function action({request}) {
@@ -35,7 +32,6 @@ export async function action({request}) {
 }
 
 export default function SetBusinessHours() {
-    const data = useLoaderData();
     const [days, setDays] = useState({
         MONDAY: true,
         TUESDAY: true,

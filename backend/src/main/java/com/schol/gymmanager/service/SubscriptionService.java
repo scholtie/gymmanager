@@ -7,13 +7,13 @@ import com.schol.gymmanager.model.*;
 import com.schol.gymmanager.model.DTOs.SubscriptionDto;
 import com.schol.gymmanager.model.enums.Role;
 import com.schol.gymmanager.repository.SubscriptionRepository;
+import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.ZoneId;
+import java.util.*;
 
 @Service
 public class SubscriptionService {
@@ -68,31 +68,59 @@ public class SubscriptionService {
 
     public Subscription create(SubscriptionDto subscriptionDto) {
         List<Subscription> ongoingSubscriptions = findAllOngoingByLoggedInUser();
-        if (ongoingSubscriptions.isEmpty()) {
-            Subscription subscription = new Subscription();
-            SubscriptionPlan subscriptionPlan = subscriptionPlanService.findById(subscriptionDto.getSubscriptionPlanId());
-            LocalDate startDate = subscriptionDto.getStartDate();
-
-            Optional<Customer> loggedInCustomer = customerService.getLoggedInCustomer();
-            if (loggedInCustomer.isPresent()) {
-                subscription.setCustomer(loggedInCustomer.get());
+        Long subId = subscriptionDto.getId();
+        if (Objects.isNull(subId)) {
+            if (ongoingSubscriptions.isEmpty()) {
+                Subscription subscription = new Subscription();
+                SubscriptionPlan subscriptionPlan = subscriptionPlanService.findById(subscriptionDto.getSubscriptionPlanId());
+                LocalDate startDate = subscriptionDto.getStartDate();
+                Optional<Customer> loggedInCustomer = customerService.getLoggedInCustomer();
+                if (loggedInCustomer.isPresent()) {
+                    subscription.setCustomer(loggedInCustomer.get());
+                } else {
+                    throw new InsufficientRoleException();
+                }
+                if (subscriptionDto.isCancelAtPeriodEnd()) {
+                    subscription.setCancelAtPeriodEnd(true);
+                    scheduleSubscriptionCancellation(subscription);
+                }
+                subscription.setCancelAtPeriodEnd(subscriptionDto.isCancelAtPeriodEnd());
+                subscription.setOngoing(true);
+                subscription.setCurrentPeriodStart(startDate);
+                subscription.setCurrentPeriodEnd(startDate.plusDays(subscriptionPlan.getDurationInDays()));
+                subscription.setSubscriptionPlan(subscriptionPlan);
+                subscription.setDefaultPaymentMethod(subscriptionDto.getPaymentMethod());
+                return create(subscription);
             } else {
-                throw new InsufficientRoleException();
+                throw new SubscriptionException();
             }
-
-            subscription.setOngoing(true);
-            subscription.setCurrentPeriodStart(startDate);
-            subscription.setCurrentPeriodEnd(startDate.plusDays(subscriptionPlan.getDurationInDays()));
-            subscription.setSubscriptionPlan(subscriptionPlan);
-            subscription.setDefaultPaymentMethod(subscriptionDto.getPaymentMethod());
-            return create(subscription);
-        } else {
-            throw new SubscriptionException();
         }
+        else{
+            Subscription subscription = findById(subId);
+            subscription.setCancelAtPeriodEnd(subscriptionDto.isCancelAtPeriodEnd());
+            return create(subscription);
+        }
+    }
+
+    public void cancelAtPeriodEnd(long id){
+        SubscriptionDto subscription = new SubscriptionDto();
+        subscription.setId(id);
+        subscription.setCancelAtPeriodEnd(true);
+        create(subscription);
     }
 
     public void delete(long subscriptionId) {
         subscriptionRepository.deleteById(subscriptionId);
+    }
+
+    private void scheduleSubscriptionCancellation(Subscription subscription) {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                delete(subscription.getId());
+            }
+        }, Date.from(subscription.getCurrentPeriodEnd().atStartOfDay(ZoneId.systemDefault()).toInstant()));
     }
 
 }

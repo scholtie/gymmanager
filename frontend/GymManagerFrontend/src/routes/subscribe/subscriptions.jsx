@@ -1,6 +1,7 @@
 import {Link, Outlet, useLoaderData} from "react-router-dom";
 import {Button} from "@mui/material";
 import {useState} from "react";
+import moment from "moment";
 
 export async function loader() {
     const results = await fetch('http://localhost:8081/subscriptions/findByLoggedInUser',
@@ -15,22 +16,18 @@ export default function Subscriptions() {
     const [deletedSubscriptions, setDeletedSubscriptions] = useState([]);
 
     const handleDeleteSubscription = async (subscriptionId) => {
-        const response = await fetch('http://localhost:8081/subscriptions/' + subscriptionId, {
-            method: 'DELETE',
-            headers: {Authorization: localStorage.getItem('SavedToken')}
-        });
-        if (response.ok) {
-            setDeletedSubscriptions([...deletedSubscriptions, subscriptionId]);
+        if (window.confirm('Are you sure you want to cancel this subscription? It will remain available until its current end date')) {
+            const response = await fetch('http://localhost:8081/subscriptions/' + subscriptionId + '/cancelAtPeriodEnd', {
+                method: 'GET',
+                headers: {Authorization: localStorage.getItem('SavedToken')}
+            });
+            if (response.ok) {
+                setDeletedSubscriptions([...deletedSubscriptions, subscriptionId]);
+                window.location.reload();
+            }
         }
     };
     const data = useLoaderData();
-
-    // Format date string to a proper date format
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString();
-    };
-
     return (
         <>
             <div>
@@ -48,8 +45,9 @@ export default function Subscriptions() {
                                         <i>No Name</i>
                                     )}{" "}
                                 </h2>
-                                <p>Current Period Start: {formatDate(sub.currentPeriodStart)}</p>
-                                <p>Current Period End: {formatDate(sub.currentPeriodEnd)}</p>
+                                <h3>Customer email: {sub.customer.baseUser.email}</h3>
+                                <p>Current Period Start: {moment(sub.currentPeriodStart, "yyyy.MM.DD").format("yyyy.MM.DD")}</p>
+                                <p>Current Period End: {moment(sub.currentPeriodEnd, "yyyy.MM.DD").format("yyyy.MM.DD")}</p>
                                 <p>Cancel at the end of the period: {String(sub.cancelAtPeriodEnd)}</p>
                                 <p>Ongoing: {String(sub.ongoing)}</p>
                                 <p>Payment Method: {sub.defaultPaymentMethod}</p>
@@ -62,14 +60,11 @@ export default function Subscriptions() {
                         ))}
                     </ul>
                 ) : (
-                    <p>
+                    <div>
                         <i>No subscriptions</i>
                         <p><Button><Link to={'/gyms'}>Find a gym to subscribe to</Link></Button></p>
-                    </p>
+                    </div>
                 )}
-            </div>
-            <div id="detail">
-                <Outlet/>
             </div>
         </>
     );

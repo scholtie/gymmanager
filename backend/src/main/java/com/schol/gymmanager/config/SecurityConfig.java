@@ -1,5 +1,6 @@
 package com.schol.gymmanager.config;
 
+import com.schol.gymmanager.model.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,10 +39,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors().and()
                 .csrf()
-                .disable().authorizeHttpRequests()
+                .disable()
+                .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.GET, "/review/**").permitAll().and()
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.GET, "/sessionoptions/**").permitAll().and()
+                .authorizeHttpRequests()
+                .requestMatchers(HttpMethod.GET, "/sessionoptions/findByLoggedInTrainer")
+                .hasAnyAuthority("TRAINER").and()
+                .authorizeHttpRequests()
+                .requestMatchers(HttpMethod.GET, "/sessionoptions/{id}")
+                .hasAnyAuthority("TRAINER").and()
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.GET, "/subscriptionplans/**").permitAll().and()
                 .authorizeHttpRequests()
@@ -49,7 +57,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.GET, "/gyms/**").permitAll().and()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/**")
+                .requestMatchers(HttpMethod.POST, "/auth/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

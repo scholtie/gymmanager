@@ -16,8 +16,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SubscriptionDto {
+    private Long id;
     private Long subscriptionPlanId;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
     private PaymentMethod paymentMethod;
+    private boolean cancelAtPeriodEnd;
 }

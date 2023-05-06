@@ -67,8 +67,7 @@ export default function BookSessionByDate() {
         setSelectedTime(event.target.value);
         startTime = event.target.value;
     };
-    let {state} = useLocation();
-    const today = new Date();
+    const isButtonDisabled = availableTimes.length === 0;
     return (
         <Form method="post" id="book-session-form">
             <h1>
@@ -95,7 +94,8 @@ export default function BookSessionByDate() {
                     Length: {selectedOption.lengthMinutes} Minutes
                 </p>
             </p>
-            <p>
+            <div>
+                {availableTimes.length ? (
                 <Select onChange={handleTimeChange} value={selectedTime}>
                     {availableTimes.map(([hour, minute]) => (
                         <MenuItem
@@ -110,12 +110,17 @@ export default function BookSessionByDate() {
                         </MenuItem>
                     ))}
                 </Select>
-            </p>
+                ) : (
+                    <p>
+                        <i>Trainer is not available on the selected date</i>
+                    </p>
+                )}
+            </div>
             <p>
 
             </p>
             <p>
-                <button type="submit">Book Session</button>
+                <button type="submit" disabled={isButtonDisabled}>Book Session</button>
             </p>
         </Form>
     );

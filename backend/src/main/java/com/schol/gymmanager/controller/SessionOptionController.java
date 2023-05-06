@@ -32,6 +32,11 @@ public class SessionOptionController {
         return sessionOptionService.findAllByTrainer(id);
     }
 
+    @GetMapping("/findByLoggedInTrainer")
+    public List<SessionOption> findAllByTrainer(){
+        return sessionOptionService.findAllByLoggedInTrainer();
+    }
+
     @GetMapping("/")
     public List<SessionOption> findAll(){
         List<SessionOption> sessionOptions = sessionOptionService.findAll();
