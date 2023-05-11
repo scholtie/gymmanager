@@ -1,12 +1,12 @@
 package com.schol.gymmanager.model;
 
+import com.schol.gymmanager.model.user.Gym;
 import lombok.*;
 
 import jakarta.persistence.*;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter

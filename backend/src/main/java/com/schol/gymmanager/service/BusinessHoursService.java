@@ -1,11 +1,11 @@
 package com.schol.gymmanager.service;
 
 import com.schol.gymmanager.exception.InsufficientRoleException;
-import com.schol.gymmanager.model.BaseUser;
+import com.schol.gymmanager.model.user.BaseUser;
 import com.schol.gymmanager.model.BusinessHours;
 import com.schol.gymmanager.model.DTOs.BusinessHoursDto;
-import com.schol.gymmanager.model.Gym;
-import com.schol.gymmanager.model.Trainer;
+import com.schol.gymmanager.model.user.Gym;
+import com.schol.gymmanager.model.user.Trainer;
 import com.schol.gymmanager.model.enums.Role;
 import com.schol.gymmanager.repository.BusinessHoursRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
 package com.schol.gymmanager.service;
 
 import com.schol.gymmanager.exception.InsufficientRoleException;
-import com.schol.gymmanager.model.BaseUser;
-import com.schol.gymmanager.model.Customer;
+import com.schol.gymmanager.model.user.BaseUser;
+import com.schol.gymmanager.model.user.Customer;
 import com.schol.gymmanager.model.DTOs.NumericGoalDto;
 import com.schol.gymmanager.model.enums.Role;
 import com.schol.gymmanager.model.progress.NumericGoal;

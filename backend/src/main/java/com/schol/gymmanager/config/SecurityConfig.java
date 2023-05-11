@@ -41,6 +41,8 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
+                .requestMatchers( "/swagger-ui").permitAll().and()
+                .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.GET, "/review/**").permitAll().and()
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.GET, "/sessionoptions/**").permitAll().and()

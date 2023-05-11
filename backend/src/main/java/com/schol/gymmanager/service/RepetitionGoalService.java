@@ -2,8 +2,9 @@ package com.schol.gymmanager.service;
 
 import com.schol.gymmanager.exception.EntityNotFoundException;
 import com.schol.gymmanager.exception.InsufficientRoleException;
-import com.schol.gymmanager.model.BaseUser;
-import com.schol.gymmanager.model.Customer;
+import com.schol.gymmanager.model.DTOs.RepetitionGoalDto;
+import com.schol.gymmanager.model.user.BaseUser;
+import com.schol.gymmanager.model.user.Customer;
 import com.schol.gymmanager.model.enums.Role;
 import com.schol.gymmanager.model.progress.RepetitionGoal;
 import com.schol.gymmanager.repository.RepetitionGoalRepository;
@@ -48,7 +49,7 @@ public class RepetitionGoalService {
         return repository.findAllByCustomerId(customerId);
     }
 
-    public RepetitionGoal create(RepetitionGoal repetitionGoal) {
+    public RepetitionGoal create(RepetitionGoalDto repetitionGoal) {
         Customer customer = getLoggedInCustomer();
         if (customer == null) {
             throw new InsufficientRoleException();

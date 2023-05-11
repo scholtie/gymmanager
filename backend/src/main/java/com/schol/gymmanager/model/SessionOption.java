@@ -1,10 +1,10 @@
 package com.schol.gymmanager.model;
 
+import com.schol.gymmanager.model.user.Trainer;
 import lombok.*;
 
 import jakarta.persistence.*;
 import org.springframework.hateoas.RepresentationModel;
-import org.yaml.snakeyaml.representer.Represent;
 
 import java.math.BigDecimal;
 

@@ -1,8 +1,6 @@
 package com.schol.gymmanager.controller;
 
-import com.schol.gymmanager.model.DTOs.GymDto;
 import com.schol.gymmanager.model.DTOs.ReviewDto;
-import com.schol.gymmanager.model.Gym;
 import com.schol.gymmanager.model.Review;
 import com.schol.gymmanager.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;

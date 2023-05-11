@@ -1,4 +1,4 @@
-package com.schol.gymmanager.model;
+package com.schol.gymmanager.model.auth;
 
 import jakarta.persistence.Entity;
 import lombok.*;

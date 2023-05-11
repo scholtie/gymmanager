@@ -1,12 +1,10 @@
-package com.schol.gymmanager.model;
+package com.schol.gymmanager.model.user;
 
 import com.schol.gymmanager.model.enums.Gender;
-import com.schol.gymmanager.model.progress.NumericGoal;
-import com.schol.gymmanager.model.progress.RepetitionGoal;
-import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
+import jakarta.persistence.*;
+import org.springframework.hateoas.RepresentationModel;
 
 @Getter
 @Setter
@@ -14,8 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "Customer")
-public class Customer{
+@Table(name="Trainer")
+public class Trainer extends RepresentationModel<Trainer> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
@@ -23,11 +21,14 @@ public class Customer{
     @OneToOne
     @JoinColumn(name = "base_user_id")
     private BaseUser baseUser;
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="gym_id")
+    private Gym gym;
     private String firstName;
     private String lastName;
     private Gender gender;
-    @OneToMany
-    private List<NumericGoal> numericGoals;
-    @OneToMany
-    private List<RepetitionGoal> repetitionGoals;
+    private String status;
+    private String imgPath;
+    private String introduction;
+    private long rating;
 }

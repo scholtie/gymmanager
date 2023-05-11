@@ -1,5 +1,7 @@
 package com.schol.gymmanager.model;
 
+import com.schol.gymmanager.model.user.Customer;
+import com.schol.gymmanager.model.user.Trainer;
 import lombok.*;
 
 import jakarta.persistence.*;

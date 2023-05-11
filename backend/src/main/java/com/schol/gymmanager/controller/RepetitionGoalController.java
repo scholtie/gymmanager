@@ -1,5 +1,6 @@
 package com.schol.gymmanager.controller;
 
+import com.schol.gymmanager.model.DTOs.RepetitionGoalDto;
 import com.schol.gymmanager.model.progress.NumericGoal;
 import com.schol.gymmanager.model.progress.RepetitionGoal;
 import com.schol.gymmanager.service.RepetitionGoalService;
@@ -21,7 +22,7 @@ public class RepetitionGoalController {
     }
     
     @PostMapping("/")
-    public RepetitionGoal create(@RequestBody RepetitionGoal goal) {
+    public RepetitionGoal create(@RequestBody RepetitionGoalDto goal) {
         return repetitionGoalService.create(goal);
     }
     

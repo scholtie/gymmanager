@@ -1,11 +1,6 @@
 package com.schol.gymmanager.model.DTOs;
 
-import com.schol.gymmanager.model.Customer;
-import com.schol.gymmanager.model.Trainer;
-import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Data
 @Builder

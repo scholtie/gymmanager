@@ -1,7 +1,7 @@
 package com.schol.gymmanager;
 
 import com.schol.gymmanager.controller.CustomerController;
-import com.schol.gymmanager.model.Customer;
+import com.schol.gymmanager.model.user.Customer;
 import com.schol.gymmanager.model.DTOs.CustomerDto;
 import com.schol.gymmanager.service.CustomerService;
 import org.junit.jupiter.api.Test;

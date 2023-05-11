@@ -1,6 +1,6 @@
 package com.schol.gymmanager.model.progress;
 
-import com.schol.gymmanager.model.Customer;
+import com.schol.gymmanager.model.user.Customer;
 import jakarta.persistence.*;
 import lombok.*;
 

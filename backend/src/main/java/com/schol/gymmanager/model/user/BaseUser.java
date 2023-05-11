@@ -1,4 +1,4 @@
-package com.schol.gymmanager.model;
+package com.schol.gymmanager.model.user;
 
 import com.schol.gymmanager.model.enums.Role;
 import jakarta.persistence.*;

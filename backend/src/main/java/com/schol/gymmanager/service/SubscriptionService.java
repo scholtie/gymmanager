@@ -6,8 +6,10 @@ import com.schol.gymmanager.exception.SubscriptionException;
 import com.schol.gymmanager.model.*;
 import com.schol.gymmanager.model.DTOs.SubscriptionDto;
 import com.schol.gymmanager.model.enums.Role;
+import com.schol.gymmanager.model.user.BaseUser;
+import com.schol.gymmanager.model.user.Customer;
+import com.schol.gymmanager.model.user.Gym;
 import com.schol.gymmanager.repository.SubscriptionRepository;
-import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,10 +71,10 @@ public class SubscriptionService {
     public Subscription create(SubscriptionDto subscriptionDto) {
         List<Subscription> ongoingSubscriptions = findAllOngoingByLoggedInUser();
         Long subId = subscriptionDto.getId();
+        SubscriptionPlan subscriptionPlan = subscriptionPlanService.findById(subscriptionDto.getSubscriptionPlanId());
         if (Objects.isNull(subId)) {
             if (ongoingSubscriptions.isEmpty()) {
                 Subscription subscription = new Subscription();
-                SubscriptionPlan subscriptionPlan = subscriptionPlanService.findById(subscriptionDto.getSubscriptionPlanId());
                 LocalDate startDate = subscriptionDto.getStartDate();
                 Optional<Customer> loggedInCustomer = customerService.getLoggedInCustomer();
                 if (loggedInCustomer.isPresent()) {
@@ -97,6 +99,8 @@ public class SubscriptionService {
         }
         else{
             Subscription subscription = findById(subId);
+            subscription.setCurrentPeriodStart(subscriptionDto.getStartDate());
+            subscription.setCurrentPeriodEnd(subscriptionDto.getStartDate().plusDays(subscriptionPlan.getDurationInDays()));
             subscription.setCancelAtPeriodEnd(subscriptionDto.isCancelAtPeriodEnd());
             return create(subscription);
         }
@@ -115,12 +119,24 @@ public class SubscriptionService {
 
     private void scheduleSubscriptionCancellation(Subscription subscription) {
         Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                delete(subscription.getId());
-            }
-        }, Date.from(subscription.getCurrentPeriodEnd().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        Date triggerDate = Date.from(subscription.getCurrentPeriodEnd().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        if (subscription.isCancelAtPeriodEnd()) {
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    delete(subscription.getId());
+                }
+            }, triggerDate);
+        }
+        else{
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    subscription.setCurrentPeriodStart(LocalDate.now());
+                    create(subscription);
+                }
+            }, triggerDate);
+        }
     }
 
 }

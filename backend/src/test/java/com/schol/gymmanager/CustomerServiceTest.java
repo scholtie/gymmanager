@@ -3,7 +3,7 @@ package com.schol.gymmanager;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import com.schol.gymmanager.model.Customer;
+import com.schol.gymmanager.model.user.Customer;
 import com.schol.gymmanager.model.DTOs.CustomerDto;
 import com.schol.gymmanager.repository.CustomerRepository;
 import com.schol.gymmanager.service.CustomerService;

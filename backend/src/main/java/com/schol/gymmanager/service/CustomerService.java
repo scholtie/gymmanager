@@ -2,13 +2,13 @@ package com.schol.gymmanager.service;
 
 import com.schol.gymmanager.exception.EmailExistsException;
 import com.schol.gymmanager.exception.EntityNotFoundException;
-import com.schol.gymmanager.model.*;
 import com.schol.gymmanager.model.DTOs.CustomerDto;
 import com.schol.gymmanager.model.enums.Gender;
+import com.schol.gymmanager.model.user.BaseUser;
+import com.schol.gymmanager.model.user.Customer;
 import com.schol.gymmanager.repository.BaseUserRepository;
 import com.schol.gymmanager.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

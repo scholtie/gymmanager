@@ -53,7 +53,7 @@ export default function CreateRepetitionGoal() {
                 <input
                     placeholder="Repetition"
                     type="number"
-                    name="repetition"
+                    name="repetitions"
                 />
             </p>
             <p>

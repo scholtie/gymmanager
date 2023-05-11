@@ -2,11 +2,10 @@ package com.schol.gymmanager.service;
 
 import com.schol.gymmanager.exception.EntityNotFoundException;
 import com.schol.gymmanager.exception.InsufficientRoleException;
-import com.schol.gymmanager.model.BaseUser;
-import com.schol.gymmanager.model.Customer;
+import com.schol.gymmanager.model.user.BaseUser;
 import com.schol.gymmanager.model.DTOs.SessionOptionDto;
 import com.schol.gymmanager.model.SessionOption;
-import com.schol.gymmanager.model.Trainer;
+import com.schol.gymmanager.model.user.Trainer;
 import com.schol.gymmanager.model.enums.Role;
 import com.schol.gymmanager.repository.SessionOptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;

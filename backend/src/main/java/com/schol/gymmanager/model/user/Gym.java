@@ -1,9 +1,9 @@
-package com.schol.gymmanager.model;
+package com.schol.gymmanager.model.user;
 
+import com.schol.gymmanager.model.Address;
 import lombok.*;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Cascade;
 import org.springframework.hateoas.RepresentationModel;
 
 @Getter

@@ -1,6 +1,7 @@
 package com.schol.gymmanager.model;
 
 import com.schol.gymmanager.model.enums.PaymentMethod;
+import com.schol.gymmanager.model.user.Customer;
 import lombok.*;
 
 import jakarta.persistence.*;

@@ -1,9 +1,8 @@
 package com.schol.gymmanager.controller;
 
-import com.schol.gymmanager.model.*;
 import com.schol.gymmanager.model.DTOs.BaseUserDto;
-import com.schol.gymmanager.model.DTOs.CustomerDto;
-import com.schol.gymmanager.model.enums.Role;
+import com.schol.gymmanager.model.auth.AuthRequest;
+import com.schol.gymmanager.model.auth.AuthResponse;
 import com.schol.gymmanager.service.AuthService;
 import com.schol.gymmanager.service.LogoutService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,12 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.security.Principal;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")

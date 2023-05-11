@@ -1,8 +1,5 @@
 package com.schol.gymmanager.controller;
 
-import com.schol.gymmanager.exception.EmailExistsException;
-import com.schol.gymmanager.model.Customer;
-import com.schol.gymmanager.model.DTOs.CustomerDto;
 import com.schol.gymmanager.model.DTOs.SessionOptionDto;
 import com.schol.gymmanager.model.SessionOption;
 import com.schol.gymmanager.service.SessionOptionService;

@@ -1,6 +1,7 @@
-package com.schol.gymmanager.model;
+package com.schol.gymmanager.model.auth;
 
 import com.schol.gymmanager.model.enums.TokenType;
+import com.schol.gymmanager.model.user.BaseUser;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

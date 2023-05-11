@@ -1,8 +1,8 @@
 package com.schol.gymmanager.controller;
 
 import com.schol.gymmanager.exception.EmailExistsException;
-import com.schol.gymmanager.model.BaseUser;
-import com.schol.gymmanager.model.Customer;
+import com.schol.gymmanager.model.user.BaseUser;
+import com.schol.gymmanager.model.user.Customer;
 import com.schol.gymmanager.model.DTOs.CustomerDto;
 import com.schol.gymmanager.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;

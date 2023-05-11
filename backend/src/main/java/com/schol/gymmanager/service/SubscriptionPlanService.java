@@ -3,7 +3,7 @@ package com.schol.gymmanager.service;
 import com.schol.gymmanager.exception.EntityNotFoundException;
 import com.schol.gymmanager.exception.InsufficientRoleException;
 import com.schol.gymmanager.model.DTOs.SubscriptionPlanDto;
-import com.schol.gymmanager.model.Gym;
+import com.schol.gymmanager.model.user.Gym;
 import com.schol.gymmanager.model.SubscriptionPlan;
 import com.schol.gymmanager.model.enums.Role;
 import com.schol.gymmanager.repository.SubscriptionPlanRepository;

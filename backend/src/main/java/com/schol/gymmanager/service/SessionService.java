@@ -5,6 +5,9 @@ import com.schol.gymmanager.exception.InsufficientRoleException;
 import com.schol.gymmanager.model.*;
 import com.schol.gymmanager.model.DTOs.SessionDto;
 import com.schol.gymmanager.model.enums.Role;
+import com.schol.gymmanager.model.user.BaseUser;
+import com.schol.gymmanager.model.user.Customer;
+import com.schol.gymmanager.model.user.Trainer;
 import com.schol.gymmanager.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,7 +52,7 @@ public class SessionService {
     public List<Session> findAllSessionsForDateTrainer(long trainerId, LocalDate date) {
         List<Session> sessionsForDate = new ArrayList<>();
         Trainer trainer = trainerService.findById(trainerId);
-        for (Session session : sessionRepository.findAllByTrainer(trainer)) {
+        for (Session session : sessionRepository.findAllByTrainerOrderByStartAsc(trainer)) {
             if (session.getStart().toLocalDate().equals(date)) {
                 sessionsForDate.add(session);
             }
@@ -64,10 +67,10 @@ public class SessionService {
             Role role = loggedInUser.getRole();
             if (role == Role.CUSTOMER) {
                 Customer customer = customerService.findByBaseUser(loggedInUser);
-                return sessionRepository.findAllByCustomer(customer);
+                return sessionRepository.findAllByCustomerOrderByStartAsc(customer);
             } else if (role == Role.TRAINER) {
                 Trainer trainer = trainerService.findByBaseUser(loggedInUser);
-                return sessionRepository.findAllByTrainer(trainer);
+                return sessionRepository.findAllByTrainerOrderByStartAsc(trainer);
             } else {
                 throw new InsufficientRoleException(role);
             }

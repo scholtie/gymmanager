@@ -1,6 +1,6 @@
 package com.schol.gymmanager.repository;
 
-import com.schol.gymmanager.model.Token;
+import com.schol.gymmanager.model.auth.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

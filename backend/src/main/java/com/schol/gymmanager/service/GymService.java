@@ -2,10 +2,10 @@ package com.schol.gymmanager.service;
 
 import com.schol.gymmanager.exception.EntityNotFoundException;
 import com.schol.gymmanager.model.Address;
-import com.schol.gymmanager.model.BaseUser;
+import com.schol.gymmanager.model.user.BaseUser;
 import com.schol.gymmanager.model.DTOs.GymDto;
 import com.schol.gymmanager.model.Geo;
-import com.schol.gymmanager.model.Gym;
+import com.schol.gymmanager.model.user.Gym;
 import com.schol.gymmanager.repository.AddressRepository;
 import com.schol.gymmanager.repository.GeoRepository;
 import com.schol.gymmanager.repository.GymRepository;

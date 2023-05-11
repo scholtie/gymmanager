@@ -2,6 +2,8 @@ package com.schol.gymmanager.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.schol.gymmanager.model.serializer.BusinessHoursSerializer;
+import com.schol.gymmanager.model.user.Gym;
+import com.schol.gymmanager.model.user.Trainer;
 import com.schol.gymmanager.validation.TrainerOrGymNotNull;
 import lombok.*;
 

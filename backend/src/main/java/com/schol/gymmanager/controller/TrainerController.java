@@ -1,19 +1,13 @@
 package com.schol.gymmanager.controller;
 
 import com.schol.gymmanager.exception.EmailExistsException;
-import com.schol.gymmanager.exception.EntityNotFoundException;
-import com.schol.gymmanager.model.Customer;
-import com.schol.gymmanager.model.DTOs.CustomerDto;
+import com.schol.gymmanager.model.user.Customer;
 import com.schol.gymmanager.model.DTOs.TrainerDto;
-import com.schol.gymmanager.model.Trainer;
-import com.schol.gymmanager.repository.TrainerRepository;
+import com.schol.gymmanager.model.user.Trainer;
 import com.schol.gymmanager.service.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.List;
 
 

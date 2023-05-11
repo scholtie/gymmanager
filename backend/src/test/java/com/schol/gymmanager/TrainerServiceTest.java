@@ -1,9 +1,8 @@
 package com.schol.gymmanager;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
-import com.schol.gymmanager.model.Trainer;
+import com.schol.gymmanager.model.user.Trainer;
 import com.schol.gymmanager.repository.TrainerRepository;
 import com.schol.gymmanager.service.TrainerService;
 import org.junit.Test;
