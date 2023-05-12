@@ -18,12 +18,11 @@ import java.util.Optional;
 public class CustomerService {
     private final CustomerRepository customerRepository;
     private final AuthService authService;
-    private final BaseUserRepository baseUserRepository;
+
     @Autowired
-    public CustomerService(CustomerRepository customerRepository, AuthService authService, BaseUserRepository baseUserRepository) {
+    public CustomerService(CustomerRepository customerRepository, AuthService authService) {
         this.customerRepository = customerRepository;
         this.authService = authService;
-        this.baseUserRepository = baseUserRepository;
     }
 
     public List<Customer> findAll() {

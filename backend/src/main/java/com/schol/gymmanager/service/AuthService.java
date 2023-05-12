@@ -34,9 +34,6 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final TokenRepository tokenRepository;
-    private final TrainerRepository trainerRepository;
-    private final CustomerRepository customerRepository;
-    private final GymRepository gymRepository;
 
     public AuthResponse register(BaseUserDto request) {
         if (emailExists(request.getEmail())) {
@@ -49,18 +46,6 @@ public class AuthService {
                 .createTime(Timestamp.valueOf(LocalDateTime.now()))
                 .build();
         var savedUser = repository.save(user);
-//        if (savedUser.getRole() == Role.TRAINER){
-//            Trainer trainer = Trainer.builder().baseUser(savedUser).build();
-//            trainerRepository.save(trainer);
-//        }
-//        else if (savedUser.getRole() == Role.CUSTOMER){
-//            Customer customer = Customer.builder().baseUser(savedUser).build();
-//            customerRepository.save(customer);
-//        }
-//        else if(savedUser.getRole() == Role.GYM){
-//            Gym gym = Gym.builder().baseUser(savedUser).build();
-//            gymRepository.save(gym);
-//        }
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         saveUserToken(savedUser, jwtToken);

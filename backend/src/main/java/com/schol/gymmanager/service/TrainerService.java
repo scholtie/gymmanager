@@ -13,7 +13,6 @@ import com.schol.gymmanager.model.enums.Role;
 import com.schol.gymmanager.repository.SessionRepository;
 import com.schol.gymmanager.repository.TrainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,16 +22,14 @@ import java.util.stream.Collectors;
 @Service
 public class TrainerService {
 
-    private final PasswordEncoder passwordEncoder;
     private final TrainerRepository trainerRepository;
     private final SessionRepository sessionRepository;
     private final GymService gymService;
     private final AuthService authService;
 
     @Autowired
-    public TrainerService(PasswordEncoder passwordEncoder, TrainerRepository trainerRepository,
+    public TrainerService(TrainerRepository trainerRepository,
                           SessionRepository sessionRepository, GymService gymService, AuthService authService) {
-        this.passwordEncoder = passwordEncoder;
         this.trainerRepository = trainerRepository;
         this.sessionRepository = sessionRepository;
         this.gymService = gymService;
@@ -68,10 +65,7 @@ public class TrainerService {
 
     public Trainer update(Trainer newTrainer, Long id) {
         return trainerRepository.findById(id)
-                .map(trainer -> {
-                    // trainer.setEmail(newTrainer.getEmail());
-                    return trainerRepository.save(trainer);
-                })
+                .map(trainerRepository::save)
                 .orElseGet(() -> {
                     newTrainer.setId(id);
                     return trainerRepository.save(newTrainer);

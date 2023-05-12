@@ -5,7 +5,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +16,6 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    private String secretKey = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
-    private long jwtExpiration = 1000 * 60 * 60 * 24 * 7;
-    private long refreshExpiration = 604800000;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -38,12 +34,14 @@ public class JwtService {
             Map<String, Object> extraClaims,
             UserDetails userDetails
     ) {
+        long jwtExpiration = 1000 * 60 * 60 * 24 * 7;
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
     public String generateRefreshToken(
             UserDetails userDetails
     ) {
+        long refreshExpiration = 604800000;
         return buildToken(new HashMap<>(), userDetails, refreshExpiration);
     }
 
@@ -85,6 +83,7 @@ public class JwtService {
     }
 
     private Key getSignInKey() {
+        String secretKey = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
